@@ -3,122 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>대박통신 - 아이폰17/플립7 성지</title>
+    <title>대박통신 - 송파/강동의 성지</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 폰트: 2030이 선호하는 깔끔한 프리텐다드 */
         @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
-        body { font-family: "Pretendard", sans-serif; }
-        .gradient-text {
-            background: linear-gradient(to right, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        body { font-family: "Pretendard", sans-serif; background-color: #F3F4F6; }
+        
+        /* 스크롤바 숨기기 (깔끔함 유지) */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* 버튼 눌림 효과 애니메이션 */
+        .btn-press:active { transform: scale(0.98); }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-gray-100 text-gray-900 flex justify-center min-h-screen">
 
-    <header class="max-w-md mx-auto bg-white shadow-sm min-h-screen flex flex-col relative">
-        <nav class="p-5 flex justify-between items-center">
-            <h1 class="font-bold text-xl tracking-tighter">대박통신</h1>
-            <span class="text-xs bg-black text-white px-2 py-1 rounded-full">송파/강동 본점</span>
-        </nav>
-
-        <main class="flex-grow flex flex-col justify-center px-6 text-center mt-[-50px]">
-            <p class="text-gray-500 font-medium mb-2 animate-bounce">📢 호갱 탈출 마지막 기회</p>
-            <h2 class="text-4xl font-extrabold leading-tight mb-4">
-                아이폰17 & 플립7<br>
-                <span class="gradient-text">졸업시켜 드립니다.</span>
-            </h2>
-            <p class="text-gray-600 mb-8 text-sm">
-                다른 곳 다 둘러보고 오세요.<br>
-                말장난 없이 <strong>'할부원금'</strong>으로 승부합니다.
-            </p>
-            
-            <div class="flex justify-center gap-4 mb-8">
-                <div class="bg-gray-200 w-32 h-40 rounded-2xl flex items-center justify-center text-xs text-gray-400">아이폰17<br>이미지</div>
-                <div class="bg-gray-200 w-32 h-40 rounded-2xl flex items-center justify-center text-xs text-gray-400">플립7<br>이미지</div>
-            </div>
-
-            <a href="#consult-form" class="bg-black text-white font-bold py-4 rounded-xl text-lg hover:bg-gray-800 transition shadow-lg transform hover:scale-105">
-                내 지원금 확인하기 👇
-            </a>
-        </main>
-    </header>
-
-    <section class="max-w-md mx-auto bg-white py-12 px-6 border-t border-gray-100">
-        <h3 class="text-2xl font-bold mb-8 text-center">왜 2030이<br>대박통신을 찾을까요?</h3>
+    <main class="w-full max-w-md bg-white min-h-screen shadow-xl relative pb-10">
         
-        <div class="space-y-6">
-            <div class="flex items-start gap-4">
-                <div class="bg-blue-100 p-3 rounded-lg text-blue-600 text-xl">💸</div>
-                <div>
-                    <h4 class="font-bold text-lg">압도적인 가격 방어</h4>
-                    <p class="text-sm text-gray-500">박리다매 원칙. 제휴카드/반납 조건 없이 순수 기기값으로 비교해 드립니다.</p>
+        <header class="flex flex-col items-center pt-10 pb-6 px-4 bg-white">
+            <div class="relative">
+                <div class="w-24 h-24 rounded-full bg-gray-200 border-4 border-white shadow-lg overflow-hidden">
+                    <img src="https://via.placeholder.com/150?text=Daebak" alt="대박통신" class="w-full h-full object-cover">
+                </div>
+                <div class="absolute bottom-0 right-0 bg-blue-500 text-white p-1 rounded-full border-2 border-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
                 </div>
             </div>
-            <div class="flex items-start gap-4">
-                <div class="bg-purple-100 p-3 rounded-lg text-purple-600 text-xl">🚀</div>
-                <div>
-                    <h4 class="font-bold text-lg">재고 걱정 NO</h4>
-                    <p class="text-sm text-gray-500">아이폰17 프로, 플립7 전 색상/용량 즉시 개통 가능하도록 물량 확보 완료.</p>
-                </div>
-            </div>
-            <div class="flex items-start gap-4">
-                <div class="bg-green-100 p-3 rounded-lg text-green-600 text-xl">🤝</div>
-                <div>
-                    <h4 class="font-bold text-lg">강요 없는 쿨한 상담</h4>
-                    <p class="text-sm text-gray-500">부가서비스 강요? 없습니다. 필요한 요금제만 딱 추천해 드립니다.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="consult-form" class="max-w-md mx-auto bg-gray-50 py-12 px-6">
-        <div class="bg-white p-6 rounded-2xl shadow-md">
-            <h3 class="text-xl font-bold mb-2 text-center">🚀 시크릿 특가 조회</h3>
-            <p class="text-xs text-center text-gray-400 mb-6">남겨주시면 10분 내로 재고/가격 문자로 안내드립니다.</p>
             
-            <form id="leadForm" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">이름</label>
-                    <input type="text" placeholder="홍길동" class="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">연락처</label>
-                    <input type="tel" placeholder="010-0000-0000" class="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">관심 모델</label>
-                    <select class="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500">
-                        <option>아이폰 17</option>
-                        <option>아이폰 17 Pro / Max</option>
-                        <option>갤럭시 Z 플립 7</option>
-                        <option>갤럭시 Z 폴드 7</option>
-                        <option>기타 (상담 후 결정)</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl mt-4 hover:bg-blue-700 transition">
-                    무료 견적 받기
-                </button>
-                <p class="text-[10px] text-center text-gray-400 mt-2">입력하신 정보는 상담 목적으로만 사용되며 안전하게 폐기됩니다.</p>
-            </form>
-        </div>
-    </section>
+            <h1 class="mt-4 text-2xl font-bold tracking-tight">대박통신</h1>
+            <p class="text-sm text-gray-500 mt-1 text-center">
+                📍 송파 장지 본점 / 강동 명일 직영점<br>
+                "말장난 없이 할부원금으로 승부합니다."
+            </p>
 
-    <footer class="max-w-md mx-auto py-8 text-center text-gray-400 text-xs">
-        <p>상호: 대박통신 | 대표: 사장님 이름</p>
-        <p>주소: 서울 송파구 장지동 / 강동구 명일동</p>
-        <p class="mt-2">Copyright © Daebak Mobile. All rights reserved.</p>
-    </footer>
+            <div class="flex gap-4 mt-4">
+                <a href="#" class="text-gray-400 hover:text-black transition"><span class="sr-only">Instagram</span>📷</a>
+                <a href="#" class="text-gray-400 hover:text-black transition"><span class="sr-only">Blog</span>📝</a>
+                <a href="#" class="text-gray-400 hover:text-black transition"><span class="sr-only">Tel</span>📞</a>
+            </div>
+        </header>
+
+        <section class="px-4 mb-6">
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden group cursor-pointer btn-press">
+                <div class="relative z-10">
+                    <span class="bg-white text-blue-600 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide">SPECIAL</span>
+                    <h2 class="text-xl font-bold mt-2 leading-tight">아이폰17 / 플립7<br>얼리버드 특가 조회</h2>
+                    <p class="text-blue-100 text-xs mt-1">지금 문의하면 케이스+필름 평생무료</p>
+                </div>
+                <div class="absolute -right-4 -bottom-8 w-24 h-24 bg-white opacity-20 rounded-full"></div>
+            </div>
+        </section>
+
+        <section class="px-4 space-y-3">
+            
+            <a href="#" class="block bg-yellow-400 rounded-xl p-4 shadow-sm flex items-center justify-between hover:bg-yellow-500 transition btn-press">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">💬</span>
+                    <div>
+                        <p class="font-bold text-gray-900">카카오톡 채팅 상담</p>
+                        <p class="text-[10px] text-gray-800 opacity-70">부담 없이 채팅으로 물어보세요</p>
+                    </div>
+                </div>
+                <span class="text-gray-800">👉</span>
+            </a>
+
+            <button onclick="document.getElementById('secret-form').scrollIntoView({behavior: 'smooth'})" class="w-full bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex items-center justify-between hover:bg-gray-50 transition btn-press">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">📉</span>
+                    <div class="text-left">
+                        <p class="font-bold text-gray-900">오늘의 비밀 시세표</p>
+                        <p class="text-[10px] text-gray-400">매일 오전 11시 업데이트</p>
+                    </div>
+                </div>
+                <span class="text-gray-300">⬇️</span>
+            </button>
+
+            <div class="grid grid-cols-2 gap-3">
+                <a href="#" class="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex flex-col items-center justify-center gap-2 hover:bg-gray-50 transition btn-press">
+                    <span class="text-2xl">🏢</span>
+                    <span class="font-bold text-sm text-gray-700">장지 본점</span>
+                </a>
+                <a href="#" class="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex flex-col items-center justify-center gap-2 hover:bg-gray-50 transition btn-press">
+                    <span class="text-2xl">🏪</span>
+                    <span class="font-bold text-sm text-gray-700">명일 직영점</span>
+                </a>
+            </div>
+
+        </section>
+
+        <section id="secret-form" class="px-4 mt-8">
+            <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-md">
+                <div class="text-center mb-6">
+                    <h3 class="text-lg font-bold">🚀 1:1 맞춤 견적 받기</h3>
+                    <p class="text-xs text-gray-400">원하시는 기종을 선택하시면<br>최저가 재고를 찾아 연락드립니다.</p>
+                </div>
+
+                <form id="leadForm" class="space-y-3">
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="model" value="iphone17" class="peer sr-only">
+                            <div class="border-2 border-gray-100 rounded-lg p-3 text-center peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                                <span class="block text-sm font-bold">🍎 아이폰17</span>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="model" value="flip7" class="peer sr-only">
+                            <div class="border-2 border-gray-100 rounded-lg p-3 text-center peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                                <span class="block text-sm font-bold">✨ 플립7</span>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <input type="text" placeholder="성함" class="w-full bg-gray-50 p-3 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500 transition" required>
+                    <input type="tel" placeholder="연락처 (-없이 입력)" class="w-full bg-gray-50 p-3 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500 transition" required>
+                    
+                    <button type="submit" class="w-full bg-black text-white font-bold py-3 rounded-lg text-sm mt-2 hover:bg-gray-800 transition shadow-lg">
+                        무료 견적 요청하기
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <footer class="mt-10 mb-6 text-center text-[10px] text-gray-400 leading-relaxed">
+            대박통신<br>
+            사업자 등록번호: 000-00-00000<br>
+            Copyright © Daebak Mobile.
+        </footer>
+
+    </main>
 
     <script>
-        // 폼 제출 시 동작 (현재는 알림창만 뜸)
+        // 간단한 폼 제출 알림
         document.getElementById('leadForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('문의가 접수되었습니다! \n사장님이 확인 후 바로 연락드리겠습니다.');
-            // 여기에 나중에 구글 스프레드시트나 카톡으로 전송하는 코드를 넣으면 됩니다.
+            alert('신청이 완료되었습니다! 🚀\n빠르게 확인 후 연락드리겠습니다.');
         });
     </script>
 </body>
