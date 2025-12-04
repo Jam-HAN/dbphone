@@ -20,11 +20,13 @@
         }
         .animate-fade-up { animation: fade-up 0.8s ease-out forwards; }
         
+        /* 무한 롤링 애니메이션 (정확히 절반만큼 이동 후 리셋) */
         @keyframes ticker-v {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-50%); }
+            100% { transform: translateY(-50%); } 
         }
-        .animate-ticker-v { animation: ticker-v 20s linear infinite; }
+        /* 속도를 천천히 조절 (50초) */
+        .animate-ticker-v { animation: ticker-v 50s linear infinite; }
         .animate-ticker-v:hover { animation-play-state: paused; }
     </style>
 </head>
@@ -49,7 +51,7 @@
                     지긋지긋한 흥정은 이제 그만.<br>
                     오직 <strong>할부원금</strong>으로만 승부합니다.
                 </p>
-                <div class="animate-bounce text-gray-400 text-sm flex items-center gap-2">
+                <div class="animate-bounce text-gray-400 text-sm flex items-center gap-2 cursor-pointer" onclick="window.scrollTo({top: window.innerHeight, behavior: 'smooth'});">
                     더 알아보기 <span class="text-lg">↓</span>
                 </div>
             </div>
@@ -71,21 +73,21 @@
                     <li class="flex justify-between items-center">
                         <div class="text-gray-500 text-sm">
                             <span class="block font-bold text-gray-400">일반 대리점</span>
-                            <span class="text-xs">출고가 + 제휴카드 결합 + 기존폰 반납</span>
+                            <span class="text-xs">출고가 + 제휴카드 결합<br>+ 기존폰 반납</span>
                         </div>
                         <span class="text-gray-400 text-2xl">❌</span>
                     </li>
                     <li class="flex justify-between items-center">
                         <div class="text-gray-500 text-sm">
                             <span class="block font-bold text-gray-400">자급제 구매</span>
-                            <span class="text-xs">기계값 100% 본인 부담 + 초기 세팅 필요</span>
+                            <span class="text-xs">기계값 100% 본인 부담<br>+ 초기 세팅 필요</span>
                         </div>
                         <span class="text-gray-400 text-2xl">❌</span>
                     </li>
                     <li class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm border border-blue-100">
                         <div class="text-blue-600">
                             <span class="block font-bold text-base">대박통신</span>
-                            <span class="text-xs">성지 지원금 MAX 적용 + 프리미엄 서비스</span>
+                            <span class="text-xs">성지 지원금 MAX 적용<br>+ 프리미엄 서비스</span>
                         </div>
                         <span class="text-blue-600 text-2xl">⭕</span>
                     </li>
@@ -217,8 +219,37 @@
                     </div>
                     <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
                         <div class="flex justify-between mb-2"><span class="font-bold text-green-400">박*준님</span><span class="text-xs text-gray-500">30분 전</span></div>
-                        <p class="text-gray-300 text-sm leading-relaxed">"지인 소개로 왔는데 역시 성지는 다르네요. 강요 1도 없고 너무 편했습니다. 강추!"</p>
+                        <p class="text-gray-300 text-sm leading-relaxed">"지인 소개로 왔는데 역시 성지는 다르네요. 강요 1도 없고 너무 편했습니다."</p>
                     </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-yellow-400">최*수님</span><span class="text-xs text-gray-500">40분 전</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"아이폰17 화이트 구해주셔서 감사합니다!! 여기가 찐이네요."</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-pink-400">정*호님</span><span class="text-xs text-gray-500">1시간 전</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"플립7 라벤더 색상 실물 깡패... 사은품도 많이 챙겨주셔서 좋았어요!"</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-gray-300">강*우님</span><span class="text-xs text-gray-500">1시간 전</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"S24 울트라 졸업합니다. 할부원금 듣고 바로 계약했네요 ㅋㅋㅋ"</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-blue-300">윤*지님</span><span class="text-xs text-gray-500">2시간 전</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"명일점 방문했는데 직원분들 엄청 친절하세요! 기변인데도 조건 좋네요."</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-purple-300">한*솔님</span><span class="text-xs text-gray-500">3시간 전</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"폴드7 업무용으로 샀는데 조건 깔끔합니다. 군더더기 없어서 좋네요."</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-red-300">임*경님</span><span class="text-xs text-gray-500">어제</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"엄마 효도폰 해드렸는데 너무 좋아하시네요 ㅎㅎ 다음에 제 폰도 여기서 할게요."</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-indigo-300">송*희님</span><span class="text-xs text-gray-500">어제</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"친구 추천받고 왔는데 후회 없습니다. 필름도 진짜 잘 붙여주심 장인 인정👍"</p>
+                    </div>
+
                     <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
                         <div class="flex justify-between mb-2"><span class="font-bold text-blue-400">김*민님</span><span class="text-xs text-gray-500">방금 전</span></div>
                         <p class="text-gray-300 text-sm leading-relaxed">"와.. 가격 진짜 미쳤네요ㅋㅋ 장지점 사장님 최고! 설명도 너무 깔끔했습니다."</p>
@@ -227,6 +258,38 @@
                         <div class="flex justify-between mb-2"><span class="font-bold text-purple-400">이*은님</span><span class="text-xs text-gray-500">10분 전</span></div>
                         <p class="text-gray-300 text-sm leading-relaxed">"재고 구하기 힘들었는데 여긴 바로 있네요ㅠㅠ 데이터도 다 옮겨주셔서 감동..."</p>
                     </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-green-400">박*준님</span><span class="text-xs text-gray-500">30분 전</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"지인 소개로 왔는데 역시 성지는 다르네요. 강요 1도 없고 너무 편했습니다."</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-yellow-400">최*수님</span><span class="text-xs text-gray-500">40분 전</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"아이폰17 화이트 구해주셔서 감사합니다!! 여기가 찐이네요."</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-pink-400">정*호님</span><span class="text-xs text-gray-500">1시간 전</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"플립7 라벤더 색상 실물 깡패... 사은품도 많이 챙겨주셔서 좋았어요!"</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-gray-300">강*우님</span><span class="text-xs text-gray-500">1시간 전</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"S24 울트라 졸업합니다. 할부원금 듣고 바로 계약했네요 ㅋㅋㅋ"</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-blue-300">윤*지님</span><span class="text-xs text-gray-500">2시간 전</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"명일점 방문했는데 직원분들 엄청 친절하세요! 기변인데도 조건 좋네요."</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-purple-300">한*솔님</span><span class="text-xs text-gray-500">3시간 전</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"폴드7 업무용으로 샀는데 조건 깔끔합니다. 군더더기 없어서 좋네요."</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-red-300">임*경님</span><span class="text-xs text-gray-500">어제</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"엄마 효도폰 해드렸는데 너무 좋아하시네요 ㅎㅎ 다음에 제 폰도 여기서 할게요."</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
+                        <div class="flex justify-between mb-2"><span class="font-bold text-indigo-300">송*희님</span><span class="text-xs text-gray-500">어제</span></div>
+                        <p class="text-gray-300 text-sm leading-relaxed">"친구 추천받고 왔는데 후회 없습니다. 필름도 진짜 잘 붙여주심 장인 인정👍"</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -234,19 +297,17 @@
         <section class="py-24 px-6 bg-white">
             <h2 class="text-3xl font-bold mb-12 text-center">딱 3단계면 끝.</h2>
             <div class="relative pl-4 space-y-12 before:absolute before:left-[27px] before:top-2 before:bottom-10 before:w-[2px] before:bg-gray-200">
-                
                 <div class="relative flex gap-8 items-start">
                     <div class="w-14 h-14 rounded-full bg-black text-white flex items-center justify-center font-bold text-xl z-10 shrink-0 shadow-lg">1</div>
                     <div>
                         <h4 class="font-bold text-xl mb-2">간편 시세 조회</h4>
                         <p class="text-gray-500 text-sm leading-relaxed">
                             아래 폼을 작성해주시면 전문 상담사가<br>
-                            <strong>'오늘의 최저가 정책'</strong> 안내를 위해<br>
-                            연락드립니다.
+                            <strong>10분 내로 '오늘의 최저가 정책'</strong>을<br>
+                            문자로 안내해 드립니다.
                         </p>
                     </div>
                 </div>
-                
                 <div class="relative flex gap-8 items-start">
                     <div class="w-14 h-14 rounded-full bg-white border-4 border-black text-black flex items-center justify-center font-bold text-xl z-10 shrink-0">2</div>
                     <div>
@@ -258,7 +319,6 @@
                         </p>
                     </div>
                 </div>
-
                 <div class="relative flex gap-8 items-start">
                     <div class="w-14 h-14 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xl z-10 shrink-0 shadow-lg shadow-blue-200 animate-pulse">3</div>
                     <div>
@@ -394,7 +454,6 @@
         
         const stickyBar = document.getElementById('sticky-bar');
         window.addEventListener('scroll', () => {
-            // 히어로 섹션 지나면 등장
             if (window.scrollY > window.innerHeight - 100) {
                 stickyBar.classList.remove('translate-y-full');
             } else {
