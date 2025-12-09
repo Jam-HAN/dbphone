@@ -111,12 +111,12 @@
             <h2 class="text-4xl font-bold mb-4">iPhone 17 Series</h2>
             <p class="text-gray-400 mb-8 text-lg">티타늄의 완성. 역대급 카메라 성능.<br>기본형부터 프로까지 전 모델 보유.</p>
             
-            <div class="rounded-3xl overflow-hidden shadow-2xl mb-8 border border-gray-700 aspect-[4/5] relative bg-black">
-                <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-90">
-                    <source src="https://videos.pexels.com/video-files/7859000/7859000-sd_540_960_30fps.mp4" type="video/mp4">
-                </video>
+            <div class="rounded-3xl overflow-hidden shadow-2xl mb-8 border border-gray-700 aspect-[4/5] relative group bg-black">
+                <img src="https://images.unsplash.com/photo-1696446702183-f8a587595832?q=80&w=1000&auto=format&fit=crop" 
+                     alt="iPhone 17 Render" 
+                     class="w-full h-full object-cover transform transition duration-700 group-hover:scale-105 opacity-90">
                 <div class="absolute bottom-4 left-4">
-                    <span class="bg-white text-black text-[10px] font-bold px-2 py-1 rounded">실물 영상</span>
+                    <span class="bg-white text-black text-[10px] font-bold px-2 py-1 rounded">즉시 수령 가능</span>
                 </div>
             </div>
             
@@ -146,12 +146,12 @@
             <h2 class="text-4xl font-bold mb-4">Galaxy S25 Series</h2>
             <p class="text-gray-600 mb-8 text-lg">AI 폰의 완성형.<br>압도적인 성능과 카메라를 경험하세요.</p>
             
-            <div class="rounded-3xl overflow-hidden shadow-2xl mb-8 border border-white aspect-[4/5] relative bg-black">
-                <video autoplay loop muted playsinline class="w-full h-full object-cover">
-                    <source src="https://videos.pexels.com/video-files/17793132/17793132-sd_540_960_30fps.mp4" type="video/mp4">
-                </video>
+            <div class="rounded-3xl overflow-hidden shadow-2xl mb-8 border border-white aspect-[4/5] relative group bg-white">
+                <img src="https://images.unsplash.com/photo-1610945265064-f3947e852cae?q=80&w=1000&auto=format&fit=crop" 
+                     alt="Galaxy S25 Render" 
+                     class="w-full h-full object-cover transform transition duration-700 group-hover:scale-105">
                 <div class="absolute bottom-4 left-4">
-                    <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded">실물 영상</span>
+                    <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded">사전 예약 혜택</span>
                 </div>
             </div>
 
@@ -181,12 +181,12 @@
             <h2 class="text-4xl font-bold mb-4">Galaxy Z Foldable 7</h2>
             <p class="text-gray-600 mb-8 text-lg">접으면 컴팩트(Flip), 펼치면 대화면(Fold).<br>더 가볍고 얇아진 혁신을 만나보세요.</p>
             
-            <div class="rounded-3xl overflow-hidden shadow-2xl mb-8 border border-white aspect-[4/5] relative bg-black">
-                <video autoplay loop muted playsinline class="w-full h-full object-cover">
-                    <source src="https://videos.pexels.com/video-files/18579899/18579899-sd_540_960_30fps.mp4" type="video/mp4">
-                </video>
+            <div class="rounded-3xl overflow-hidden shadow-2xl mb-8 border border-white aspect-[4/5] relative group bg-white">
+                <img src="https://images.unsplash.com/photo-1627932644287-73d2a70422c5?q=80&w=1000&auto=format&fit=crop" 
+                     alt="Galaxy Z Foldable 7 Render" 
+                     class="w-full h-full object-cover transform transition duration-700 group-hover:scale-105">
                 <div class="absolute bottom-4 left-4">
-                    <span class="bg-purple-600 text-white text-[10px] font-bold px-2 py-1 rounded">실물 영상</span>
+                    <span class="bg-purple-600 text-white text-[10px] font-bold px-2 py-1 rounded">인기 색상 보유</span>
                 </div>
             </div>
 
@@ -269,7 +269,7 @@
                     </div>
                     <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
                         <div class="flex justify-between mb-2"><span class="font-bold text-gray-300">강*우님</span><span class="text-xs text-gray-500">1시간 전</span></div>
-                        <p class="text-gray-300 text-sm leading-relaxed">"S25 울트라 졸업합니다. 할부원금 듣고 바로 계약했네요 ㅋㅋㅋ"</p>
+                        <p class="text-gray-300 text-sm leading-relaxed">"S24 울트라 졸업합니다. 할부원금 듣고 바로 계약했네요 ㅋㅋㅋ"</p>
                     </div>
                     <div class="bg-gray-800 p-5 rounded-2xl text-white border border-gray-700">
                         <div class="flex justify-between mb-2"><span class="font-bold text-blue-300">윤*지님</span><span class="text-xs text-gray-500">2시간 전</span></div>
@@ -421,23 +421,19 @@
                 </div>
 
                 <form id="leadForm" class="space-y-5">
-                    <div class="space-y-3">
-                        <label class="cursor-pointer block relative group">
+                    <div class="grid grid-cols-2 gap-4">
+                        <label class="cursor-pointer group">
                             <input type="radio" name="model" value="iphone" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-xl py-4 text-center peer-checked:border-black peer-checked:bg-gray-100 peer-checked:text-black font-bold transition hover:bg-gray-50">
-                                🍎 아이폰 17 시리즈
+                            <div class="border-2 border-gray-100 rounded-2xl py-6 text-center peer-checked:border-black peer-checked:bg-gray-50 peer-checked:text-black font-bold transition group-hover:bg-gray-50">
+                                <span class="block text-2xl mb-1">🍎</span>
+                                아이폰 17
                             </div>
                         </label>
-                        <label class="cursor-pointer block relative group">
-                            <input type="radio" name="model" value="galaxyS" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-xl py-4 text-center peer-checked:border-blue-600 peer-checked:bg-blue-50 peer-checked:text-blue-800 font-bold transition hover:bg-blue-50">
-                                🌌 갤럭시 S25 시리즈
-                            </div>
-                        </label>
-                        <label class="cursor-pointer block relative group">
-                            <input type="radio" name="model" value="foldable" class="peer sr-only">
-                            <div class="border-2 border-gray-200 rounded-xl py-4 text-center peer-checked:border-purple-600 peer-checked:bg-purple-50 peer-checked:text-purple-800 font-bold transition hover:bg-purple-50">
-                                ✨ Z 폴더블7 시리즈 (Flip/Fold)
+                        <label class="cursor-pointer group">
+                            <input type="radio" name="model" value="flip" class="peer sr-only">
+                            <div class="border-2 border-gray-100 rounded-2xl py-6 text-center peer-checked:border-purple-600 peer-checked:bg-purple-50 peer-checked:text-purple-700 font-bold transition group-hover:bg-gray-50">
+                                <span class="block text-2xl mb-1">✨</span>
+                                플립 7
                             </div>
                         </label>
                     </div>
