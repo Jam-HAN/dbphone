@@ -517,7 +517,7 @@
     </main>
 
     <script>
-        // 🚨 방금 복사한 새 주소를 여기에 꼭 넣어주세요! (따옴표 필수)
+        // 🚨 새로 복사한 '웹 앱 URL'을 여기에 넣으세요!
         var googleScriptUrl = "https://script.google.com/macros/s/AKfycbx68SpuNmESlbE3TeK5_F866anpXxS57Q_xZpq9l8EBp9Xpdex_SNG7x3GPcKBnAVdM/exec"; 
 
         document.getElementById('leadForm').addEventListener('submit', function(e) {
@@ -527,39 +527,42 @@
             var name = document.querySelector('input[placeholder="성함"]').value;
             var phone = document.querySelector('input[placeholder="연락처 (010-0000-0000)"]').value;
             var carrierSelect = document.querySelector('select');
-            var carrier = carrierSelect.options[carrierSelect.selectedIndex].text;
-
+            
             if (!model) { alert('희망 기종을 선택해주세요!'); return; }
             if (carrierSelect.value === "") { alert('통신사를 선택해주세요!'); return; }
 
+            var carrier = carrierSelect.options[carrierSelect.selectedIndex].text;
             var btn = document.querySelector('button[type="submit"]');
             var originalText = btn.innerText;
+            
             btn.innerText = "전송 중...";
             btn.disabled = true;
 
-            // 데이터 포장 (이 부분이 더 튼튼하게 바뀌었습니다)
-            var formData = new FormData();
-            formData.append('model', model.parentNode.innerText.trim());
-            formData.append('name', name);
-            formData.append('phone', phone);
-            formData.append('carrier', carrier);
+            // 데이터 포장 (JSON 방식 - 가장 에러가 적습니다)
+            var data = {
+                model: model.parentNode.innerText.trim(),
+                name: name,
+                phone: phone,
+                carrier: carrier
+            };
 
-            // 전송 시작
             fetch(googleScriptUrl, {
                 method: "POST",
-                body: formData // 복잡한 설정 없이 바로 보냅니다
+                mode: "no-cors", // 보안 정책 우회
+                headers: {
+                    "Content-Type": "text/plain" // 중요: 이렇게 보내야 전송이 잘 됩니다
+                },
+                body: JSON.stringify(data)
             })
             .then(response => {
-                alert(`✅ [접수 완료]\n\n${name}님, 정상적으로 접수되었습니다.\n담당자가 빠르게 연락드리겠습니다.`);
+                alert(`✅ [접수 완료]\n\n${name}님, 정상적으로 접수되었습니다.\n곧 연락드리겠습니다!`);
                 document.getElementById('leadForm').reset();
                 btn.innerText = originalText;
                 btn.disabled = false;
             })
             .catch(error => {
-                // 구글 스크립트 특성상, 성공해도 가끔 에러로 빠질 때가 있어도 데이터는 들어갑니다.
-                // 하지만 여기서는 사용자 안심을 위해 성공 메시지를 띄웁니다.
-                alert(`✅ [접수 완료]\n\n${name}님, 상담 예약이 확정되었습니다!`);
-                document.getElementById('leadForm').reset();
+                console.error("Error:", error);
+                alert("오류가 발생했지만, 접수는 시도되었습니다.");
                 btn.innerText = originalText;
                 btn.disabled = false;
             });
