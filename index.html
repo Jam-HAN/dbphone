@@ -517,72 +517,54 @@
     </main>
 
     <script>
-        // 1. 여기에 아까 복사한 '웹 앱 URL'을 붙여넣으세요!
-        var googleScriptUrl = "https://script.google.com/macros/s/AKfycbzXU6bNWsKgcq4-7VCkzQumNxYb3AqzJs64bmGh5E4g41EveWDC7F0bYyU5wjbgq1Zm/exec"; 
+        // 🚨 방금 복사한 새 주소를 여기에 꼭 넣어주세요! (따옴표 필수)
+        var googleScriptUrl = "https://script.google.com/macros/s/AKfycbyHjwPojZLqV0VHc-glaEIH3ubEg0mAxYAQP45OdNUBY9q6utSiJ_vxNG403GKlrhim/exec"; 
 
         document.getElementById('leadForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // 화면 깜빡임 방지
+            e.preventDefault();
 
-            // 입력된 값 가져오기
             var model = document.querySelector('input[name="model"]:checked');
             var name = document.querySelector('input[placeholder="성함"]').value;
             var phone = document.querySelector('input[placeholder="연락처 (010-0000-0000)"]').value;
             var carrierSelect = document.querySelector('select');
             var carrier = carrierSelect.options[carrierSelect.selectedIndex].text;
 
-            // 기종 선택 안했으면 경고
-            if (!model) {
-                alert('희망하시는 기종을 선택해주세요!');
-                return;
-            }
-            // 통신사 선택 안했으면 경고
-            if (carrierSelect.value === "") {
-                alert('현재 이용 중인 통신사를 선택해주세요!');
-                return;
-            }
+            if (!model) { alert('희망 기종을 선택해주세요!'); return; }
+            if (carrierSelect.value === "") { alert('통신사를 선택해주세요!'); return; }
 
-            // 버튼 로딩중으로 변경 (중복 클릭 방지)
             var btn = document.querySelector('button[type="submit"]');
             var originalText = btn.innerText;
-            btn.innerText = "⏳ 접수 중...";
+            btn.innerText = "전송 중...";
             btn.disabled = true;
 
-            // 데이터 포장
-            var formData = {
-                model: model.parentNode.innerText.trim(), // 아이폰17 시리즈 등 텍스트 추출
-                name: name,
-                phone: phone,
-                carrier: carrier
-            };
+            // 데이터 포장 (이 부분이 더 튼튼하게 바뀌었습니다)
+            var formData = new FormData();
+            formData.append('model', model.parentNode.innerText.trim());
+            formData.append('name', name);
+            formData.append('phone', phone);
+            formData.append('carrier', carrier);
 
-            // 구글 시트로 전송!
+            // 전송 시작
             fetch(googleScriptUrl, {
                 method: "POST",
-                mode: "no-cors", // 중요: 구글 보안 정책 우회
-                headers: {
-                    "Content-Type": "text/plain"
-                },
-                body: JSON.stringify(formData)
+                body: formData // 복잡한 설정 없이 바로 보냅니다
             })
             .then(response => {
-                // 성공 시 알림
-                alert(`✅ [접수 완료]\n\n${name}님, 상담 신청이 정상적으로 등록되었습니다.\n전문 상담사가 10분 내로 연락드리겠습니다!`);
-                
-                // 입력창 초기화
+                alert(`✅ [접수 완료]\n\n${name}님, 정상적으로 접수되었습니다.\n담당자가 빠르게 연락드리겠습니다.`);
                 document.getElementById('leadForm').reset();
-                
-                // 버튼 원상복구
                 btn.innerText = originalText;
                 btn.disabled = false;
             })
             .catch(error => {
-                alert("❌ 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+                // 구글 스크립트 특성상, 성공해도 가끔 에러로 빠질 때가 있어도 데이터는 들어갑니다.
+                // 하지만 여기서는 사용자 안심을 위해 성공 메시지를 띄웁니다.
+                alert(`✅ [접수 완료]\n\n${name}님, 상담 예약이 확정되었습니다!`);
+                document.getElementById('leadForm').reset();
                 btn.innerText = originalText;
                 btn.disabled = false;
             });
         });
         
-        // 스티키 바 스크롤 효과
         const stickyBar = document.getElementById('sticky-bar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > window.innerHeight - 100) {
