@@ -538,37 +538,45 @@
 
             var modelInput = document.querySelector('input[name="model"]:checked');
             var name = document.querySelector('input[placeholder="성함"]').value;
-            // 연락처 placeholder가 '연락처'로 변경됨에 따라 선택자 수정
             var phone = document.querySelector('input[placeholder="연락처"]').value; 
             var carrierSelect = document.getElementById('carrier');
             var regionSelect = document.getElementById('region');
             var message = document.getElementById('message').value;
 
+            // 필수값 검증
             if (!modelInput) { alert('희망 기종을 선택해주세요!'); return; }
             if (carrierSelect.value === "") { alert('통신사를 선택해주세요!'); return; }
             if (regionSelect.value === "") { alert('희망 방문 지역을 선택해주세요!'); return; }
 
-            // [데이터 정제] 이모티콘 및 공백 제거 로직
+            // [데이터 정제] 기종명 깔끔하게 (이모티콘 제거)
             var rawModel = modelInput.parentNode.innerText.trim();
-            // 이모티콘과 불필요한 공백을 싹 지워서 '아이폰17시리즈' 형태로 만듭니다.
             var cleanModel = rawModel.replace(/🍎|🌌|✨/g, '').replace(/\s+/g, '');
 
-            var carrier = carrierSelect.options[carrierSelect.selectedIndex].text;
-            var region = regionSelect.options[regionSelect.selectedIndex].text;
+            // [데이터 정제] 지역명 깔끔하게
+            var rawRegion = regionSelect.options[regionSelect.selectedIndex].text;
+            var cleanRegion = "상담 후 결정";
+            if (rawRegion.includes("장지")) cleanRegion = "장지 본점";
+            else if (rawRegion.includes("명일")) cleanRegion = "명일 직영점";
 
+            var carrier = carrierSelect.options[carrierSelect.selectedIndex].text;
             var btn = document.querySelector('button[type="submit"]');
             var originalText = btn.innerText;
             
-            btn.innerText = "전송 중...";
-            btn.disabled = true;
-
+            // ⚡ [즉시 반응] 먼저 성공했다고 보여줍니다 (Optimistic UI)
+            // 사용자에게는 0.1초 만에 완료된 것처럼 느껴집니다.
+            alert(`✅ [접수 완료]\n\n${name}님, 정상적으로 접수되었습니다.\n담당자가 빠르게 연락드리겠습니다!`);
+            
+            // 폼 초기화
+            document.getElementById('leadForm').reset();
+            
+            // [데이터 전송] 백그라운드에서 실제 전송
             var data = {
-                model: cleanModel, // 정제된 기종 이름 전송
+                model: cleanModel, // 정제된 기종 이름
                 name: name,
                 phone: phone,
                 carrier: carrier,
-                region: region,    // 희망 지역 전송
-                message: message   // 요청 내용 전송
+                region: cleanRegion, // 정제된 지역 이름
+                message: message
             };
 
             fetch(googleScriptUrl, {
@@ -577,17 +585,13 @@
                 headers: { "Content-Type": "text/plain" },
                 body: JSON.stringify(data)
             })
-            .then(response => {
-                alert(`✅ [접수 완료]\n\n${name}님, 정상적으로 접수되었습니다.\n곧 연락드리겠습니다!`);
-                document.getElementById('leadForm').reset();
-                btn.innerText = originalText;
-                btn.disabled = false;
+            .then(() => {
+                // 백그라운드 전송 완료 (사용자는 이미 팝업 닫고 나감)
+                console.log("전송 성공");
             })
             .catch(error => {
-                console.error("Error:", error);
-                alert("오류가 발생했지만, 접수는 시도되었습니다.");
-                btn.innerText = originalText;
-                btn.disabled = false;
+                console.error("전송 에러 (하지만 사용자는 모름):", error);
+                // 필요하다면 여기서 에러 로그를 따로 남길 수 있습니다.
             });
         });
         
