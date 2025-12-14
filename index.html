@@ -483,7 +483,7 @@
 
                     <textarea placeholder="궁금하신 점이나 원하시는 조건을 자유롭게 적어주세요." rows="3" class="w-full bg-gray-50 border-0 p-5 rounded-xl outline-none text-base focus:ring-2 focus:ring-blue-500 transition placeholder-gray-400 resize-none" id="message"></textarea>
 
-                    <button type="submit" class="w-full bg-black text-white font-bold text-xl py-6 rounded-xl shadow-lg hover:bg-gray-800 transition transform active:scale-[0.99] mt-4">
+                    <button type="submit" class="w-full bg-black text-white font-bold text-xl py-6 rounded-xl shadow-lg hover:bg-gray-800 transition transform active:scale-[0.99] mt-4 flex justify-center items-center gap-2">
                         견적 상담받기
                     </button>
                     <p class="text-xs text-gray-400 text-center leading-relaxed">
@@ -540,11 +540,40 @@
             </div>
         </div>
 
+        <div id="successOverlay" class="fixed inset-0 bg-black/60 z-[100] hidden flex items-center justify-center backdrop-blur-sm transition-opacity duration-300">
+            <div class="bg-white p-8 rounded-3xl shadow-2xl flex flex-col items-center animate-fade-up max-w-xs w-full text-center">
+                <div class="mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-extrabold mb-2">접수 완료!</h3>
+                <p id="successBody" class="text-gray-500 text-sm leading-relaxed mb-6">
+                    </p>
+                <button onclick="closeSuccessModal()" class="w-full bg-black text-white font-bold py-3 rounded-xl hover:bg-gray-800 transition transform active:scale-95">
+                    확인
+                </button>
+            </div>
+        </div>
+
     </main>
 
     <script>
-        // 🚨 사장님 전용 스크립트 주소 (확인 완료)
+        // 🚨 사장님 전용 스크립트 주소
         var googleScriptUrl = "https://script.google.com/macros/s/AKfycbwmEaoezUYk5q98iuCMgXJMSmmygH66yy8ssOoKyuOc__NPYZkm3EBI8MJbLpKdIIpF/exec"; 
+
+        // 닫기 버튼 누르면 실행되는 함수
+        function closeSuccessModal() {
+            document.getElementById('successOverlay').classList.add('hidden');
+            document.getElementById('leadForm').reset(); // 폼 초기화
+            
+            // 버튼 원상복구
+            var btn = document.querySelector('button[type="submit"]');
+            btn.innerHTML = `
+                견적 상담받기
+            `;
+            btn.disabled = false;
+        }
 
         document.getElementById('leadForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -561,11 +590,10 @@
             if (carrierSelect.value === "") { alert('통신사를 선택해주세요!'); return; }
             if (regionSelect.value === "") { alert('희망 방문 지역을 선택해주세요!'); return; }
 
-            // [데이터 정제] 기종명 깔끔하게 (이모티콘 제거)
+            // [데이터 정제]
             var rawModel = modelInput.parentNode.innerText.trim();
             var cleanModel = rawModel.replace(/🍎|🌌|✨/g, '').replace(/\s+/g, '');
 
-            // [데이터 정제] 지역명 깔끔하게
             var rawRegion = regionSelect.options[regionSelect.selectedIndex].text;
             var cleanRegion = "상담 후 결정";
             if (rawRegion.includes("장지")) cleanRegion = "장지 본점";
@@ -573,22 +601,21 @@
 
             var carrier = carrierSelect.options[carrierSelect.selectedIndex].text;
             var btn = document.querySelector('button[type="submit"]');
-            var overlay = document.getElementById('loadingOverlay'); // 오버레이 요소 선택
             
             // 🔄 [중앙 로딩 시작]
-            overlay.classList.remove('hidden'); // 오버레이 보이기
+            document.getElementById('loadingOverlay').classList.remove('hidden');
             btn.disabled = true;
 
             var data = {
-                model: cleanModel, // 정제된 기종 이름
+                model: cleanModel,
                 name: name,
                 phone: phone,
                 carrier: carrier,
-                region: cleanRegion, // 정제된 지역 이름
+                region: cleanRegion,
                 message: message
             };
 
-            // 백그라운드 전송 시작
+            // 백그라운드 전송
             fetch(googleScriptUrl, {
                 method: "POST",
                 mode: "no-cors",
@@ -596,12 +623,17 @@
                 body: JSON.stringify(data)
             });
 
-            // ⏳ [1.5초 후 성공 처리]
+            // ⏳ [1.5초 후 성공 팝업(모달) 띄우기]
             setTimeout(function() {
-                overlay.classList.add('hidden'); // 오버레이 숨기기
-                alert(`✅ [접수 완료]\n\n${name}님, 정상적으로 접수되었습니다.\n담당자가 빠르게 연락드리겠습니다!`);
-                document.getElementById('leadForm').reset();
-                btn.disabled = false;
+                // 1. 로딩창 숨기기
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                
+                // 2. 성공 메시지 내용 업데이트
+                var successBody = document.getElementById('successBody');
+                successBody.innerHTML = `<span class="font-bold text-blue-600">${name}</span>님, 정상적으로 접수되었습니다.<br>담당자가 10분 내로 연락드리겠습니다.`;
+                
+                // 3. 성공 팝업 띄우기
+                document.getElementById('successOverlay').classList.remove('hidden');
             }, 1500);
         });
         
