@@ -122,7 +122,8 @@
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowfullscreen>
                 </iframe>
-                <div class="absolute inset-0 pointer-events-none bg-transparent"></div> </div>
+                <div class="absolute inset-0 pointer-events-none bg-transparent"></div>
+            </div>
             
             <div class="grid grid-cols-3 gap-2 text-center mb-6">
                 <div class="bg-gray-800 p-3 rounded-xl border border-gray-700">
@@ -457,10 +458,10 @@
                     </div>
 
                     <input type="text" placeholder="성함" class="w-full bg-gray-50 border-0 p-5 rounded-xl outline-none text-base focus:ring-2 focus:ring-blue-500 transition placeholder-gray-400" required>
-                    <input type="tel" placeholder="연락처 (010-0000-0000)" class="w-full bg-gray-50 border-0 p-5 rounded-xl outline-none text-base focus:ring-2 focus:ring-blue-500 transition placeholder-gray-400" required>
+                    <input type="tel" placeholder="연락처" class="w-full bg-gray-50 border-0 p-5 rounded-xl outline-none text-base focus:ring-2 focus:ring-blue-500 transition placeholder-gray-400" required>
                     
                     <div class="relative">
-                        <select class="w-full bg-gray-50 border-0 p-5 rounded-xl outline-none text-base focus:ring-2 focus:ring-blue-500 transition text-gray-800 appearance-none cursor-pointer" required>
+                        <select class="w-full bg-gray-50 border-0 p-5 rounded-xl outline-none text-base focus:ring-2 focus:ring-blue-500 transition text-gray-800 appearance-none cursor-pointer" id="carrier" required>
                             <option value="" disabled selected class="text-gray-400">현재 이용 중인 통신사</option>
                             <option value="sk">SKT</option>
                             <option value="kt">KT</option>
@@ -469,6 +470,18 @@
                         </select>
                         <div class="absolute right-5 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400">▼</div>
                     </div>
+
+                    <div class="relative">
+                        <select class="w-full bg-gray-50 border-0 p-5 rounded-xl outline-none text-base focus:ring-2 focus:ring-blue-500 transition text-gray-800 appearance-none cursor-pointer" id="region" required>
+                            <option value="" disabled selected class="text-gray-400">희망 방문 지역</option>
+                            <option value="songpa">📍 서울 송파/잠실 (장지 본점)</option>
+                            <option value="gangdong">📍 서울 강동/천호 (명일 직영점)</option>
+                            <option value="other">💬 기타 지역 (상담 후 결정)</option>
+                        </select>
+                        <div class="absolute right-5 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400">▼</div>
+                    </div>
+
+                    <textarea placeholder="궁금하신 점이나 원하시는 조건을 자유롭게 적어주세요." rows="3" class="w-full bg-gray-50 border-0 p-5 rounded-xl outline-none text-base focus:ring-2 focus:ring-blue-500 transition placeholder-gray-400 resize-none" id="message"></textarea>
 
                     <button type="submit" class="w-full bg-black text-white font-bold text-xl py-6 rounded-xl shadow-lg hover:bg-gray-800 transition transform active:scale-[0.99] mt-4">
                         견적 상담받기
@@ -517,41 +530,51 @@
     </main>
 
     <script>
-        // 🚨 새로 복사한 '웹 앱 URL'을 여기에 넣으세요!
-        var googleScriptUrl = "https://script.google.com/macros/s/AKfycbx68SpuNmESlbE3TeK5_F866anpXxS57Q_xZpq9l8EBp9Xpdex_SNG7x3GPcKBnAVdM/exec"; 
+        // 🚨 사장님 전용 스크립트 주소 (확인 완료)
+        var googleScriptUrl = "https://script.google.com/macros/s/AKfycbwmEaoezUYk5q98iuCMgXJMSmmygH66yy8ssOoKyuOc__NPYZkm3EBI8MJbLpKdIIpF/exec"; 
 
         document.getElementById('leadForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            var model = document.querySelector('input[name="model"]:checked');
+            var modelInput = document.querySelector('input[name="model"]:checked');
             var name = document.querySelector('input[placeholder="성함"]').value;
-            var phone = document.querySelector('input[placeholder="연락처 (010-0000-0000)"]').value;
-            var carrierSelect = document.querySelector('select');
-            
-            if (!model) { alert('희망 기종을 선택해주세요!'); return; }
+            // 연락처 placeholder가 '연락처'로 변경됨에 따라 선택자 수정
+            var phone = document.querySelector('input[placeholder="연락처"]').value; 
+            var carrierSelect = document.getElementById('carrier');
+            var regionSelect = document.getElementById('region');
+            var message = document.getElementById('message').value;
+
+            if (!modelInput) { alert('희망 기종을 선택해주세요!'); return; }
             if (carrierSelect.value === "") { alert('통신사를 선택해주세요!'); return; }
+            if (regionSelect.value === "") { alert('희망 방문 지역을 선택해주세요!'); return; }
+
+            // [데이터 정제] 이모티콘 및 공백 제거 로직
+            var rawModel = modelInput.parentNode.innerText.trim();
+            // 이모티콘과 불필요한 공백을 싹 지워서 '아이폰17시리즈' 형태로 만듭니다.
+            var cleanModel = rawModel.replace(/🍎|🌌|✨/g, '').replace(/\s+/g, '');
 
             var carrier = carrierSelect.options[carrierSelect.selectedIndex].text;
+            var region = regionSelect.options[regionSelect.selectedIndex].text;
+
             var btn = document.querySelector('button[type="submit"]');
             var originalText = btn.innerText;
             
             btn.innerText = "전송 중...";
             btn.disabled = true;
 
-            // 데이터 포장 (JSON 방식 - 가장 에러가 적습니다)
             var data = {
-                model: model.parentNode.innerText.trim(),
+                model: cleanModel, // 정제된 기종 이름 전송
                 name: name,
                 phone: phone,
-                carrier: carrier
+                carrier: carrier,
+                region: region,    // 희망 지역 전송
+                message: message   // 요청 내용 전송
             };
 
             fetch(googleScriptUrl, {
                 method: "POST",
-                mode: "no-cors", // 보안 정책 우회
-                headers: {
-                    "Content-Type": "text/plain" // 중요: 이렇게 보내야 전송이 잘 됩니다
-                },
+                mode: "no-cors",
+                headers: { "Content-Type": "text/plain" },
                 body: JSON.stringify(data)
             })
             .then(response => {
