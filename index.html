@@ -483,7 +483,7 @@
 
                     <textarea placeholder="궁금하신 점이나 원하시는 조건을 자유롭게 적어주세요." rows="3" class="w-full bg-gray-50 border-0 p-5 rounded-xl outline-none text-base focus:ring-2 focus:ring-blue-500 transition placeholder-gray-400 resize-none" id="message"></textarea>
 
-                    <button type="submit" class="w-full bg-black text-white font-bold text-xl py-6 rounded-xl shadow-lg hover:bg-gray-800 transition transform active:scale-[0.99] mt-4 flex justify-center items-center gap-2">
+                    <button type="submit" class="w-full bg-black text-white font-bold text-xl py-6 rounded-xl shadow-lg hover:bg-gray-800 transition transform active:scale-[0.99] mt-4">
                         견적 상담받기
                     </button>
                     <p class="text-xs text-gray-400 text-center leading-relaxed">
@@ -527,6 +527,19 @@
             </button>
         </div>
 
+        <div id="loadingOverlay" class="fixed inset-0 bg-black/60 z-[100] hidden flex items-center justify-center backdrop-blur-sm transition-opacity duration-300">
+            <div class="bg-white p-8 rounded-3xl shadow-2xl flex flex-col items-center animate-fade-up max-w-xs w-full text-center">
+                <div class="mb-4">
+                    <svg class="animate-spin h-12 w-12 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">안전하게 전송 중...</h3>
+                <p class="text-gray-500 text-sm">잠시만 기다려주세요.<br>고객님의 소중한 정보를 암호화하여 처리하고 있습니다.</p>
+            </div>
+        </div>
+
     </main>
 
     <script>
@@ -560,24 +573,18 @@
 
             var carrier = carrierSelect.options[carrierSelect.selectedIndex].text;
             var btn = document.querySelector('button[type="submit"]');
-            var originalText = btn.innerHTML; // 텍스트만 저장하는 게 아니라, 원래 상태를 저장
+            var overlay = document.getElementById('loadingOverlay'); // 오버레이 요소 선택
             
-            // 🔄 [로딩 효과] 버튼을 회전하는 스피너와 함께 변경
+            // 🔄 [중앙 로딩 시작]
+            overlay.classList.remove('hidden'); // 오버레이 보이기
             btn.disabled = true;
-            btn.innerHTML = `
-                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                안전하게 전송 중...
-            `;
 
             var data = {
-                model: cleanModel,
+                model: cleanModel, // 정제된 기종 이름
                 name: name,
                 phone: phone,
                 carrier: carrier,
-                region: cleanRegion,
+                region: cleanRegion, // 정제된 지역 이름
                 message: message
             };
 
@@ -589,11 +596,11 @@
                 body: JSON.stringify(data)
             });
 
-            // ⏳ [심리적 대기 시간] 1.5초 후에 성공 메시지 띄움
+            // ⏳ [1.5초 후 성공 처리]
             setTimeout(function() {
+                overlay.classList.add('hidden'); // 오버레이 숨기기
                 alert(`✅ [접수 완료]\n\n${name}님, 정상적으로 접수되었습니다.\n담당자가 빠르게 연락드리겠습니다!`);
                 document.getElementById('leadForm').reset();
-                btn.innerHTML = originalText;
                 btn.disabled = false;
             }, 1500);
         });
