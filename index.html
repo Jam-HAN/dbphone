@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>대박통신 - 수도권 성지 끝판왕</title>
+    
+    <title>대박통신 - 휴대폰 성지의 종착지</title>
+    
+    <meta name="description" content="수도권 판매 1위, 휴대폰 성지의 종착지 대박통신입니다. 아이폰17, 갤럭시 S25 최저가 졸업! 송파 장지 본점 / 강동 명일 직영점 운영. 말장난 없는 투명한 가격과 프리미엄 서비스를 경험하세요.">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="대박통신 - 휴대폰 성지의 종착지">
+    <meta property="og:description" content="더 이상 발품 팔지 마세요. 할부원금으로 승부하는 진짜 성지.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1605236453806-6ff36851218e?q=80&w=1000&auto=format&fit=crop">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📱</text></svg>">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
@@ -593,7 +604,7 @@
                 </div>
                 <h3 class="text-2xl font-extrabold mb-2">접수 완료!</h3>
                 <p id="successBody" class="text-gray-500 text-sm leading-relaxed mb-6">
-                    </p>
+                </p>
                 <button onclick="closeSuccessModal()" class="w-full bg-black text-white font-bold py-3 rounded-xl hover:bg-gray-800 transition transform active:scale-95">
                     확인
                 </button>
@@ -603,15 +614,12 @@
     </main>
 
     <script>
-        // 🚨 사장님 전용 스크립트 주소
         var googleScriptUrl = "https://script.google.com/macros/s/AKfycbwmEaoezUYk5q98iuCMgXJMSmmygH66yy8ssOoKyuOc__NPYZkm3EBI8MJbLpKdIIpF/exec"; 
 
-        // 닫기 버튼 누르면 실행되는 함수
         function closeSuccessModal() {
             document.getElementById('successOverlay').classList.add('hidden');
-            document.getElementById('leadForm').reset(); // 폼 초기화
+            document.getElementById('leadForm').reset();
             
-            // 버튼 원상복구
             var btn = document.querySelector('button[type="submit"]');
             btn.innerHTML = `
                 견적 상담받기
@@ -629,12 +637,10 @@
             var regionSelect = document.getElementById('region');
             var message = document.getElementById('message').value;
 
-            // 필수값 검증
             if (!modelInput) { alert('희망 기종을 선택해주세요!'); return; }
             if (carrierSelect.value === "") { alert('통신사를 선택해주세요!'); return; }
             if (regionSelect.value === "") { alert('희망 방문 지역을 선택해주세요!'); return; }
 
-            // [데이터 정제]
             var rawModel = modelInput.parentNode.innerText.trim();
             var cleanModel = rawModel.replace(/🍎|🌌|✨/g, '').replace(/\s+/g, '');
 
@@ -646,7 +652,6 @@
             var carrier = carrierSelect.options[carrierSelect.selectedIndex].text;
             var btn = document.querySelector('button[type="submit"]');
             
-            // 🔄 [중앙 로딩 시작]
             document.getElementById('loadingOverlay').classList.remove('hidden');
             btn.disabled = true;
 
@@ -659,7 +664,6 @@
                 message: message
             };
 
-            // 백그라운드 전송
             fetch(googleScriptUrl, {
                 method: "POST",
                 mode: "no-cors",
@@ -667,16 +671,12 @@
                 body: JSON.stringify(data)
             });
 
-            // ⏳ [1.5초 후 성공 팝업(모달) 띄우기]
             setTimeout(function() {
-                // 1. 로딩창 숨기기
                 document.getElementById('loadingOverlay').classList.add('hidden');
                 
-                // 2. 성공 메시지 내용 업데이트
                 var successBody = document.getElementById('successBody');
                 successBody.innerHTML = `<span class="font-bold text-blue-600">${name}</span>님, 정상적으로 접수되었습니다.<br>담당자가 10분 내로 연락드리겠습니다.`;
                 
-                // 3. 성공 팝업 띄우기
                 document.getElementById('successOverlay').classList.remove('hidden');
             }, 1500);
         });
