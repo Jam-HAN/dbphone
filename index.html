@@ -483,7 +483,7 @@
 
                     <textarea placeholder="궁금하신 점이나 원하시는 조건을 자유롭게 적어주세요." rows="3" class="w-full bg-gray-50 border-0 p-5 rounded-xl outline-none text-base focus:ring-2 focus:ring-blue-500 transition placeholder-gray-400 resize-none" id="message"></textarea>
 
-                    <button type="submit" class="w-full bg-black text-white font-bold text-xl py-6 rounded-xl shadow-lg hover:bg-gray-800 transition transform active:scale-[0.99] mt-4">
+                    <button type="submit" class="w-full bg-black text-white font-bold text-xl py-6 rounded-xl shadow-lg hover:bg-gray-800 transition transform active:scale-[0.99] mt-4 flex justify-center items-center gap-2">
                         견적 상담받기
                     </button>
                     <p class="text-xs text-gray-400 text-center leading-relaxed">
@@ -560,39 +560,42 @@
 
             var carrier = carrierSelect.options[carrierSelect.selectedIndex].text;
             var btn = document.querySelector('button[type="submit"]');
-            var originalText = btn.innerText;
+            var originalText = btn.innerHTML; // 텍스트만 저장하는 게 아니라, 원래 상태를 저장
             
-            // ⚡ [즉시 반응] 먼저 성공했다고 보여줍니다 (Optimistic UI)
-            // 사용자에게는 0.1초 만에 완료된 것처럼 느껴집니다.
-            alert(`✅ [접수 완료]\n\n${name}님, 정상적으로 접수되었습니다.\n담당자가 빠르게 연락드리겠습니다!`);
-            
-            // 폼 초기화
-            document.getElementById('leadForm').reset();
-            
-            // [데이터 전송] 백그라운드에서 실제 전송
+            // 🔄 [로딩 효과] 버튼을 회전하는 스피너와 함께 변경
+            btn.disabled = true;
+            btn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                안전하게 전송 중...
+            `;
+
             var data = {
-                model: cleanModel, // 정제된 기종 이름
+                model: cleanModel,
                 name: name,
                 phone: phone,
                 carrier: carrier,
-                region: cleanRegion, // 정제된 지역 이름
+                region: cleanRegion,
                 message: message
             };
 
+            // 백그라운드 전송 시작
             fetch(googleScriptUrl, {
                 method: "POST",
                 mode: "no-cors",
                 headers: { "Content-Type": "text/plain" },
                 body: JSON.stringify(data)
-            })
-            .then(() => {
-                // 백그라운드 전송 완료 (사용자는 이미 팝업 닫고 나감)
-                console.log("전송 성공");
-            })
-            .catch(error => {
-                console.error("전송 에러 (하지만 사용자는 모름):", error);
-                // 필요하다면 여기서 에러 로그를 따로 남길 수 있습니다.
             });
+
+            // ⏳ [심리적 대기 시간] 1.5초 후에 성공 메시지 띄움
+            setTimeout(function() {
+                alert(`✅ [접수 완료]\n\n${name}님, 정상적으로 접수되었습니다.\n담당자가 빠르게 연락드리겠습니다!`);
+                document.getElementById('leadForm').reset();
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1500);
         });
         
         const stickyBar = document.getElementById('sticky-bar');
