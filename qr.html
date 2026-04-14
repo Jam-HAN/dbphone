@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>대박통신 · 휴대폰, 졸업합시다</title>
+<meta name="description" content="수도권 판매 1위. 20년동안 한자리를 지켜온 대박통신. QR로 간편하게 상담 신청하세요.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="대박통신 · 휴대폰, 졸업합시다">
+<meta property="og:description" content="20년 한자리. 복잡한건 저희가 간단하게 만들어드립니다.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1605236453806-6ff36851218e?q=80&w=1000&auto=format&fit=crop">
+
+<link rel="icon" type="image/png" href="favicon.png?v=1">
+<link rel="apple-touch-icon" href="favicon.png?v=1">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0a0a0a',
+          paper: '#f7f5ef',
+          brand: {
+            50:  '#eff6ff',
+            100: '#dbeafe',
+            400: '#60a5fa',
+            500: '#3b82f6',
+            600: '#2563eb',
+            700: '#1d4ed8',
+            900: '#1e3a8a',
+          },
+          warm: '#f4a524',
+        }
+      }
+    }
+  }
+</script>
+<style>
+  @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+  :root{
+    --paper:#f7f5ef;
+  }
+  html, body { font-family: "Pretendard", system-ui, sans-serif; }
+  .serif { font-family: 'Gowun Batang', serif; }
+  .latin { font-family: 'Instrument Serif', serif; font-style: italic; }
+
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+
+  /* ------- animations ------- */
+  @keyframes fadeUp { from {opacity:0;transform:translateY(24px)} to {opacity:1;transform:none} }
+  .fade-up { opacity: 0; }
+  .fade-up.in { animation: fadeUp .9s cubic-bezier(.2,.7,.2,1) forwards; }
+
+  @keyframes stampIn { from {opacity:0;transform:rotate(-12deg) scale(.7)} to {opacity:1;transform:rotate(-8deg) scale(1)} }
+  .stamp-in { animation: stampIn 1.1s cubic-bezier(.2,.7,.2,1) .5s forwards; opacity:0; }
+
+  @keyframes rise { from {transform:translateY(120%)} to {transform:translateY(0)} }
+  .rise-wrap { overflow:hidden; display:block }
+  .rise-inner { display:inline-block; animation: rise 1s cubic-bezier(.2,.7,.2,1) forwards; }
+
+  @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+  .marquee { animation: marquee 28s linear infinite; }
+
+  @keyframes pulseDot { 0%,100%{opacity:1} 50%{opacity:.35} }
+  .pulse-dot { animation: pulseDot 1.6s ease-in-out infinite; }
+
+  /* ------- utilities ------- */
+  .grain::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.08;mix-blend-mode:multiply;z-index:1;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .dot-grid{
+    background-image:radial-gradient(rgba(0,0,0,.12) 1px, transparent 1px);
+    background-size:14px 14px;
+  }
+  .dot-grid-light{
+    background-image:radial-gradient(rgba(255,255,255,.18) 1px, transparent 1px);
+    background-size:14px 14px;
+  }
+
+  section[id] { scroll-margin-top: 20px; }
+
+  /* ------- progress bar ------- */
+  #progress {
+    position: fixed; top:0; left:0; height:3px; width:0;
+    background: linear-gradient(90deg, #2563eb, #60a5fa, #f4a524);
+    z-index:60; transition: width .08s linear;
+  }
+
+  /* ------- big display type ------- */
+  .display {
+    font-family:'Gowun Batang', serif;
+    font-weight:700;
+    letter-spacing:-0.035em;
+    line-height:0.92;
+  }
+
+  /* ------- vertical rule markers ------- */
+  .vrule { position:relative; padding-left:28px }
+  .vrule::before { content:""; position:absolute; left:0; top:10px; width:14px; height:1px; background:currentColor; opacity:.5 }
+
+  /* ------- form radio skin ------- */
+  .chip input{display:none}
+  .chip > span{
+    display:block; padding:14px 12px; border:1.5px solid #e5e7eb; border-radius:14px;
+    text-align:center; font-weight:700; font-size:14px; color:#111827;
+    transition:all .15s ease; background:#fff;
+  }
+  .chip input:checked + span{
+    border-color:#0a0a0a; background:#0a0a0a; color:#fff;
+  }
+  .chip.chip-blue input:checked + span{
+    border-color:#2563eb; background:#eff6ff; color:#1d4ed8;
+  }
+
+  /* iOS safe area */
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+</style>
+</head>
+<body class="bg-gray-100 text-ink antialiased">
+
+<div id="progress"></div>
+
+<!-- ╔══════════════════════════════════════════════════╗ -->
+<!-- ║  DEVICE FRAME · max-w-md mobile-first shell     ║ -->
+<!-- ╚══════════════════════════════════════════════════╝ -->
+<main class="max-w-md mx-auto bg-paper min-h-screen shadow-2xl relative overflow-hidden pb-36">
+
+  <!-- ───── TOP META BAR ───── -->
+  <div class="absolute top-0 left-0 right-0 z-40 flex justify-between items-center px-5 pt-5 text-white mix-blend-difference">
+    <div class="flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-white pulse-dot"></span>
+      <span class="text-[10px] font-bold tracking-[0.2em]">DBPHONE · QR / 2026</span>
+    </div>
+    <span class="latin text-sm">vol.01</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 01 · HERO                                 -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <header class="relative h-[100svh] min-h-[720px] bg-ink text-white overflow-hidden grain">
+    <img
+      src="https://images.unsplash.com/photo-1605236453806-6ff36851218e?q=80&w=1200&auto=format&fit=crop"
+      alt="매장"
+      class="absolute inset-0 w-full h-full object-cover opacity-55"
+      onerror="this.style.display='none'">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black"></div>
+
+    <!-- 20년 스탬프 -->
+    <div class="absolute top-24 right-6 stamp-in" style="transform:rotate(-8deg)">
+      <div class="relative w-[124px] h-[124px] rounded-full border-[2.5px] border-warm flex items-center justify-center">
+        <div class="absolute inset-[5px] rounded-full border border-dashed border-warm/50"></div>
+        <div class="text-center">
+          <div class="text-warm text-[9px] font-bold tracking-[0.25em]">SINCE 2005</div>
+          <div class="serif text-white text-[52px] font-bold leading-none mt-0.5">20</div>
+          <div class="text-warm text-[9px] font-bold tracking-[0.2em] mt-0.5">한 자 리</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO COPY -->
+    <div class="absolute left-0 right-0 bottom-0 p-7 pb-14">
+      <div class="flex items-center gap-2 mb-6 fade-up">
+        <span class="bg-brand-600 text-[10px] font-bold px-2.5 py-1 rounded-full ring-2 ring-brand-400/30">🏆 수도권 판매 1위</span>
+        <span class="bg-white/10 backdrop-blur text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/15">365일 연중무휴</span>
+      </div>
+
+      <h1 class="display text-[64px] text-white mb-2">
+        <span class="rise-wrap"><span class="rise-inner">휴대폰,</span></span>
+      </h1>
+      <h1 class="display text-[64px] text-white mb-7">
+        <span class="rise-wrap"><span class="rise-inner" style="animation-delay:.1s">
+          <span class="text-brand-400">졸업</span>합시다.
+        </span></span>
+      </h1>
+
+      <p class="text-gray-300 text-[15px] leading-[1.75] mb-8 fade-up" style="animation-delay:.4s">
+        핸드폰 살 때마다 고민이지만,<br>
+        아이러니하게도 많은 것이 풀리는 곳.<br>
+        <strong class="text-white">20년 한 자리</strong>에서 기다리고 있습니다.
+      </p>
+
+      <button onclick="scrollToId('sec-why')" class="fade-up flex items-center gap-3 group" style="animation-delay:.6s">
+        <span class="w-11 h-11 rounded-full bg-warm text-ink grid place-items-center font-black group-hover:scale-110 transition">↓</span>
+        <span class="text-xs tracking-[0.25em] font-bold text-gray-300">START · 내려보기</span>
+      </button>
+    </div>
+
+    <!-- 좌측 수직 라벨 -->
+    <div class="absolute left-5 top-1/2 -rotate-90 origin-left text-white/50 text-[10px] tracking-[0.3em] font-bold">
+      DAEBAK COMM · EST. 2005
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 02 · WHY NOW · 3-reason hub             -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="sec-why" class="relative bg-paper py-20 px-7">
+    <div class="flex items-end justify-between mb-10 fade-up">
+      <div>
+        <div class="text-[10px] tracking-[0.25em] font-bold text-gray-500 mb-2 vrule">CHAPTER  ·  02</div>
+        <h2 class="display text-[36px] text-ink">
+          어떤 고민으로<br>오셨나요?
+        </h2>
+      </div>
+      <div class="latin text-warm text-[28px] leading-none">why.</div>
+    </div>
+
+    <p class="text-gray-600 text-sm leading-relaxed mb-10 fade-up">
+      대부분의 방문 고객님들은<br>
+      <strong class="text-ink">세 가지 이유</strong> 중 하나로 오십니다.<br>
+      <span class="text-gray-500">아래 카드 중 가장 가까운 고민을 골라주세요.</span>
+    </p>
+
+    <!-- 3 reason cards -->
+    <div class="space-y-4">
+      <a href="#sec-upgrade" class="fade-up block relative bg-ink text-white rounded-[28px] p-7 overflow-hidden group">
+        <div class="absolute inset-0 dot-grid-light opacity-20"></div>
+        <div class="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-brand-600/30 blur-2xl"></div>
+        <div class="relative">
+          <div class="flex justify-between items-start mb-8">
+            <div class="text-[10px] tracking-[0.25em] font-bold text-brand-400">REASON I</div>
+            <span class="latin text-warm text-xl">i.</span>
+          </div>
+          <div class="text-[11px] text-gray-400 mb-2">속도 · 카메라 · 배터리</div>
+          <h3 class="display text-3xl mb-3">폰을 바꿀 때가<br>된 것 같다면</h3>
+          <div class="flex items-center gap-2 text-warm text-sm font-bold mt-6">
+            <span>The Upgrade</span>
+            <span class="group-hover:translate-x-1 transition">→</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#sec-fee" class="fade-up block relative bg-white border border-gray-200 rounded-[28px] p-7 overflow-hidden group">
+        <div class="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-brand-600 to-brand-400"></div>
+        <div class="flex justify-between items-start mb-8">
+          <div class="text-[10px] tracking-[0.25em] font-bold text-brand-600">REASON II</div>
+          <span class="latin text-warm text-xl">ii.</span>
+        </div>
+        <div class="text-[11px] text-gray-500 mb-2">전화 · 문자 · 데이터</div>
+        <h3 class="display text-3xl text-ink mb-3">요금이 너무<br>많이 나온다면</h3>
+        <div class="flex items-center gap-2 text-brand-600 text-sm font-bold mt-6">
+          <span>The Fee</span>
+          <span class="group-hover:translate-x-1 transition">→</span>
+        </div>
+      </a>
+
+      <a href="#sec-easy" class="fade-up block relative rounded-[28px] p-7 overflow-hidden group" style="background:linear-gradient(135deg,#f4a524,#ec7a08)">
+        <div class="absolute inset-0 dot-grid-light opacity-15"></div>
+        <div class="relative text-white">
+          <div class="flex justify-between items-start mb-8">
+            <div class="text-[10px] tracking-[0.25em] font-bold text-white/80">REASON III</div>
+            <span class="latin text-white/70 text-xl">iii.</span>
+          </div>
+          <div class="text-[11px] text-white/70 mb-2">귀찮고 · 복잡하고</div>
+          <h3 class="display text-3xl mb-3">그냥 편하게<br>개통하고 싶다면</h3>
+          <div class="flex items-center gap-2 text-white text-sm font-bold mt-6">
+            <span>The Easy Way</span>
+            <span class="group-hover:translate-x-1 transition">→</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 03 · UPGRADE deep-dive                   -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="sec-upgrade" class="relative bg-ink text-white py-20 overflow-hidden grain">
+    <div class="px-7">
+      <div class="flex items-end justify-between mb-2 fade-up">
+        <div class="text-[10px] tracking-[0.25em] font-bold text-brand-400 vrule text-brand-400">CHAPTER · 03</div>
+        <div class="latin text-warm text-xl">i. the upgrade</div>
+      </div>
+      <h2 class="display text-[44px] text-white leading-[0.95] mb-8 fade-up">
+        지금보다 더<br>좋은 <span class="text-brand-400">기능</span>이<br>있다던데.
+      </h2>
+
+      <!-- 3 horizontal feature strip -->
+      <div class="grid grid-cols-3 gap-2 mb-10 fade-up">
+        <div class="text-center bg-white/5 border border-white/10 rounded-2xl py-5">
+          <div class="text-3xl mb-2">⚡</div>
+          <div class="text-[10px] text-gray-400 latin">velocity</div>
+          <div class="font-bold text-sm mt-0.5">속도</div>
+        </div>
+        <div class="text-center bg-white/5 border border-white/10 rounded-2xl py-5">
+          <div class="text-3xl mb-2">📷</div>
+          <div class="text-[10px] text-gray-400 latin">lens</div>
+          <div class="font-bold text-sm mt-0.5">카메라</div>
+        </div>
+        <div class="text-center bg-white/5 border border-white/10 rounded-2xl py-5">
+          <div class="text-3xl mb-2">🔋</div>
+          <div class="text-[10px] text-gray-400 latin">battery</div>
+          <div class="font-bold text-sm mt-0.5">배터리</div>
+        </div>
+      </div>
+
+      <p class="text-gray-400 text-sm mb-8 fade-up">
+        원하는 방향을 선택해주세요.
+      </p>
+    </div>
+
+    <!-- 02a · NEW 새로 나올 폰 -->
+    <div class="px-7 mb-8 fade-up">
+      <div class="bg-gradient-to-br from-brand-900 to-ink border border-brand-700/40 rounded-[32px] p-7 relative overflow-hidden">
+        <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-brand-500 blur-[80px] opacity-30"></div>
+        <div class="relative">
+          <div class="flex justify-between items-start mb-5">
+            <div>
+              <div class="text-brand-400 text-[10px] tracking-[0.25em] font-bold">SELECT A</div>
+              <h3 class="display text-3xl mt-1">새로 나올 폰</h3>
+              <div class="text-[11px] text-gray-400 mt-1">for Innovators</div>
+            </div>
+            <span class="latin text-warm text-3xl">i.</span>
+          </div>
+          <p class="text-gray-300 text-[13px] leading-relaxed mb-6">
+            Early Adopter 그 이전의 <strong class="text-warm">Innovator</strong>에게.<br>
+            기존에 존재하지 않았던 새로운 가치를, 가장 먼저.
+          </p>
+          <div class="space-y-2">
+            <button onclick="pickAndGo('new','NEW 아이폰 시리즈')" class="w-full text-left bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl px-5 py-4 flex justify-between items-center transition">
+              <div>
+                <div class="text-[10px] text-gray-400 latin">Apple</div>
+                <div class="font-bold">NEW 아이폰 시리즈</div>
+              </div>
+              <span class="w-9 h-9 rounded-full bg-warm text-ink grid place-items-center font-black">→</span>
+            </button>
+            <button onclick="pickAndGo('new','NEW 갤럭시 S시리즈')" class="w-full text-left bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl px-5 py-4 flex justify-between items-center transition">
+              <div>
+                <div class="text-[10px] text-gray-400 latin">Samsung</div>
+                <div class="font-bold">NEW 갤럭시 S시리즈</div>
+              </div>
+              <span class="w-9 h-9 rounded-full bg-warm text-ink grid place-items-center font-black">→</span>
+            </button>
+            <button onclick="pickAndGo('new','NEW 갤럭시 Z 폴더블')" class="w-full text-left bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl px-5 py-4 flex justify-between items-center transition">
+              <div>
+                <div class="text-[10px] text-gray-400 latin">Foldable</div>
+                <div class="font-bold">NEW 갤럭시 Z폴더블</div>
+              </div>
+              <span class="w-9 h-9 rounded-full bg-warm text-ink grid place-items-center font-black">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02b · EXISTING 기존 출시된 폰 -->
+    <div class="px-7 fade-up">
+      <div class="bg-paper text-ink rounded-[32px] p-7 relative overflow-hidden">
+        <div class="flex justify-between items-start mb-5">
+          <div>
+            <div class="text-brand-600 text-[10px] tracking-[0.25em] font-bold">SELECT B</div>
+            <h3 class="display text-3xl mt-1">기존 출시된 폰</h3>
+            <div class="text-[11px] text-gray-500 mt-1">best value, right now</div>
+          </div>
+          <span class="latin text-warm text-3xl">ii.</span>
+        </div>
+
+        <!-- 현재 시리즈 -->
+        <div class="grid grid-cols-3 gap-2 mb-6">
+          <div class="bg-white border border-gray-200 rounded-2xl p-3 text-center">
+            <div class="text-[9px] text-gray-400 latin">iPhone</div>
+            <div class="serif text-2xl font-bold">17</div>
+            <div class="text-[9px] text-gray-500">Series</div>
+          </div>
+          <div class="bg-white border border-gray-200 rounded-2xl p-3 text-center">
+            <div class="text-[9px] text-gray-400 latin">Galaxy</div>
+            <div class="serif text-2xl font-bold">S26</div>
+            <div class="text-[9px] text-gray-500">Series</div>
+          </div>
+          <div class="bg-white border border-gray-200 rounded-2xl p-3 text-center">
+            <div class="text-[9px] text-gray-400 latin">Z Fold/Flip</div>
+            <div class="serif text-2xl font-bold">7</div>
+            <div class="text-[9px] text-gray-500">Series</div>
+          </div>
+        </div>
+
+        <!-- 3 reasons why now -->
+        <ul class="space-y-3 mb-6 text-[13px]">
+          <li class="flex gap-3 items-start">
+            <span class="w-6 h-6 rounded-full bg-brand-600 text-white text-[11px] font-bold grid place-items-center shrink-0">01</span>
+            <span><strong>기기값 자연 할인</strong> <span class="text-gray-500">· 신제품 출시 기간이 지남</span></span>
+          </li>
+          <li class="flex gap-3 items-start">
+            <span class="w-6 h-6 rounded-full bg-brand-600 text-white text-[11px] font-bold grid place-items-center shrink-0">02</span>
+            <span><strong>결함 검증 완료</strong> <span class="text-gray-500">· 초기 양산형 이슈 해소</span></span>
+          </li>
+          <li class="flex gap-3 items-start">
+            <span class="w-6 h-6 rounded-full bg-brand-600 text-white text-[11px] font-bold grid place-items-center shrink-0">03</span>
+            <span><strong>기능은 현시점 최고</strong> <span class="text-gray-500">· 만족감 그대로 UP</span></span>
+          </li>
+        </ul>
+
+        <blockquote class="border-l-2 border-warm pl-4 text-[13px] text-gray-700 italic mb-6">
+          "필요했다면 안 살 이유가 없는 지금.<br>가격 대비 성능 최고인 휴대폰을 살 수 있는 시점."
+        </blockquote>
+
+        <div class="space-y-2">
+          <button onclick="pickAndGo('existing','최신 아이폰 17 시리즈')" class="w-full bg-ink text-white hover:bg-gray-800 rounded-xl px-5 py-3.5 text-sm font-bold flex justify-between items-center transition">
+            <span>🍎 최신 아이폰 17시리즈</span><span>→</span>
+          </button>
+          <button onclick="pickAndGo('existing','최신 갤럭시 S26 시리즈')" class="w-full bg-ink text-white hover:bg-gray-800 rounded-xl px-5 py-3.5 text-sm font-bold flex justify-between items-center transition">
+            <span>🌌 최신 갤럭시 S26시리즈</span><span>→</span>
+          </button>
+          <button onclick="pickAndGo('existing','Z폴드7 / Z플립7')" class="w-full bg-ink text-white hover:bg-gray-800 rounded-xl px-5 py-3.5 text-sm font-bold flex justify-between items-center transition">
+            <span>✨ Z폴드7 / Z플립7</span><span>→</span>
+          </button>
+          <button onclick="pickAndGo('existing','직전 시리즈 가성비')" class="w-full bg-white border border-gray-200 hover:border-ink rounded-xl px-5 py-3.5 text-sm font-bold flex justify-between items-center transition">
+            <span>💎 직전 시리즈 가성비 최고</span><span>→</span>
+          </button>
+          <button onclick="pickAndGo('existing','보급형 가성비')" class="w-full bg-white border border-gray-200 hover:border-ink rounded-xl px-5 py-3.5 text-sm font-bold flex justify-between items-center transition">
+            <span>👍 보급형 가성비 최고</span><span>→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 04 · FEE                                  -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="sec-fee" class="relative bg-paper py-20 px-7">
+    <div class="flex items-end justify-between mb-2 fade-up">
+      <div class="text-[10px] tracking-[0.25em] font-bold text-gray-500 vrule">CHAPTER · 04</div>
+      <div class="latin text-warm text-xl">ii. the fee</div>
+    </div>
+    <h2 class="display text-[44px] text-ink leading-[0.95] mb-10 fade-up">
+      내가 실제로<br>내야 할 <span class="text-brand-600">요금</span>은<br>얼마일까?
+    </h2>
+
+    <!-- usage bar visualization -->
+    <div class="bg-white border border-gray-200 rounded-3xl p-6 mb-8 fade-up">
+      <div class="text-[10px] tracking-[0.25em] font-bold text-gray-500 mb-4">MONTHLY USAGE · 평균</div>
+      <div class="space-y-4">
+        <div>
+          <div class="flex justify-between text-xs mb-1.5"><span class="font-bold">전 화</span><span class="text-gray-400 latin">voice · 38%</span></div>
+          <div class="h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-ink" style="width:38%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1.5"><span class="font-bold">문 자</span><span class="text-gray-400 latin">text · 12%</span></div>
+          <div class="h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-ink" style="width:12%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1.5"><span class="font-bold">데이터</span><span class="text-gray-400 latin">data · 74%</span></div>
+          <div class="h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-brand-600" style="width:74%"></div></div>
+        </div>
+      </div>
+      <p class="text-[11px] text-gray-500 mt-4">* 고객 상담 기준 · 실제 사용량과 요금제 간 평균 격차</p>
+    </div>
+
+    <!-- 25% big visual -->
+    <div class="relative bg-gradient-to-br from-brand-700 to-brand-900 rounded-[32px] p-8 text-white overflow-hidden mb-8 fade-up">
+      <div class="absolute -bottom-10 -right-10 w-56 h-56 rounded-full bg-brand-400/30 blur-[70px]"></div>
+      <div class="absolute inset-0 dot-grid-light opacity-15"></div>
+      <div class="relative">
+        <div class="text-brand-300 text-[10px] tracking-[0.25em] font-bold mb-3">SELECTIVE DISCOUNT</div>
+        <p class="text-[15px] leading-relaxed mb-3">
+          지금 내고 있는<br>요금제 <strong class="text-white">그대로</strong>,
+        </p>
+        <div class="flex items-end gap-3 my-4">
+          <div class="serif text-[140px] font-bold leading-[0.85] tracking-tighter">25</div>
+          <div class="pb-4">
+            <div class="serif text-5xl text-warm leading-none">%</div>
+            <div class="text-[10px] text-brand-200 tracking-widest mt-2">OFF</div>
+          </div>
+        </div>
+        <p class="text-brand-100 text-[13px] leading-relaxed mb-6">
+          할인 조건이 맞는지 대박통신에서 <strong class="text-white">먼저 확인</strong>해 드립니다. 할인 신청도 당연히 도와드려요 :)
+        </p>
+        <button onclick="pickAndGo('discount','25% 요금 할인')" class="w-full bg-white text-brand-700 hover:bg-brand-50 rounded-xl py-4 font-extrabold flex justify-between items-center px-6 transition">
+          <span>할인 받을 수 있는지 확인하기</span><span>→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Consulting block -->
+    <div class="bg-white border border-gray-200 rounded-3xl p-7 fade-up">
+      <div class="flex justify-between items-start mb-5">
+        <div>
+          <div class="text-[10px] tracking-[0.25em] font-bold text-gray-500">BILL AUDIT</div>
+          <h3 class="display text-2xl mt-1">요금 컨설팅</h3>
+        </div>
+        <span class="latin text-warm text-2xl">📊</span>
+      </div>
+      <p class="text-[13px] text-gray-600 leading-relaxed mb-5">
+        혹시 내 실제 사용량보다 <strong class="text-ink">더 많은 요금</strong>을 내고 계시진 않으신가요?
+      </p>
+      <div class="grid grid-cols-3 gap-2 mb-5">
+        <div class="text-center bg-gray-50 rounded-xl p-3">
+          <div class="text-[10px] text-gray-400 mb-1">case 1</div>
+          <div class="text-xs font-bold">귀찮아서</div>
+        </div>
+        <div class="text-center bg-gray-50 rounded-xl p-3">
+          <div class="text-[10px] text-gray-400 mb-1">case 2</div>
+          <div class="text-xs font-bold">바빠서</div>
+        </div>
+        <div class="text-center bg-gray-50 rounded-xl p-3">
+          <div class="text-[10px] text-gray-400 mb-1">case 3</div>
+          <div class="text-xs font-bold">초과 걱정</div>
+        </div>
+      </div>
+      <button onclick="pickAndGo('consult','요금 컨설팅')" class="w-full bg-ink hover:bg-gray-800 text-white rounded-xl py-4 font-bold text-sm flex justify-between items-center px-6 transition">
+        <span>요금 컨설팅 신청하기</span><span>→</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 05 · EASY · 3-step process               -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="sec-easy" class="relative bg-white py-20 px-7">
+    <div class="flex items-end justify-between mb-2 fade-up">
+      <div class="text-[10px] tracking-[0.25em] font-bold text-gray-500 vrule">CHAPTER · 05</div>
+      <div class="latin text-warm text-xl">iii. the easy way</div>
+    </div>
+    <h2 class="display text-[44px] text-ink leading-[0.95] mb-4 fade-up">
+      이것도 귀찮고,<br>저것도 귀찮고.
+    </h2>
+    <p class="text-gray-600 text-[15px] leading-relaxed mb-10 fade-up">
+      <strong class="text-ink">핵심만 설명해주면 좋겠고,<br>빠르게도 받고 싶다면</strong> — 저희가 다 합니다.
+    </p>
+
+    <!-- Timeline -->
+    <div class="relative pl-8 space-y-8 mb-10 fade-up">
+      <div class="absolute left-[14px] top-3 bottom-3 w-[2px] bg-gradient-to-b from-brand-600 via-brand-400 to-warm"></div>
+
+      <div class="relative">
+        <div class="absolute -left-8 top-0 w-7 h-7 rounded-full bg-ink text-white text-[11px] font-black grid place-items-center">01</div>
+        <div class="bg-gray-50 rounded-2xl p-5">
+          <div class="text-[10px] tracking-[0.2em] font-bold text-gray-400 mb-1">STEP ONE</div>
+          <h4 class="font-black text-lg mb-1">QR로 미리 신청</h4>
+          <p class="text-xs text-gray-600">아래 폼만 작성하고 접수. 평균 1분 소요.</p>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="absolute -left-8 top-0 w-7 h-7 rounded-full bg-brand-600 text-white text-[11px] font-black grid place-items-center">02</div>
+        <div class="bg-brand-50 border border-brand-100 rounded-2xl p-5">
+          <div class="text-[10px] tracking-[0.2em] font-bold text-brand-600 mb-1">STEP TWO</div>
+          <h4 class="font-black text-lg mb-1">매장 방문</h4>
+          <p class="text-xs text-gray-600">장지 본점 · 명일 직영점 중 편한 곳으로.<br>상담사가 최적 플랜을 미리 준비해둡니다.</p>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="absolute -left-8 top-0 w-7 h-7 rounded-full bg-warm text-ink text-[11px] font-black grid place-items-center">03</div>
+        <div class="rounded-2xl p-5" style="background:linear-gradient(135deg,#fff7e8,#fff)">
+          <div class="text-[10px] tracking-[0.2em] font-bold text-warm mb-1">STEP THREE</div>
+          <h4 class="font-black text-lg mb-1">당일 즉시 개통</h4>
+          <p class="text-xs text-gray-600">커피 한 잔 드시는 동안 데이터 이동까지 완벽하게.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- testimonial ticker -->
+    <div class="relative bg-ink text-white rounded-3xl py-5 overflow-hidden">
+      <div class="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-ink to-transparent z-10 pointer-events-none"></div>
+      <div class="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-ink to-transparent z-10 pointer-events-none"></div>
+      <div class="text-[9px] tracking-[0.25em] font-bold text-warm text-center mb-3">TRUSTED BY 20 YEARS OF CUSTOMERS</div>
+      <div class="flex gap-6 marquee whitespace-nowrap text-sm" style="width:max-content">
+        <span>⭐ "가격 진짜 미쳤네요" — 김*민</span>
+        <span class="text-gray-500">·</span>
+        <span>⭐ "강요 1도 없음" — 박*준</span>
+        <span class="text-gray-500">·</span>
+        <span>⭐ "여기가 찐이네요" — 최*수</span>
+        <span class="text-gray-500">·</span>
+        <span>⭐ "엄마 효도폰" — 임*경</span>
+        <span class="text-gray-500">·</span>
+        <span>⭐ "플립7 색상 깡패" — 정*호</span>
+        <span class="text-gray-500">·</span>
+        <span>⭐ "가격 진짜 미쳤네요" — 김*민</span>
+        <span class="text-gray-500">·</span>
+        <span>⭐ "강요 1도 없음" — 박*준</span>
+        <span class="text-gray-500">·</span>
+        <span>⭐ "여기가 찐이네요" — 최*수</span>
+        <span class="text-gray-500">·</span>
+        <span>⭐ "엄마 효도폰" — 임*경</span>
+        <span class="text-gray-500">·</span>
+        <span>⭐ "플립7 색상 깡패" — 정*호</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 06 · STORES (실제 매장 사진 사용)          -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="sec-stores" class="relative bg-ink text-white py-20 overflow-hidden">
+    <div class="absolute top-0 right-0 w-80 h-80 bg-brand-600 rounded-full blur-[120px] opacity-20"></div>
+
+    <div class="px-7 mb-8 relative">
+      <div class="flex items-end justify-between mb-2 fade-up">
+        <div class="text-[10px] tracking-[0.25em] font-bold text-brand-400 vrule">CHAPTER · 06</div>
+        <div class="latin text-warm text-xl">visit us.</div>
+      </div>
+      <h2 class="display text-[44px] text-white leading-[0.95] mb-5 fade-up">
+        365일 연중무휴,<br>
+        <span class="text-brand-400">언제나</span> 그 자리에서.
+      </h2>
+      <p class="text-gray-400 text-sm leading-relaxed fade-up">
+        온라인으로 다 못 풀리던 질문도,<br>얼굴 마주 보고 시원하게 풀어드립니다.
+      </p>
+    </div>
+
+    <!-- hours -->
+    <div class="px-7 mb-6 fade-up">
+      <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-5">
+        <div class="text-[10px] tracking-[0.25em] font-bold text-brand-400 mb-3">BUSINESS HOURS</div>
+        <div class="flex justify-between py-2 border-b border-white/10 text-sm">
+          <span class="text-gray-400">평일</span>
+          <span class="font-bold">10:00 — 20:00</span>
+        </div>
+        <div class="flex justify-between py-2 text-sm">
+          <span class="text-gray-400">공휴일 · 일요일</span>
+          <span class="font-bold">11:00 — 20:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 매장 실사 가로 스크롤 -->
+    <div class="overflow-x-auto no-scrollbar snap-x snap-mandatory pb-4 fade-up">
+      <div class="flex gap-4 px-7" style="width:max-content">
+        <!-- 장지 본점 카드 -->
+        <div class="w-[300px] snap-center">
+          <div class="relative rounded-3xl overflow-hidden aspect-[4/5] group">
+            <img src="image_2.png" alt="장지 본점 전경" class="absolute inset-0 w-full h-full object-cover" onerror="this.parentElement.classList.add('bg-gradient-to-br','from-brand-900','to-ink')">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+            <div class="absolute top-4 left-4 text-[9px] font-bold tracking-[0.2em] bg-warm text-ink px-2 py-1 rounded-full">FLAGSHIP · 01</div>
+            <div class="absolute bottom-0 left-0 right-0 p-5">
+              <div class="text-[10px] text-brand-300 tracking-widest mb-1">DAEBAK COMM</div>
+              <h3 class="display text-2xl mb-3">송파 장지 본점</h3>
+              <div class="space-y-1 text-xs text-gray-300 mb-4">
+                <div class="flex items-center gap-2"><span>📍</span><span>송파구 송파대로 98</span></div>
+                <div class="flex items-center gap-2"><span>📞</span><a href="tel:024436011" class="text-brand-400 font-bold">02-443-6011</a></div>
+              </div>
+              <a href="https://map.naver.com/p/entry/place/1765923497" target="_blank" class="block bg-white/15 backdrop-blur border border-white/20 rounded-xl py-2.5 text-center text-xs font-bold hover:bg-white/25 transition">🗺 길찾기 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 명일 직영점 카드 -->
+        <div class="w-[300px] snap-center">
+          <div class="relative rounded-3xl overflow-hidden aspect-[4/5] group">
+            <img src="image_3.png" alt="명일 직영점 전경" class="absolute inset-0 w-full h-full object-cover" onerror="this.parentElement.classList.add('bg-gradient-to-br','from-brand-900','to-ink')">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+            <div class="absolute top-4 left-4 text-[9px] font-bold tracking-[0.2em] bg-warm text-ink px-2 py-1 rounded-full">DIRECT · 02</div>
+            <div class="absolute bottom-0 left-0 right-0 p-5">
+              <div class="text-[10px] text-brand-300 tracking-widest mb-1">DAEBAK COMM</div>
+              <h3 class="display text-2xl mb-3">강동 명일점</h3>
+              <div class="space-y-1 text-xs text-gray-300 mb-4">
+                <div class="flex items-center gap-2"><span>📍</span><span>강동구 양재대로138길 32</span></div>
+                <div class="flex items-center gap-2"><span>📞</span><a href="tel:0234270116" class="text-brand-400 font-bold">02-3427-0116</a></div>
+              </div>
+              <a href="https://map.naver.com/p/entry/place/1204429331" target="_blank" class="block bg-white/15 backdrop-blur border border-white/20 rounded-xl py-2.5 text-center text-xs font-bold hover:bg-white/25 transition">🗺 길찾기 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 장지 실내 -->
+        <div class="w-[300px] snap-center">
+          <div class="relative rounded-3xl overflow-hidden aspect-[4/5]">
+            <img src="image_0.png" alt="장지 본점 실내" class="absolute inset-0 w-full h-full object-cover" onerror="this.parentElement.classList.add('bg-gradient-to-br','from-warm','to-brand-700')">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div class="absolute bottom-5 left-5 right-5">
+              <div class="text-[9px] tracking-[0.2em] font-bold text-warm mb-1">INSIDE</div>
+              <div class="font-black text-lg">활기 넘치는 상담 현장</div>
+              <div class="text-xs text-gray-300 mt-1">장지 본점 내부</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 명일 실내 -->
+        <div class="w-[300px] snap-center mr-7">
+          <div class="relative rounded-3xl overflow-hidden aspect-[4/5]">
+            <img src="image_1.png" alt="명일 직영점 실내" class="absolute inset-0 w-full h-full object-cover" onerror="this.parentElement.classList.add('bg-gradient-to-br','from-brand-400','to-brand-900')">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div class="absolute bottom-5 left-5 right-5">
+              <div class="text-[9px] tracking-[0.2em] font-bold text-warm mb-1">INSIDE</div>
+              <div class="font-black text-lg">쾌적한 최신 매장</div>
+              <div class="text-xs text-gray-300 mt-1">명일 직영점 내부</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-7 mt-4 flex items-center gap-2 text-[10px] text-gray-500">
+      <span>← 좌우로 밀어보세요</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SECTION 07 · APPLICATION FORM                    -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section id="contact-form" class="relative bg-paper py-20 px-5">
+    <div class="px-2 mb-8 fade-up">
+      <div class="text-[10px] tracking-[0.25em] font-bold text-gray-500 vrule mb-2">CHAPTER · 07</div>
+      <h2 class="display text-[40px] text-ink leading-[0.95] mb-3">
+        복잡한건<br><span class="text-brand-600">간단하게</span>,<br>도와줘요 대박통신~
+      </h2>
+      <p class="text-gray-600 text-sm leading-relaxed">
+        미리 입력하시면 <strong class="text-ink">매장 방문 시간</strong>을 아껴드려요.<br>
+        작성 기반으로 최적 플랜을 미리 준비해둡니다.
+      </p>
+    </div>
+
+    <div class="relative bg-white rounded-[32px] p-6 shadow-xl ring-1 ring-gray-100 fade-up">
+      <div class="absolute -top-3 left-6 bg-warm text-ink text-[10px] font-black px-3 py-1.5 rounded-full tracking-wider">📝 PRE-FORM · 1분 소요</div>
+
+      <form id="leadForm" class="space-y-6 mt-4">
+
+        <!-- 신청 유형 -->
+        <div>
+          <label class="text-[10px] tracking-[0.2em] font-bold text-gray-500 mb-3 flex items-center gap-2">
+            <span class="text-warm">01</span>
+            <span>신청 유형</span>
+            <span class="flex-1 h-px bg-gray-100"></span>
+          </label>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="chip"><input type="radio" name="type" value="new"><span>새로 나올 폰</span></label>
+            <label class="chip"><input type="radio" name="type" value="existing"><span>기존 출시 폰</span></label>
+            <label class="chip chip-blue"><input type="radio" name="type" value="consult"><span>요금 컨설팅</span></label>
+            <label class="chip chip-blue"><input type="radio" name="type" value="discount"><span>25% 할인</span></label>
+          </div>
+        </div>
+
+        <!-- 현재 통신사 -->
+        <div>
+          <label class="text-[10px] tracking-[0.2em] font-bold text-gray-500 mb-3 flex items-center gap-2">
+            <span class="text-warm">02</span>
+            <span>현재 통신사</span>
+            <span class="flex-1 h-px bg-gray-100"></span>
+          </label>
+          <div class="grid grid-cols-4 gap-2">
+            <label class="chip chip-blue"><input type="radio" name="carrier" value="SKT"><span class="!py-3">SKT</span></label>
+            <label class="chip chip-blue"><input type="radio" name="carrier" value="KT"><span class="!py-3">KT</span></label>
+            <label class="chip chip-blue"><input type="radio" name="carrier" value="LGU+"><span class="!py-3">LG U+</span></label>
+            <label class="chip chip-blue"><input type="radio" name="carrier" value="알뜰폰"><span class="!py-3 !text-[12px]">알뜰폰</span></label>
+          </div>
+        </div>
+
+        <!-- 가입 예정 유형 -->
+        <div>
+          <label class="text-[10px] tracking-[0.2em] font-bold text-gray-500 mb-3 flex items-center gap-2">
+            <span class="text-warm">03</span>
+            <span>가입 예정 유형</span>
+            <span class="flex-1 h-px bg-gray-100"></span>
+          </label>
+          <div class="space-y-2">
+            <label class="chip chip-blue block"><input type="radio" name="plan" value="기기변경"><span class="!text-left !px-5 !flex !justify-between"><span>기기변경</span><span class="text-gray-400 text-xs font-normal">통신사 그대로</span></span></label>
+            <label class="chip chip-blue block"><input type="radio" name="plan" value="번호이동"><span class="!text-left !px-5 !flex !justify-between"><span>번호이동</span><span class="text-gray-400 text-xs font-normal">통신사 이동</span></span></label>
+            <label class="chip chip-blue block"><input type="radio" name="plan" value="상관없음"><span class="!text-left !px-5 !flex !justify-between"><span>상관없어요</span><span class="text-gray-400 text-xs font-normal">지원금 높은 곳으로</span></span></label>
+          </div>
+        </div>
+
+        <!-- 개인 정보 -->
+        <div>
+          <label class="text-[10px] tracking-[0.2em] font-bold text-gray-500 mb-3 flex items-center gap-2">
+            <span class="text-warm">04</span>
+            <span>개인 정보</span>
+            <span class="flex-1 h-px bg-gray-100"></span>
+          </label>
+          <div class="space-y-2.5">
+            <input type="text" id="f_name" placeholder="성함" required
+              class="w-full bg-gray-50 border-0 p-4 rounded-xl outline-none text-base focus:ring-2 focus:ring-brand-500 transition placeholder-gray-400">
+            <input type="tel" id="f_phone" placeholder="전화번호 · 010-0000-0000" required
+              class="w-full bg-gray-50 border-0 p-4 rounded-xl outline-none text-base focus:ring-2 focus:ring-brand-500 transition placeholder-gray-400">
+            <input type="text" id="f_birth" placeholder="생년월일 · YYMMDD" required
+              class="w-full bg-gray-50 border-0 p-4 rounded-xl outline-none text-base focus:ring-2 focus:ring-brand-500 transition placeholder-gray-400">
+            <input type="text" id="f_referral" placeholder="추천받은 곳 (선택)"
+              class="w-full bg-gray-50 border-0 p-4 rounded-xl outline-none text-base focus:ring-2 focus:ring-brand-500 transition placeholder-gray-400">
+          </div>
+        </div>
+
+        <!-- 동의 -->
+        <label class="flex items-start gap-3 cursor-pointer p-4 bg-gray-50 rounded-2xl">
+          <input type="checkbox" id="f_agree" required class="mt-1 w-5 h-5 accent-brand-600 shrink-0">
+          <span class="text-xs text-gray-700 leading-relaxed">
+            <strong class="text-ink">개인정보 처리방침에 동의합니다.</strong>
+            <button type="button" onclick="togglePrivacy()" class="block text-brand-600 underline text-[11px] mt-1">
+              수집·이용 및 제3자 제공 상세 →
+            </button>
+          </span>
+        </label>
+
+        <div id="privacyBox" class="hidden bg-gray-50 rounded-xl p-4 text-[11px] text-gray-500 leading-relaxed space-y-3">
+          <div>
+            <b class="text-gray-800 block mb-1">[개인정보 수집 및 이용 동의]</b>
+            목적 : 휴대폰 상담 신청, 이벤트 진행 및 경품 배송<br>
+            항목 : 이름, 휴대폰번호, 생년월일, 주소<br>
+            보유기간 : 목적 달성 시 즉시 파기. 관계 법령에 따라 보존이 필요한 경우 해당 기간까지 보관 후 파기 (또는 3년).
+          </div>
+          <div>
+            <b class="text-gray-800 block mb-1">[개인정보 제3자 제공 동의]</b>
+            제공받는 자 : (주)플래너스 대박통신<br>
+            이용 목적 : 휴대폰 서비스 가입<br>
+            항목 : 이름, 휴대폰번호, 생년월일, 주소<br>
+            보유기간 : 목적 달성 시 즉시 파기. 관계 법령에 따라 보존이 필요한 경우 해당 기간까지 보관 후 파기 (또는 3년).
+          </div>
+        </div>
+
+        <button type="submit" class="w-full bg-ink hover:bg-gray-800 text-white font-bold text-lg py-5 rounded-2xl shadow-lg transition transform active:scale-[0.99] mt-2 flex justify-center items-center gap-2">
+          <span>신청하기</span>
+          <span class="w-7 h-7 rounded-full bg-warm text-ink grid place-items-center text-sm">→</span>
+        </button>
+        <p class="text-[11px] text-gray-400 text-center leading-relaxed">
+          🔒 상담 목적 외 사용 금지 · 처리 후 즉시 파기
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- FOOTER                                            -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <footer class="bg-ink text-gray-400 py-12 px-7 border-t border-white/5">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-10 h-10 bg-warm text-ink rounded-full grid place-items-center font-black serif text-lg">대</div>
+      <div>
+        <div class="text-white font-black">대박통신</div>
+        <div class="text-[10px] tracking-widest text-gray-500">DAEBAK COMM · SINCE 2005</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 mb-8">
+      <a href="https://map.naver.com/p/entry/place/1765923497" target="_blank" class="bg-white/5 border border-white/10 rounded-xl py-3 text-center text-xs font-bold hover:bg-white/10 transition">
+        🏢 장지 본점
+      </a>
+      <a href="https://map.naver.com/p/entry/place/1204429331" target="_blank" class="bg-white/5 border border-white/10 rounded-xl py-3 text-center text-xs font-bold hover:bg-white/10 transition">
+        🏪 명일 직영점
+      </a>
+    </div>
+
+    <div class="flex justify-between items-start gap-3 mb-6">
+      <a href="https://ictmarket.or.kr:8443/precon/pop_CertIcon.do?PRECON_REQ_ID=PRE0000170509" target="_blank" class="shrink-0 opacity-80 hover:opacity-100 transition">
+        <img style="width:80px" src="https://ictmarket.or.kr:8443/getCertIcon.do?cert_icon=KP23012763712U001" alt="장지점 인증">
+      </a>
+      <div class="text-[10px] leading-relaxed space-y-1 grow px-1">
+        <p class="font-bold text-white/80">대박통신 (dbphone)</p>
+        <p>대표자 : 한재민</p>
+        <p>사업자 : 175-86-02704</p>
+        <p>장지 : 송파대로 98</p>
+        <p>명일 : 양재대로 138길 32</p>
+      </div>
+      <a href="https://ictmarket.or.kr:8443/precon/pop_CertIcon.do?PRECON_REQ_ID=PRE0000172544" target="_blank" class="shrink-0 opacity-80 hover:opacity-100 transition">
+        <img style="width:80px" src="https://ictmarket.or.kr:8443/getCertIcon.do?cert_icon=KP23052265145H001" alt="명일점 인증">
+      </a>
+    </div>
+
+    <div class="text-center pt-6 border-t border-white/5">
+      <div class="latin text-warm text-sm mb-1">graduation.</div>
+      <p class="text-[10px] text-gray-600">© 2026 dbphone. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Sticky CTA bar -->
+  <div id="sticky-bar" class="fixed bottom-0 left-0 right-0 z-40 p-4 max-w-md mx-auto transform translate-y-full transition-transform duration-300 safe-bottom">
+    <div class="bg-ink/95 backdrop-blur rounded-2xl p-2 shadow-2xl ring-1 ring-white/10 flex items-center gap-2">
+      <div class="flex-1 pl-3">
+        <div class="text-[9px] text-warm tracking-[0.2em] font-bold">LIMITED</div>
+        <div class="text-white text-sm font-black">지금 바로 간편 신청</div>
+      </div>
+      <button onclick="scrollToId('contact-form')" class="bg-warm text-ink font-black px-5 py-3.5 rounded-xl text-sm whitespace-nowrap hover:scale-[1.03] transition">
+        신청하기 →
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Modal -->
+  <div id="loadingOverlay" class="fixed inset-0 bg-black/70 z-[100] hidden items-center justify-center backdrop-blur-sm">
+    <div class="bg-white p-8 rounded-3xl shadow-2xl flex flex-col items-center max-w-xs w-[80%] text-center">
+      <svg class="animate-spin h-12 w-12 text-brand-600 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      <h3 class="text-xl font-black mb-2">안전하게 전송 중</h3>
+      <p class="text-gray-500 text-sm">잠시만 기다려주세요.</p>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successOverlay" class="fixed inset-0 bg-black/70 z-[100] hidden items-center justify-center backdrop-blur-sm p-5">
+    <div class="bg-white p-8 rounded-3xl shadow-2xl flex flex-col items-center max-w-xs w-full text-center">
+      <div class="mb-4 w-16 h-16 bg-green-100 rounded-full grid place-items-center">
+        <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <h3 class="text-2xl font-black mb-2">접수 완료!</h3>
+      <p id="successBody" class="text-gray-500 text-sm leading-relaxed mb-6"></p>
+      <button onclick="closeSuccessModal()" class="w-full bg-ink text-white font-bold py-3 rounded-xl hover:bg-gray-800 transition">확인</button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+/* ═════════════════════════════════════════════════ */
+/* Supabase configuration — REST API (no SDK needed) */
+/* ═════════════════════════════════════════════════ */
+const SUPABASE = {
+  url:   '',                // ← Supabase Project URL (예: https://xxxx.supabase.co)
+  key:   '',                // ← anon public key
+  table: 'qr_leads',
+};
+
+/**
+ * Supabase 테이블 스키마 제안 (SQL):
+ *   create table qr_leads (
+ *     id          bigserial primary key,
+ *     created_at  timestamptz default now(),
+ *     source      text,
+ *     type        text,
+ *     type_label  text,
+ *     sub_label   text,
+ *     name        text not null,
+ *     phone       text not null,
+ *     birth       text,
+ *     carrier     text,
+ *     plan        text,
+ *     referral    text,
+ *     user_agent  text
+ *   );
+ *   alter table qr_leads enable row level security;
+ *   create policy "public insert" on qr_leads for insert to anon with check (true);
+ */
+
+async function submitLead(payload){
+  if (!SUPABASE.url || !SUPABASE.key){
+    console.warn('[STUB MODE] Supabase 미설정 — payload:', payload);
+    await new Promise(r => setTimeout(r, 1200));
+    return { ok: true, stub: true };
+  }
+  const res = await fetch(`${SUPABASE.url}/rest/v1/${SUPABASE.table}`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE.key,
+      'Authorization': `Bearer ${SUPABASE.key}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal',
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok){
+    const txt = await res.text().catch(()=>'');
+    throw new Error(`Supabase ${res.status}: ${txt}`);
+  }
+  return { ok: true };
+}
+
+/* ═════════════════════════════════════════════════ */
+/* UI helpers                                         */
+/* ═════════════════════════════════════════════════ */
+
+function scrollToId(id){
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function pickAndGo(type, label){
+  const radio = document.querySelector(`input[name="type"][value="${type}"]`);
+  if (radio) radio.checked = true;
+  window._prefilledLabel = label;
+  scrollToId('contact-form');
+}
+
+function togglePrivacy(){
+  document.getElementById('privacyBox').classList.toggle('hidden');
+}
+
+function closeSuccessModal(){
+  const s = document.getElementById('successOverlay');
+  s.classList.add('hidden'); s.classList.remove('flex');
+  document.getElementById('leadForm').reset();
+  window._prefilledLabel = null;
+}
+
+/* ═════════════════════════════════════════════════ */
+/* Progress bar                                       */
+/* ═════════════════════════════════════════════════ */
+const progressEl = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+  progressEl.style.width = (scrolled * 100) + '%';
+}, { passive:true });
+
+/* ═════════════════════════════════════════════════ */
+/* Reveal on scroll                                   */
+/* ═════════════════════════════════════════════════ */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting){
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+/* ═════════════════════════════════════════════════ */
+/* Sticky CTA bar after hero                          */
+/* ═════════════════════════════════════════════════ */
+const stickyBar = document.getElementById('sticky-bar');
+const formEl    = document.getElementById('contact-form');
+window.addEventListener('scroll', () => {
+  const pastHero = window.scrollY > window.innerHeight * 0.85;
+  const formRect = formEl.getBoundingClientRect();
+  const nearForm = formRect.top < window.innerHeight && formRect.bottom > 0;
+  if (pastHero && !nearForm) {
+    stickyBar.classList.remove('translate-y-full');
+  } else {
+    stickyBar.classList.add('translate-y-full');
+  }
+}, { passive:true });
+
+/* ═════════════════════════════════════════════════ */
+/* Form submit                                        */
+/* ═════════════════════════════════════════════════ */
+document.getElementById('leadForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+
+  const type     = document.querySelector('input[name="type"]:checked');
+  const carrier  = document.querySelector('input[name="carrier"]:checked');
+  const plan     = document.querySelector('input[name="plan"]:checked');
+  const name     = document.getElementById('f_name').value.trim();
+  const phone    = document.getElementById('f_phone').value.trim();
+  const birth    = document.getElementById('f_birth').value.trim();
+  const referral = document.getElementById('f_referral').value.trim();
+  const agree    = document.getElementById('f_agree').checked;
+
+  if (!type)    return alert('신청 유형을 선택해주세요!');
+  if (!carrier) return alert('현재 통신사를 선택해주세요!');
+  if (!plan)    return alert('가입 예정 유형을 선택해주세요!');
+  if (!agree)   return alert('개인정보 처리방침에 동의해주세요.');
+
+  const TYPE_LABEL = {
+    new: '새로 나올 폰',
+    existing: '기존 출시된 폰',
+    consult: '요금 컨설팅',
+    discount: '25% 요금 할인',
+  };
+
+  const payload = {
+    source:     'QR',
+    type:       type.value,
+    type_label: TYPE_LABEL[type.value] || type.value,
+    sub_label:  window._prefilledLabel || null,
+    name, phone, birth,
+    carrier:    carrier.value,
+    plan:       plan.value,
+    referral:   referral || null,
+    user_agent: navigator.userAgent,
+  };
+
+  const loading = document.getElementById('loadingOverlay');
+  loading.classList.remove('hidden'); loading.classList.add('flex');
+
+  try {
+    await submitLead(payload);
+    loading.classList.add('hidden'); loading.classList.remove('flex');
+    const body = document.getElementById('successBody');
+    body.innerHTML = `<span class="font-bold text-brand-600">${name}</span>님, 정상 접수되었습니다.<br>담당자가 곧 연락드리겠습니다.`;
+    const s = document.getElementById('successOverlay');
+    s.classList.remove('hidden'); s.classList.add('flex');
+  } catch (err) {
+    loading.classList.add('hidden'); loading.classList.remove('flex');
+    alert('전송 실패: ' + err.message + '\n잠시 후 다시 시도해주세요.');
+  }
+});
+</script>
+</body>
+</html>
