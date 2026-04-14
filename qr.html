@@ -15,10 +15,6 @@
 <link rel="icon" type="image/png" href="favicon.png?v=1">
 <link rel="apple-touch-icon" href="favicon.png?v=1">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -48,8 +44,8 @@
     --paper:#f7f5ef;
   }
   html, body { font-family: "Pretendard", system-ui, sans-serif; }
-  .serif { font-family: 'Gowun Batang', serif; }
-  .latin { font-family: 'Instrument Serif', serif; font-style: italic; }
+  .serif { font-family: "Pretendard", sans-serif; font-weight: 900; letter-spacing: -0.03em; }
+  .latin { font-family: "Pretendard", sans-serif; font-weight: 500; font-style: normal; letter-spacing: 0.02em; }
 
   .no-scrollbar::-webkit-scrollbar{display:none}
   .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
@@ -97,10 +93,10 @@
 
   /* ------- big display type ------- */
   .display {
-    font-family:'Gowun Batang', serif;
-    font-weight:700;
+    font-family:"Pretendard", sans-serif;
+    font-weight:900;
     letter-spacing:-0.035em;
-    line-height:0.92;
+    line-height:0.95;
   }
 
   /* ------- vertical rule markers ------- */
@@ -203,69 +199,71 @@
   <!-- ═══════════════════════════════════════════════ -->
   <!-- SECTION 02 · WHY NOW · 3-reason hub             -->
   <!-- ═══════════════════════════════════════════════ -->
-  <section id="sec-why" class="relative bg-paper py-20 px-7">
-    <div class="flex items-end justify-between mb-10 fade-up">
+  <section id="sec-why" class="relative bg-paper py-14 px-7">
+    <div class="flex items-end justify-between mb-6 fade-up">
       <div>
         <div class="text-[10px] tracking-[0.25em] font-bold text-gray-500 mb-2 vrule">CHAPTER  ·  02</div>
-        <h2 class="display text-[36px] text-ink">
+        <h2 class="display text-[32px] text-ink">
           어떤 고민으로<br>오셨나요?
         </h2>
       </div>
-      <div class="latin text-warm text-[28px] leading-none">why.</div>
+      <div class="latin text-warm text-[22px] leading-none">why.</div>
     </div>
 
-    <p class="text-gray-600 text-sm leading-relaxed mb-10 fade-up">
-      대부분의 방문 고객님들은<br>
-      <strong class="text-ink">세 가지 이유</strong> 중 하나로 오십니다.<br>
-      <span class="text-gray-500">아래 카드 중 가장 가까운 고민을 골라주세요.</span>
+    <p class="text-gray-600 text-[13px] leading-relaxed mb-6 fade-up">
+      가장 가까운 고민을 골라주세요.
     </p>
 
-    <!-- 3 reason cards -->
-    <div class="space-y-4">
-      <a href="#sec-upgrade" class="fade-up block relative bg-ink text-white rounded-[28px] p-7 overflow-hidden group">
-        <div class="absolute inset-0 dot-grid-light opacity-20"></div>
-        <div class="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-brand-600/30 blur-2xl"></div>
-        <div class="relative">
-          <div class="flex justify-between items-start mb-8">
-            <div class="text-[10px] tracking-[0.25em] font-bold text-brand-400">REASON I</div>
-            <span class="latin text-warm text-xl">i.</span>
+    <!-- 3 reason cards · 한 화면에 한눈 -->
+    <div class="space-y-2.5">
+      <a href="#sec-upgrade" class="fade-up block relative bg-ink text-white rounded-2xl p-4 overflow-hidden group">
+        <div class="absolute -top-4 -right-4 w-20 h-20 rounded-full bg-brand-600/30 blur-xl"></div>
+        <div class="relative flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl bg-brand-600/20 border border-brand-400/30 grid place-items-center shrink-0">
+            <span class="text-xl">📱</span>
           </div>
-          <div class="text-[11px] text-gray-400 mb-2">속도 · 카메라 · 배터리</div>
-          <h3 class="display text-3xl mb-3">폰을 바꿀 때가<br>된 것 같다면</h3>
-          <div class="flex items-center gap-2 text-warm text-sm font-bold mt-6">
-            <span>The Upgrade</span>
-            <span class="group-hover:translate-x-1 transition">→</span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-[9px] tracking-[0.2em] font-bold text-brand-400">REASON I</span>
+              <span class="text-[9px] text-gray-500">· 속도·카메라·배터리</span>
+            </div>
+            <h3 class="font-black text-[15px] leading-tight">폰을 바꿀 때가 된 것 같다면</h3>
           </div>
+          <span class="text-warm text-lg group-hover:translate-x-1 transition shrink-0">→</span>
         </div>
       </a>
 
-      <a href="#sec-fee" class="fade-up block relative bg-white border border-gray-200 rounded-[28px] p-7 overflow-hidden group">
-        <div class="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-brand-600 to-brand-400"></div>
-        <div class="flex justify-between items-start mb-8">
-          <div class="text-[10px] tracking-[0.25em] font-bold text-brand-600">REASON II</div>
-          <span class="latin text-warm text-xl">ii.</span>
-        </div>
-        <div class="text-[11px] text-gray-500 mb-2">전화 · 문자 · 데이터</div>
-        <h3 class="display text-3xl text-ink mb-3">요금이 너무<br>많이 나온다면</h3>
-        <div class="flex items-center gap-2 text-brand-600 text-sm font-bold mt-6">
-          <span>The Fee</span>
-          <span class="group-hover:translate-x-1 transition">→</span>
+      <a href="#sec-fee" class="fade-up block relative bg-white border border-gray-200 rounded-2xl p-4 overflow-hidden group">
+        <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-brand-600 to-brand-400"></div>
+        <div class="relative flex items-center gap-4 pl-1">
+          <div class="w-11 h-11 rounded-xl bg-brand-50 border border-brand-100 grid place-items-center shrink-0">
+            <span class="text-xl">💸</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-[9px] tracking-[0.2em] font-bold text-brand-600">REASON II</span>
+              <span class="text-[9px] text-gray-400">· 전화·문자·데이터</span>
+            </div>
+            <h3 class="font-black text-[15px] leading-tight text-ink">요금이 너무 많이 나온다면</h3>
+          </div>
+          <span class="text-brand-600 text-lg group-hover:translate-x-1 transition shrink-0">→</span>
         </div>
       </a>
 
-      <a href="#sec-easy" class="fade-up block relative rounded-[28px] p-7 overflow-hidden group" style="background:linear-gradient(135deg,#f4a524,#ec7a08)">
-        <div class="absolute inset-0 dot-grid-light opacity-15"></div>
-        <div class="relative text-white">
-          <div class="flex justify-between items-start mb-8">
-            <div class="text-[10px] tracking-[0.25em] font-bold text-white/80">REASON III</div>
-            <span class="latin text-white/70 text-xl">iii.</span>
+      <a href="#sec-easy" class="fade-up block relative rounded-2xl p-4 overflow-hidden group" style="background:linear-gradient(135deg,#f4a524,#ec7a08)">
+        <div class="absolute -bottom-4 -right-4 w-20 h-20 rounded-full bg-white/20 blur-xl"></div>
+        <div class="relative flex items-center gap-4 text-white">
+          <div class="w-11 h-11 rounded-xl bg-white/15 border border-white/30 grid place-items-center shrink-0">
+            <span class="text-xl">⚡</span>
           </div>
-          <div class="text-[11px] text-white/70 mb-2">귀찮고 · 복잡하고</div>
-          <h3 class="display text-3xl mb-3">그냥 편하게<br>개통하고 싶다면</h3>
-          <div class="flex items-center gap-2 text-white text-sm font-bold mt-6">
-            <span>The Easy Way</span>
-            <span class="group-hover:translate-x-1 transition">→</span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-[9px] tracking-[0.2em] font-bold text-white/90">REASON III</span>
+              <span class="text-[9px] text-white/70">· 귀찮고·복잡하고</span>
+            </div>
+            <h3 class="font-black text-[15px] leading-tight">그냥 편하게 개통하고 싶다면</h3>
           </div>
+          <span class="text-white text-lg group-hover:translate-x-1 transition shrink-0">→</span>
         </div>
       </a>
     </div>
