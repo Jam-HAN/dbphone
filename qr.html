@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
 
 <title>대박통신 · 휴대폰, 졸업합시다</title>
 <meta name="description" content="수도권 판매 1위. 20년동안 한자리를 지켜온 대박통신. QR로 간편하게 상담 신청하세요.">
@@ -14,6 +15,53 @@
 
 <link rel="icon" type="image/png" href="favicon.png?v=1">
 <link rel="apple-touch-icon" href="favicon.png?v=1">
+
+<!-- LocalBusiness 구조화 데이터 (SEO) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobilePhoneStore",
+  "name": "대박통신",
+  "alternateName": "DAEBAK COMM",
+  "description": "수도권 판매 1위 휴대폰 성지, 20년 한자리. 송파 장지 본점 · 강동 명일 직영점",
+  "url": "https://dbphone.co.kr",
+  "image": "https://dbphone.co.kr/image_2.png",
+  "priceRange": "₩₩",
+  "openingHours": ["Mo-Sa 10:00-20:00","Su 11:00-20:00"],
+  "location": [
+    {
+      "@type": "Place",
+      "name": "대박통신 송파 장지 본점",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "송파대로 98",
+        "addressLocality": "송파구",
+        "addressRegion": "서울특별시",
+        "addressCountry": "KR"
+      },
+      "telephone": "+82-2-443-6011"
+    },
+    {
+      "@type": "Place",
+      "name": "대박통신 강동 명일 직영점",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "양재대로138길 32",
+        "addressLocality": "강동구",
+        "addressRegion": "서울특별시",
+        "addressCountry": "KR"
+      },
+      "telephone": "+82-2-3427-0116"
+    }
+  ]
+}
+</script>
+
+<!-- Google Analytics 4 (CONFIG.ga4Id 가 세팅되면 자동 로드) -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+</script>
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -151,12 +199,12 @@
     <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black"></div>
 
     <!-- 20년 스탬프 -->
-    <div class="absolute top-24 right-6 stamp-in" style="transform:rotate(-8deg)">
-      <div class="relative w-[124px] h-[124px] rounded-full border-[2.5px] border-warm flex items-center justify-center">
+    <div class="absolute stamp-in" style="transform:rotate(-8deg); top:clamp(56px, 14vw, 96px); right:clamp(12px, 4vw, 24px);">
+      <div class="relative rounded-full border-[2.5px] border-warm flex items-center justify-center" style="width:clamp(96px, 28vw, 124px); height:clamp(96px, 28vw, 124px);">
         <div class="absolute inset-[5px] rounded-full border border-dashed border-warm/50"></div>
         <div class="text-center">
           <div class="text-warm text-[9px] font-bold tracking-[0.25em]">SINCE 2005</div>
-          <div class="serif text-white text-[52px] font-bold leading-none mt-0.5">20</div>
+          <div class="serif text-white font-bold leading-none mt-0.5" style="font-size:clamp(38px, 11vw, 52px)">20</div>
           <div class="text-warm text-[9px] font-bold tracking-[0.2em] mt-0.5">한 자 리</div>
         </div>
       </div>
@@ -183,6 +231,16 @@
         아이러니하게도 많은 것이 풀리는 곳.<br>
         <strong class="text-white">20년 한 자리</strong>에서 기다리고 있습니다.
       </p>
+
+      <!-- 보조 CTA: 전화 / 카카오톡 -->
+      <div class="flex gap-2 mb-6 fade-up" style="animation-delay:.55s">
+        <a href="tel:024436011" onclick="trackEvent('cta_call','hero')" class="flex-1 bg-white/10 hover:bg-white/15 backdrop-blur border border-white/20 rounded-xl py-3 flex items-center justify-center gap-2 text-sm font-bold transition">
+          <span>📞</span><span>전화 상담</span>
+        </a>
+        <a id="kakaoCtaHero" href="#" onclick="openKakao(event,'hero')" class="hidden flex-1 bg-[#FEE500] hover:bg-yellow-300 text-ink rounded-xl py-3 items-center justify-center gap-2 text-sm font-bold transition">
+          <span>💬</span><span>카톡 상담</span>
+        </a>
+      </div>
 
       <button onclick="scrollToId('sec-why')" class="fade-up flex items-center gap-3 group" style="animation-delay:.6s">
         <span class="w-11 h-11 rounded-full bg-warm text-ink grid place-items-center font-black group-hover:scale-110 transition">↓</span>
@@ -366,17 +424,17 @@
         <div class="grid grid-cols-3 gap-2 mb-6">
           <div class="bg-white border border-gray-200 rounded-2xl p-3 text-center">
             <div class="text-[9px] text-gray-400 latin">iPhone</div>
-            <div class="serif text-2xl font-bold">17</div>
+            <div class="serif text-2xl font-bold" data-v="iphone">17</div>
             <div class="text-[9px] text-gray-500">Series</div>
           </div>
           <div class="bg-white border border-gray-200 rounded-2xl p-3 text-center">
             <div class="text-[9px] text-gray-400 latin">Galaxy</div>
-            <div class="serif text-2xl font-bold">S26</div>
+            <div class="serif text-2xl font-bold" data-v="galaxy">S26</div>
             <div class="text-[9px] text-gray-500">Series</div>
           </div>
           <div class="bg-white border border-gray-200 rounded-2xl p-3 text-center">
             <div class="text-[9px] text-gray-400 latin">Z Fold/Flip</div>
-            <div class="serif text-2xl font-bold">7</div>
+            <div class="serif text-2xl font-bold" data-v="fold">7</div>
             <div class="text-[9px] text-gray-500">Series</div>
           </div>
         </div>
@@ -434,24 +492,22 @@
       내가 실제로<br>내야 할 <span class="text-brand-600">요금</span>은<br>얼마일까?
     </h2>
 
-    <!-- usage bar visualization -->
+    <!-- 절약액 콜아웃 -->
     <div class="bg-white border border-gray-200 rounded-3xl p-6 mb-8 fade-up">
-      <div class="text-[10px] tracking-[0.25em] font-bold text-gray-500 mb-4">MONTHLY USAGE · 평균</div>
-      <div class="space-y-4">
-        <div>
-          <div class="flex justify-between text-xs mb-1.5"><span class="font-bold">전 화</span><span class="text-gray-400 latin">voice · 38%</span></div>
-          <div class="h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-ink" style="width:38%"></div></div>
-        </div>
-        <div>
-          <div class="flex justify-between text-xs mb-1.5"><span class="font-bold">문 자</span><span class="text-gray-400 latin">text · 12%</span></div>
-          <div class="h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-ink" style="width:12%"></div></div>
-        </div>
-        <div>
-          <div class="flex justify-between text-xs mb-1.5"><span class="font-bold">데이터</span><span class="text-gray-400 latin">data · 74%</span></div>
-          <div class="h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-brand-600" style="width:74%"></div></div>
-        </div>
+      <div class="text-[10px] tracking-[0.25em] font-bold text-gray-500 mb-3">CONSULTING RESULT · 컨설팅 후 평균</div>
+      <div class="flex items-end gap-3 mb-4">
+        <div class="serif text-5xl font-black leading-none text-ink">10</div>
+        <div class="text-sm text-gray-500 pb-1">명 중</div>
+        <div class="serif text-5xl font-black leading-none text-brand-600">8</div>
+        <div class="text-sm text-gray-500 pb-1">명이</div>
       </div>
-      <p class="text-[11px] text-gray-500 mt-4">* 고객 상담 기준 · 실제 사용량과 요금제 간 평균 격차</p>
+      <p class="text-sm text-gray-700 leading-relaxed">
+        상담 후 <strong class="text-ink">요금제 조정</strong>으로 월 통신비를 줄였습니다.
+      </p>
+      <div class="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
+        <span class="text-xs text-gray-500">평균 절약액</span>
+        <span class="font-black text-ink text-lg">월 <span class="text-brand-600">22,800</span>원</span>
+      </div>
     </div>
 
     <!-- 25% big visual -->
@@ -766,11 +822,13 @@
             <span class="flex-1 h-px bg-gray-100"></span>
           </label>
           <div class="space-y-2.5">
-            <input type="text" id="f_name" placeholder="성함" required
+            <input type="text" id="f_name" placeholder="성함" required autocomplete="name"
               class="w-full bg-gray-50 border-0 p-4 rounded-xl outline-none text-base focus:ring-2 focus:ring-brand-500 transition placeholder-gray-400">
-            <input type="tel" id="f_phone" placeholder="전화번호 · 010-0000-0000" required
+            <input type="tel" id="f_phone" placeholder="전화번호 · 01012345678" required
+              inputmode="numeric" pattern="[0-9]{10,11}" maxlength="13" autocomplete="tel"
               class="w-full bg-gray-50 border-0 p-4 rounded-xl outline-none text-base focus:ring-2 focus:ring-brand-500 transition placeholder-gray-400">
-            <input type="text" id="f_birth" placeholder="생년월일 · YYMMDD" required
+            <input type="text" id="f_birth" placeholder="생년월일 6자리 · YYMMDD" required
+              inputmode="numeric" pattern="[0-9]{6}" maxlength="6"
               class="w-full bg-gray-50 border-0 p-4 rounded-xl outline-none text-base focus:ring-2 focus:ring-brand-500 transition placeholder-gray-400">
             <input type="text" id="f_referral" placeholder="추천받은 곳 (선택)"
               class="w-full bg-gray-50 border-0 p-4 rounded-xl outline-none text-base focus:ring-2 focus:ring-brand-500 transition placeholder-gray-400">
@@ -842,10 +900,14 @@
       </a>
       <div class="text-[10px] leading-relaxed space-y-1 grow px-1">
         <p class="font-bold text-white/80">대박통신 (dbphone)</p>
+        <p>상호 : (주)플래너스 대박통신</p>
         <p>대표자 : 한재민</p>
-        <p>사업자 : 175-86-02704</p>
-        <p>장지 : 송파대로 98</p>
-        <p>명일 : 양재대로 138길 32</p>
+        <p>사업자등록번호 : 175-86-02704</p>
+        <p>통신판매업신고 : <span class="text-gray-600">[추후 기재]</span></p>
+        <p>개인정보책임자 : 한재민</p>
+        <p>고객센터 : 02-443-6011</p>
+        <p class="pt-1">장지 본점 : 송파대로 98</p>
+        <p>명일 직영점 : 양재대로 138길 32</p>
       </div>
       <a href="https://ictmarket.or.kr:8443/precon/pop_CertIcon.do?PRECON_REQ_ID=PRE0000172544" target="_blank" class="shrink-0 opacity-80 hover:opacity-100 transition">
         <img style="width:80px" src="https://ictmarket.or.kr:8443/getCertIcon.do?cert_icon=KP23052265145H001" alt="명일점 인증">
@@ -859,14 +921,16 @@
   </footer>
 
   <!-- Sticky CTA bar -->
-  <div id="sticky-bar" class="fixed bottom-0 left-0 right-0 z-40 p-4 max-w-md mx-auto transform translate-y-full transition-transform duration-300 safe-bottom">
-    <div class="bg-ink/95 backdrop-blur rounded-2xl p-2 shadow-2xl ring-1 ring-white/10 flex items-center gap-2">
-      <div class="flex-1 pl-3">
-        <div class="text-[9px] text-warm tracking-[0.2em] font-bold">LIMITED</div>
-        <div class="text-white text-sm font-black">지금 바로 간편 신청</div>
-      </div>
-      <button onclick="scrollToId('contact-form')" class="bg-warm text-ink font-black px-5 py-3.5 rounded-xl text-sm whitespace-nowrap hover:scale-[1.03] transition">
-        신청하기 →
+  <div id="sticky-bar" class="fixed bottom-0 left-0 right-0 z-40 p-3 max-w-md mx-auto transform translate-y-full transition-transform duration-300 safe-bottom">
+    <div class="bg-ink/95 backdrop-blur rounded-2xl p-2 shadow-2xl ring-1 ring-white/10 flex items-center gap-1.5">
+      <a href="tel:024436011" onclick="trackEvent('cta_call','sticky')" class="w-11 h-11 rounded-xl bg-white/10 hover:bg-white/15 grid place-items-center text-white shrink-0 transition" aria-label="전화 상담">
+        <span class="text-lg">📞</span>
+      </a>
+      <a id="kakaoCtaSticky" href="#" onclick="openKakao(event,'sticky')" class="hidden w-11 h-11 rounded-xl bg-[#FEE500] hover:bg-yellow-300 grid place-items-center shrink-0 transition" aria-label="카카오톡 상담">
+        <span class="text-lg">💬</span>
+      </a>
+      <button onclick="scrollToId('contact-form'); trackEvent('cta_form','sticky')" class="flex-1 bg-warm text-ink font-black px-4 py-3 rounded-xl text-sm whitespace-nowrap hover:brightness-95 transition">
+        간편 신청하기 →
       </button>
     </div>
   </div>
@@ -900,6 +964,73 @@
 </main>
 
 <script>
+/* ═════════════════════════════════════════════════ */
+/* CONFIG · 운영 설정 (값만 채우면 자동 반영)             */
+/* ═════════════════════════════════════════════════ */
+const CONFIG = {
+  // 카카오톡 채널 URL (예: 'http://pf.kakao.com/_xxxxx/chat')
+  // 비워두면 카카오 버튼이 자동 숨김 처리됩니다.
+  kakaoChatUrl: '',
+
+  // Google Analytics 4 측정 ID (예: 'G-XXXXXXXXXX')
+  // 비워두면 GA 로드 안함.
+  ga4Id: '',
+
+  // 대표 전화번호 (tel: 링크용, 숫자만)
+  phone: '024436011',
+};
+
+/* 현재 시리즈 번호 (매 분기/반기마다 여기만 수정) */
+const SERIES = {
+  iphone: '17',
+  galaxy: 'S26',
+  fold:   '7',
+};
+document.querySelectorAll('[data-v]').forEach(el => {
+  const k = el.dataset.v;
+  if (SERIES[k]) el.textContent = SERIES[k];
+});
+
+/* ═════════════════════════════════════════════════ */
+/* Analytics · GA4 loader + event tracker            */
+/* ═════════════════════════════════════════════════ */
+if (CONFIG.ga4Id) {
+  const s = document.createElement('script');
+  s.async = true;
+  s.src = `https://www.googletagmanager.com/gtag/js?id=${CONFIG.ga4Id}`;
+  document.head.appendChild(s);
+  gtag('js', new Date());
+  gtag('config', CONFIG.ga4Id);
+}
+function trackEvent(name, location, extra){
+  try {
+    if (CONFIG.ga4Id && typeof gtag === 'function') {
+      gtag('event', name, Object.assign({ location }, extra || {}));
+    } else {
+      console.log('[event]', name, location, extra || {});
+    }
+  } catch(_){}
+}
+
+/* ═════════════════════════════════════════════════ */
+/* Kakao CTA · 설정되어 있으면 버튼 노출                  */
+/* ═════════════════════════════════════════════════ */
+function openKakao(e, loc){
+  if (e) e.preventDefault();
+  if (!CONFIG.kakaoChatUrl) {
+    alert('카카오톡 상담 준비중입니다. 전화 상담을 이용해주세요.');
+    return;
+  }
+  trackEvent('cta_kakao', loc);
+  window.open(CONFIG.kakaoChatUrl, '_blank');
+}
+if (CONFIG.kakaoChatUrl) {
+  ['kakaoCtaHero','kakaoCtaSticky'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.classList.remove('hidden'); el.classList.add('flex'); }
+  });
+}
+
 /* ═════════════════════════════════════════════════ */
 /* Supabase configuration — REST API (no SDK needed) */
 /* ═════════════════════════════════════════════════ */
@@ -976,9 +1107,23 @@ function togglePrivacy(){
 function closeSuccessModal(){
   const s = document.getElementById('successOverlay');
   s.classList.add('hidden'); s.classList.remove('flex');
+  unlockBody();
   document.getElementById('leadForm').reset();
   window._prefilledLabel = null;
 }
+
+/* 모달 오픈 시 body 스크롤 락 */
+function lockBody(){ document.body.style.overflow = 'hidden'; }
+function unlockBody(){ document.body.style.overflow = ''; }
+
+/* 숫자만 허용 입력 필터링 */
+(function digitsOnly(){
+  const phone = document.getElementById('f_phone');
+  const birth = document.getElementById('f_birth');
+  const strip = (v, max) => v.replace(/\D/g,'').slice(0, max);
+  if (phone) phone.addEventListener('input', e => { e.target.value = strip(e.target.value, 11); });
+  if (birth) birth.addEventListener('input', e => { e.target.value = strip(e.target.value, 6); });
+})();
 
 /* ═════════════════════════════════════════════════ */
 /* Progress bar                                       */
@@ -1038,6 +1183,8 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
   if (!type)    return alert('신청 유형을 선택해주세요!');
   if (!carrier) return alert('현재 통신사를 선택해주세요!');
   if (!plan)    return alert('가입 예정 유형을 선택해주세요!');
+  if (!/^\d{10,11}$/.test(phone)) return alert('전화번호를 숫자 10~11자리로 입력해주세요.');
+  if (!/^\d{6}$/.test(birth))     return alert('생년월일을 6자리 숫자로 입력해주세요. (예: 900101)');
   if (!agree)   return alert('개인정보 처리방침에 동의해주세요.');
 
   const TYPE_LABEL = {
@@ -1061,16 +1208,19 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
 
   const loading = document.getElementById('loadingOverlay');
   loading.classList.remove('hidden'); loading.classList.add('flex');
+  lockBody();
 
   try {
     await submitLead(payload);
     loading.classList.add('hidden'); loading.classList.remove('flex');
+    trackEvent('form_submit', 'qr_form', { type: payload.type_label });
     const body = document.getElementById('successBody');
     body.innerHTML = `<span class="font-bold text-brand-600">${name}</span>님, 정상 접수되었습니다.<br>담당자가 곧 연락드리겠습니다.`;
     const s = document.getElementById('successOverlay');
     s.classList.remove('hidden'); s.classList.add('flex');
   } catch (err) {
     loading.classList.add('hidden'); loading.classList.remove('flex');
+    unlockBody();
     alert('전송 실패: ' + err.message + '\n잠시 후 다시 시도해주세요.');
   }
 });
