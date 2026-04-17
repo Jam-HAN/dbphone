@@ -227,9 +227,63 @@
   }
   .branch-card:active { transform: scale(.98); }
 
-  /* 20년 stamp */
-  @keyframes stampIn { from {opacity:0;transform:rotate(-12deg) scale(.7)} to {opacity:1;transform:rotate(-8deg) scale(1)} }
-  .stamp-in { animation: stampIn 1s cubic-bezier(.2,.7,.2,1) .3s forwards; opacity:0; }
+  /* 20년 도장 (인감 스타일) */
+  @keyframes stampIn {
+    0%   { opacity: 0; transform: rotate(-24deg) scale(1.8); }
+    55%  { opacity: 1; transform: rotate(-11deg) scale(1.12); }
+    78%  { opacity: 1; transform: rotate(-11deg) scale(0.95); }
+    100% { opacity: 1; transform: rotate(-11deg) scale(1); }
+  }
+  .stamp-in {
+    transform: rotate(-11deg);
+    animation: stampIn .9s cubic-bezier(.2,.7,.2,1) .25s both;
+  }
+
+  .seal {
+    position: relative;
+    width: clamp(104px, 27vw, 128px);
+    height: clamp(104px, 27vw, 128px);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle at 32% 28%, #e63946 0%, #c1121f 62%, #8d0c16 100%);
+    border: 4px solid #fff;
+    box-shadow:
+      0 0 0 2.5px #a00e1a,
+      0 16px 34px rgba(193,18,31,.55),
+      inset 0 2px 5px rgba(255,255,255,.18),
+      inset 0 -9px 20px rgba(0,0,0,.38);
+  }
+  .seal::before {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(255,255,255,.55);
+    pointer-events: none;
+  }
+  /* 잉크 얼룩 + 질감 */
+  .seal::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-image:
+      radial-gradient(circle at 18% 82%, rgba(0,0,0,.30) 0%, transparent 14%),
+      radial-gradient(circle at 86% 14%, rgba(255,255,255,.15) 0%, transparent 10%),
+      radial-gradient(circle at 72% 80%, rgba(0,0,0,.22) 0%, transparent 12%),
+      radial-gradient(circle at 10% 20%, rgba(255,255,255,.10) 0%, transparent 9%),
+      radial-gradient(circle at 50% 50%, transparent 58%, rgba(0,0,0,.18) 72%);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .seal-text {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.25);
+  }
 
   /* hide/show helpers */
   .invisible-btn { visibility: hidden; }
@@ -273,14 +327,13 @@
              onerror="this.style.display='none'">
         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black"></div>
 
-        <!-- 20년 스탬프 -->
-        <div class="absolute stamp-in" style="transform:rotate(-8deg); top:clamp(72px, 14vw, 96px); right:clamp(14px, 4vw, 24px);">
-          <div class="relative rounded-full border-[2.5px] border-warm flex items-center justify-center" style="width:clamp(98px, 28vw, 124px); height:clamp(98px, 28vw, 124px);">
-            <div class="absolute inset-[5px] rounded-full border border-dashed border-warm/50"></div>
-            <div class="text-center">
-              <div class="text-warm text-[9px] font-bold tracking-[0.25em]">20년 한자리</div>
-              <div class="serif text-white font-bold leading-none mt-0.5" style="font-size:clamp(38px, 11vw, 52px)">20</div>
-              <div class="text-warm text-[9px] font-bold tracking-[0.2em] mt-0.5">대박통신</div>
+        <!-- 20년 도장 (인감 스타일) -->
+        <div class="absolute stamp-in" style="top:clamp(80px, 14vw, 108px); right:20px; z-index: 5;">
+          <div class="seal">
+            <div class="seal-text">
+              <div class="font-black tracking-[0.22em]" style="font-size:10px">20년 한자리</div>
+              <div class="serif font-black leading-none mt-0.5" style="font-size:clamp(40px, 11vw, 52px)">20</div>
+              <div class="font-black tracking-[0.18em]" style="font-size:10px; margin-top: 2px;">대박통신</div>
             </div>
           </div>
         </div>
@@ -298,7 +351,7 @@
           <p class="text-gray-300 text-[14px] leading-[1.8] mb-7 enter d2">
             핸드폰 살 때마다 고민이지만,<br>
             아이러니하게도 많은 것이 풀리는 곳.<br>
-            <strong class="text-white">20년동안 한자리</strong>를 오래 지켜온<br>대박통신 😎
+            <strong class="text-white">20년 동안 한자리</strong>를 지켜온<br>대박통신 😎
           </p>
 
           <div class="flex gap-2 mb-5 enter d3">
@@ -398,24 +451,24 @@
           </div>
 
           <div class="space-y-2.5 enter d3">
-            <button onclick="pickAndGo('new','NEW 아이폰 시리즈')" class="cta-row bg-white/5 hover:bg-white/10 border border-white/10 text-white">
+            <button onclick="pickAndGo('new','NEW 아이폰 사전예약','iphone')" class="cta-row bg-white/5 hover:bg-white/10 border border-white/10 text-white">
               <div>
                 <div class="text-[10px] text-gray-400 font-normal">Apple</div>
-                <div class="text-base">🍎 NEW 아이폰 시리즈 신청</div>
+                <div class="text-base">🍎 NEW 아이폰 사전예약 신청</div>
               </div>
               <span class="w-9 h-9 rounded-full bg-warm text-ink grid place-items-center text-lg">→</span>
             </button>
-            <button onclick="pickAndGo('new','NEW 갤럭시 S시리즈')" class="cta-row bg-white/5 hover:bg-white/10 border border-white/10 text-white">
+            <button onclick="pickAndGo('new','NEW 갤럭시S 사전예약','galaxy')" class="cta-row bg-white/5 hover:bg-white/10 border border-white/10 text-white">
               <div>
                 <div class="text-[10px] text-gray-400 font-normal">Samsung</div>
-                <div class="text-base">🌌 NEW 갤럭시 S시리즈 신청</div>
+                <div class="text-base">🌌 NEW 갤럭시S 사전예약 신청</div>
               </div>
               <span class="w-9 h-9 rounded-full bg-warm text-ink grid place-items-center text-lg">→</span>
             </button>
-            <button onclick="pickAndGo('new','NEW 갤럭시 Z폴더블')" class="cta-row bg-white/5 hover:bg-white/10 border border-white/10 text-white">
+            <button onclick="pickAndGo('new','NEW 갤럭시 Z폴더블 사전예약','fold')" class="cta-row bg-white/5 hover:bg-white/10 border border-white/10 text-white">
               <div>
                 <div class="text-[10px] text-gray-400 font-normal">Foldable</div>
-                <div class="text-base">✨ NEW 갤럭시 Z폴더블 시리즈 신청</div>
+                <div class="text-base">✨ NEW 갤럭시 Z폴더블 사전예약 신청</div>
               </div>
               <span class="w-9 h-9 rounded-full bg-warm text-ink grid place-items-center text-lg">→</span>
             </button>
@@ -430,7 +483,7 @@
         <div class="text-[11px] tracking-[0.2em] font-bold text-brand-600 mb-4 enter">PAGE · 02–B</div>
 
         <h2 class="display text-[32px] text-ink leading-[1.05] mb-5 enter d1">
-          현재 출시된<br>애플/삼성<br>최근 시리즈는?
+          현재 출시된<br>애플 · 삼성의<br>최신 시리즈는?
         </h2>
 
         <!-- 시리즈 그리드 -->
@@ -483,27 +536,27 @@
         </blockquote>
 
         <p class="text-[13px] text-gray-600 leading-relaxed mb-5 enter d3">
-          20년동안 없어지지 않고 <strong class="text-ink">신뢰를 지켜온 대박통신</strong>에서, 편하게 그리고 합리적으로 선택하여 구매하세요 :)
+          20년 동안 한자리에서 <strong class="text-ink">신뢰를 지켜온 대박통신</strong>에서, 편하고 합리적으로 선택하여 구매하세요 :)
         </p>
 
         <div class="space-y-2 enter d4">
-          <button onclick="pickAndGo('existing','최신 아이폰 17 시리즈')" class="cta-row bg-ink text-white">
-            <span>🍎 최신 아이폰 17시리즈 원합니다!</span>
+          <button onclick="pickAndGo('existing','최신 아이폰 17 시리즈','iphone')" class="cta-row bg-ink text-white">
+            <span>🍎 최신 아이폰 17 시리즈 원합니다!</span>
             <span>→</span>
           </button>
-          <button onclick="pickAndGo('existing','최신 갤럭시 S26 시리즈')" class="cta-row bg-ink text-white">
-            <span>🌌 최신 갤럭시 S26시리즈 원합니다!</span>
+          <button onclick="pickAndGo('existing','최신 갤럭시 S26 시리즈','galaxy')" class="cta-row bg-ink text-white">
+            <span>🌌 최신 갤럭시 S26 시리즈 원합니다!</span>
             <span>→</span>
           </button>
-          <button onclick="pickAndGo('existing','Z폴드7 / Z플립7')" class="cta-row bg-ink text-white">
+          <button onclick="pickAndGo('existing','Z폴드7 / Z플립7','fold')" class="cta-row bg-ink text-white">
             <span>✨ 최신 Z폴드7/Z플립7 원합니다!</span>
             <span>→</span>
           </button>
-          <button onclick="pickAndGo('existing','직전시리즈 가성비')" class="cta-row bg-white border-2 border-gray-200 text-ink">
-            <span>💎 직전시리즈로 가성비 최고!</span>
+          <button onclick="pickAndGo('existing','직전시리즈 가성비','prev')" class="cta-row bg-white border-2 border-gray-200 text-ink">
+            <span>💎 직전 시리즈로 가성비 최고!</span>
             <span>→</span>
           </button>
-          <button onclick="pickAndGo('existing','보급형 가성비')" class="cta-row bg-white border-2 border-gray-200 text-ink">
+          <button onclick="pickAndGo('existing','보급형 가성비','budget')" class="cta-row bg-white border-2 border-gray-200 text-ink">
             <span>👍 보급형으로 가성비 최고!</span>
             <span>→</span>
           </button>
@@ -596,7 +649,7 @@
             </div>
             <div class="text-[14px]">
               <div class="font-black text-ink">바빠서</div>
-              <div class="text-gray-500 text-xs">못챙겼던 휴대폰 요금제</div>
+              <div class="text-gray-500 text-xs">못 챙겼던 휴대폰 요금제</div>
             </div>
           </li>
           <li class="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl p-4">
@@ -604,14 +657,14 @@
               <span class="text-xl">😟</span>
             </div>
             <div class="text-[14px]">
-              <div class="font-black text-ink">초과해서 쓸까봐</div>
+              <div class="font-black text-ink">초과해서 쓸까 봐</div>
               <div class="text-gray-500 text-xs">걱정되었던 요금제</div>
             </div>
           </li>
         </ul>
 
         <p class="text-[14px] text-gray-700 leading-relaxed mb-6 enter d3">
-          <strong class="text-ink">라이프 스타일</strong>에 맞게 설정,<br>대박통신이 도와 드립니다 :)
+          <strong class="text-ink">라이프 스타일</strong>에 맞게 설정,<br>대박통신이 도와드립니다 :)
         </p>
 
         <button onclick="pickAndGo('consult','요금 컨설팅')" class="w-full cta-row bg-ink text-white py-5 enter d4">
@@ -789,7 +842,7 @@
         <div class="text-[11px] tracking-[0.2em] font-bold text-gray-500 mb-3 enter">신청서</div>
 
         <h2 class="display text-[32px] text-ink leading-[1.05] mb-3 enter d1">
-          복잡한건<br><span class="text-brand-600">간단하게</span> :)<br>
+          복잡한 건<br><span class="text-brand-600">간단하게</span> :)<br>
           도와줘요 대박통신~
         </h2>
         <p class="text-gray-600 text-sm mb-7 enter d1">
@@ -811,6 +864,51 @@
                 <label class="chip"><input type="radio" name="type" value="existing"><span>라이프 스타일 폰</span></label>
                 <label class="chip chip-blue"><input type="radio" name="type" value="consult"><span>요금 컨설팅</span></label>
                 <label class="chip chip-blue"><input type="radio" name="type" value="discount"><span>25% 할인</span></label>
+              </div>
+
+              <!-- 시리즈 (type = new or existing 일 때만 노출) -->
+              <div id="seriesBlock" class="hidden mt-3 p-4 bg-brand-50/60 rounded-2xl border border-brand-100">
+                <div class="text-[11px] text-gray-600 mb-2.5 flex items-center gap-2">
+                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-brand-600"></span>
+                  <span>원하시는 시리즈 <span class="text-gray-400">(중복 선택 가능)</span></span>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                  <label class="chip chip-blue">
+                    <input type="checkbox" name="series" value="iphone">
+                    <span class="!py-3 !px-2">
+                      <span class="block text-2xl mb-0.5">🍎</span>
+                      <span class="block text-[11px]">아이폰</span>
+                    </span>
+                  </label>
+                  <label class="chip chip-blue">
+                    <input type="checkbox" name="series" value="galaxy">
+                    <span class="!py-3 !px-2">
+                      <span class="block text-2xl mb-0.5">🌌</span>
+                      <span class="block text-[11px]">갤럭시 S</span>
+                    </span>
+                  </label>
+                  <label class="chip chip-blue">
+                    <input type="checkbox" name="series" value="fold">
+                    <span class="!py-3 !px-2">
+                      <span class="block text-2xl mb-0.5">✨</span>
+                      <span class="block text-[11px]">Z폴드/플립</span>
+                    </span>
+                  </label>
+                  <label id="chipSeriesPrev" class="chip chip-blue hidden">
+                    <input type="checkbox" name="series" value="prev">
+                    <span class="!py-3 !px-2">
+                      <span class="block text-xl mb-0.5">💎</span>
+                      <span class="block text-[11px]">직전시리즈</span>
+                    </span>
+                  </label>
+                  <label id="chipSeriesBudget" class="chip chip-blue hidden">
+                    <input type="checkbox" name="series" value="budget">
+                    <span class="!py-3 !px-2">
+                      <span class="block text-xl mb-0.5">👍</span>
+                      <span class="block text-[11px]">보급형</span>
+                    </span>
+                  </label>
+                </div>
               </div>
             </div>
 
@@ -971,6 +1069,7 @@ const SUPABASE = {
  *     id bigserial primary key,
  *     created_at timestamptz default now(),
  *     source text, type text, type_label text, sub_label text,
+ *     series text[], series_label text,
  *     name text not null, phone text not null, birth text,
  *     carrier text, plan text, referral text, user_agent text
  *   );
@@ -1092,13 +1191,56 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 /* pre-select form type & jump to px */
-function pickAndGo(type, label){
+function pickAndGo(type, label, series){
   window._prefilledLabel = label;
   const radio = document.querySelector(`input[name="type"][value="${type}"]`);
   if (radio) radio.checked = true;
-  trackEvent('cta_branch', type, { label });
+
+  // 이전 시리즈 선택값 초기화
+  document.querySelectorAll('input[name="series"]').forEach(cb => cb.checked = false);
+
+  // 시리즈 자동 체크
+  if (series) {
+    const cb = document.querySelector(`input[name="series"][value="${series}"]`);
+    if (cb) cb.checked = true;
+  }
+
+  updateSeriesVisibility();
+
+  trackEvent('cta_branch', type, { label, series: series || null });
   goto('px');
 }
+
+/* 신청유형에 따라 시리즈 블록 노출/숨김 */
+function updateSeriesVisibility(){
+  const type = document.querySelector('input[name="type"]:checked');
+  const block = document.getElementById('seriesBlock');
+  const prevItem = document.getElementById('chipSeriesPrev');
+  const budgetItem = document.getElementById('chipSeriesBudget');
+
+  const isPhone = type && (type.value === 'new' || type.value === 'existing');
+  block.classList.toggle('hidden', !isPhone);
+
+  const isExisting = type && type.value === 'existing';
+  prevItem.classList.toggle('hidden', !isExisting);
+  budgetItem.classList.toggle('hidden', !isExisting);
+
+  // 숨겨진 항목의 체크는 해제
+  if (!isExisting) {
+    const p = document.querySelector('input[name="series"][value="prev"]');
+    const b = document.querySelector('input[name="series"][value="budget"]');
+    if (p) p.checked = false;
+    if (b) b.checked = false;
+  }
+  if (!isPhone) {
+    document.querySelectorAll('input[name="series"]').forEach(cb => cb.checked = false);
+  }
+}
+
+/* 라디오 변경 시 자동 갱신 */
+document.querySelectorAll('input[name="type"]').forEach(r => {
+  r.addEventListener('change', updateSeriesVisibility);
+});
 
 /* ═════════════════════════════════════════════════ */
 /* Privacy / Modals                                   */
@@ -1112,6 +1254,7 @@ function closeSuccessModal(){
   unlockBody();
   document.getElementById('leadForm').reset();
   window._prefilledLabel = null;
+  updateSeriesVisibility();
   goto('p1');
 }
 function lockBody(){ document.body.style.overflow = 'hidden'; }
@@ -1151,7 +1294,15 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
   const referral = document.getElementById('f_referral').value.trim();
   const agree    = document.getElementById('f_agree').checked;
 
+  // 시리즈 (체크박스 중복 선택)
+  const seriesChecks = Array.from(
+    document.querySelectorAll('input[name="series"]:checked')
+  ).map(cb => cb.value);
+
   if (!type)    return showDialog('입력 확인', '신청 유형을 선택해주세요.');
+  if ((type.value === 'new' || type.value === 'existing') && seriesChecks.length === 0) {
+    return showDialog('입력 확인', '원하시는 시리즈를 하나 이상 선택해주세요.');
+  }
   if (!carrier) return showDialog('입력 확인', '현재 통신사를 선택해주세요.');
   if (!plan)    return showDialog('입력 확인', '가입 예정 유형을 선택해주세요.');
   if (!/^\d{10,11}$/.test(phone)) return showDialog('입력 확인', '전화번호를 숫자 10~11자리로 입력해주세요.');
@@ -1164,12 +1315,21 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
     consult: '요금 컨설팅',
     discount: '25% 요금 할인',
   };
+  const SERIES_LABEL = {
+    iphone: '아이폰',
+    galaxy: '갤럭시 S',
+    fold:   'Z폴드/플립',
+    prev:   '직전시리즈',
+    budget: '보급형',
+  };
 
   const payload = {
     source:     'QR',
     type:       type.value,
     type_label: TYPE_LABEL[type.value] || type.value,
     sub_label:  window._prefilledLabel || null,
+    series:       seriesChecks.length ? seriesChecks : null,
+    series_label: seriesChecks.length ? seriesChecks.map(s => SERIES_LABEL[s] || s).join(', ') : null,
     name, phone, birth,
     carrier:    carrier.value,
     plan:       plan.value,
