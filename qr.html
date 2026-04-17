@@ -211,6 +211,34 @@
   .chip input:checked + span{ border-color:#0a0a0a; background:#0a0a0a; color:#fff; }
   .chip.chip-blue input:checked + span{ border-color:#2563eb; background:#eff6ff; color:#1d4ed8; }
 
+  /* hero CTA buttons (4개 선택지) */
+  .cta-hero {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    padding: .75rem 1rem;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 12px;
+    text-align: left;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #fff;
+    transition: background .2s, transform .1s;
+  }
+  .cta-hero .arr { color: #f4a524; font-weight: 900; }
+  .cta-hero:hover { background: rgba(255,255,255,.15); }
+  .cta-hero:active { transform: scale(.98); }
+  .cta-hero-accent {
+    background: #f4a524;
+    color: #0a0a0a;
+    border-color: transparent;
+    font-weight: 900;
+  }
+  .cta-hero-accent:hover { background: #eea516; }
+
   /* big tap CTA row */
   .cta-row {
     width:100%; display:flex; justify-content:space-between; align-items:center;
@@ -339,34 +367,42 @@
         </div>
 
         <!-- 카피 -->
-        <div class="absolute left-0 right-0 bottom-0 p-8 pb-10 text-white">
-          <div class="flex gap-2 mb-6 enter">
-            <span class="bg-brand-600 text-[10px] font-bold px-2.5 py-1 rounded-full ring-2 ring-brand-400/30">🏆 수도권 판매 1위</span>
-            <span class="bg-white/10 backdrop-blur text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/15">365일 연중무휴</span>
+        <div class="absolute left-0 right-0 bottom-0 px-7 pb-7 pt-20 text-white"
+             style="background: linear-gradient(to top, rgba(0,0,0,.96) 35%, rgba(0,0,0,.7) 75%, transparent);">
+          <div class="flex gap-2 mb-5 enter">
+            <span class="bg-brand-600 text-[12px] font-bold px-3 py-1.5 rounded-full ring-2 ring-brand-400/30">🏆 수도권 판매 1위</span>
+            <span class="bg-white/10 backdrop-blur text-[12px] font-bold px-3 py-1.5 rounded-full border border-white/15">365일 연중무휴</span>
           </div>
 
-          <h1 class="display text-[56px] leading-[0.95] mb-2 enter d1">휴대폰,</h1>
-          <h1 class="display text-[56px] leading-[0.95] mb-6 enter d1"><span class="text-brand-400">졸업</span>합시다.</h1>
+          <h1 class="display text-[48px] leading-[0.95] mb-1.5 enter d1">휴대폰,</h1>
+          <h1 class="display text-[48px] leading-[0.95] mb-4 enter d1"><span class="text-brand-400">졸업</span>합시다.</h1>
 
-          <p class="text-gray-300 text-[14px] leading-[1.8] mb-7 enter d2">
-            핸드폰 살 때마다 고민이지만,<br>
-            아이러니하게도 많은 것이 풀리는 곳.<br>
-            <strong class="text-white">20년 동안 한자리</strong>를 지켜온<br>대박통신 😎
+          <p class="text-gray-300 text-[13px] leading-[1.7] mb-5 enter d2">
+            판매만 하고 사라지지 않습니다.<br>
+            <strong class="text-white">20년동안 한곳</strong>에 있었습니다 :)
           </p>
 
-          <div class="flex gap-2 mb-5 enter d3">
-            <a href="tel:024436011" onclick="trackEvent('cta_call','p1')" class="flex-1 bg-white/10 hover:bg-white/15 backdrop-blur border border-white/20 rounded-xl py-3 flex items-center justify-center gap-2 text-sm font-bold transition">
-              <span>📞</span><span>전화 상담</span>
-            </a>
-            <a id="kakaoCtaHero" href="#" onclick="openKakao(event,'p1')" class="hidden flex-1 bg-[#FEE500] hover:bg-yellow-300 text-ink rounded-xl py-3 items-center justify-center gap-2 text-sm font-bold transition">
-              <span>💬</span><span>카톡 상담</span>
-            </a>
-          </div>
+          <a href="tel:024436011" onclick="trackEvent('cta_call','p1')" class="w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 backdrop-blur border border-white/20 rounded-xl py-2.5 text-[13px] font-bold mb-2.5 enter d3 transition">
+            <span>📞</span><span>전화 상담</span>
+          </a>
+          <a id="kakaoCtaHero" href="#" onclick="openKakao(event,'p1')" class="hidden w-full items-center justify-center gap-2 bg-[#FEE500] hover:bg-yellow-300 text-ink rounded-xl py-2.5 text-[13px] font-bold mb-2.5 enter d3 transition">
+            <span>💬</span><span>카톡 상담</span>
+          </a>
 
-          <button onclick="goto('p2')" class="w-full bg-warm text-ink font-black text-lg py-5 rounded-2xl flex items-center justify-between px-6 enter d4 active:scale-[.98] transition">
-            <span>시작하기</span>
-            <span class="text-xl">→</span>
-          </button>
+          <div class="space-y-2 enter d4">
+            <button onclick="trackEvent('cta_hero','p2'); goto('p2')" class="cta-hero">
+              <span>📱 핸드폰 바꿀까? 고민이라면</span><span class="arr">→</span>
+            </button>
+            <button onclick="trackEvent('cta_hero','p3'); goto('p3')" class="cta-hero">
+              <span>💸 내 요금 합리적일까?</span><span class="arr">→</span>
+            </button>
+            <button onclick="trackEvent('cta_hero','p4'); goto('p4')" class="cta-hero">
+              <span>🛋 귀차니즘 체고봉이 나</span><span class="arr">→</span>
+            </button>
+            <button onclick="trackEvent('cta_hero','p5'); goto('p5')" class="cta-hero cta-hero-accent">
+              <span>⚡ 퀵 개통도 된다는데 방문할래여!</span><span>→</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -382,21 +418,24 @@
             <span class="text-[11px] text-gray-400">velocity</span>
           </div>
           <div class="py-3 border-b border-gray-200 flex items-baseline justify-between">
-            <span class="display text-[42px] text-ink">카메라도</span>
-            <span class="text-[11px] text-gray-400">lens</span>
-          </div>
-          <div class="py-3 flex items-baseline justify-between">
             <span class="display text-[42px] text-ink">배터리도</span>
             <span class="text-[11px] text-gray-400">battery</span>
           </div>
+          <div class="py-3 flex items-baseline justify-between">
+            <span class="display text-[42px] text-ink">저장공간도</span>
+            <span class="text-[11px] text-gray-400">storage</span>
+          </div>
         </div>
 
-        <p class="text-gray-700 text-[15px] leading-relaxed mb-2 enter d2">
-          <strong class="text-ink">지금보다 더 좋은 기능</strong>들이<br>있다던데.
-        </p>
-        <p class="text-gray-500 text-sm mb-8 enter d2">
-          핸드폰을 <strong class="text-ink">바꿀 때</strong>가 되었다면 :)
-        </p>
+        <!-- 분기 안내 (카드 위) -->
+        <div class="grid grid-cols-2 gap-3 text-center mb-2 enter d2">
+          <div class="text-[13px] font-bold text-ink">최고를 원한다면!</div>
+          <div class="text-[13px] font-bold text-ink">조금 불편 했다면!</div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 text-center mb-3 enter d2">
+          <div class="text-warm text-xl leading-none">⬇</div>
+          <div class="text-warm text-xl leading-none">⬇</div>
+        </div>
 
         <!-- 분기 카드 -->
         <div class="grid grid-cols-2 gap-3 mb-6 enter d3">
@@ -404,22 +443,24 @@
             <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-brand-600/40 blur-2xl"></div>
             <div class="relative">
               <div class="text-[9px] tracking-[0.25em] font-bold text-brand-400 mb-2">CHOICE A</div>
+              <div class="text-[12px] text-gray-200 mb-2">기다릴 수 있어여</div>
               <div class="text-3xl mb-2">🚀</div>
-              <div class="font-black text-lg leading-tight">새로 나올<br>폰</div>
+              <div class="font-black text-lg leading-tight">출시 예정 폰</div>
             </div>
             <div class="relative flex items-center gap-1 text-warm text-xs font-bold mt-4">
-              <span>Innovator</span><span>→</span>
+              <span>Pre-order</span><span>→</span>
             </div>
           </button>
           <button onclick="goto('p2b')" class="branch-card bg-white border-2 border-gray-200 active:scale-95">
             <div class="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-brand-600 to-brand-400"></div>
             <div>
               <div class="text-[9px] tracking-[0.25em] font-bold text-brand-600 mb-2">CHOICE B</div>
+              <div class="text-[12px] text-gray-500 mb-2">지금 알아볼래여</div>
               <div class="text-3xl mb-2">💎</div>
-              <div class="font-black text-lg leading-tight text-ink">기존 출시된<br>폰</div>
+              <div class="font-black text-lg leading-tight text-ink">출시된 폰</div>
             </div>
             <div class="flex items-center gap-1 text-brand-600 text-xs font-bold mt-4">
-              <span>Best Value</span><span>→</span>
+              <span>In-stock</span><span>→</span>
             </div>
           </button>
         </div>
@@ -439,9 +480,9 @@
         <div class="relative px-7 py-4 text-white">
           <div class="text-[11px] tracking-[0.2em] font-bold text-brand-400 mb-4 enter">PAGE · 02–A</div>
 
-          <div class="display text-[38px] leading-[1] mb-2 enter d1">Early</div>
-          <div class="display text-[38px] leading-[1] mb-2 text-brand-400 enter d1">Adopter,</div>
-          <div class="display text-[28px] leading-[1.1] text-gray-300 mb-6 enter d1">이전에 Innovator</div>
+          <div class="display text-[38px] leading-[1.05] mb-2 enter d1">Early Adopter,</div>
+          <div class="display text-[26px] leading-[1.1] text-gray-300 enter d1">이전에</div>
+          <div class="display text-[38px] leading-[1.05] text-brand-400 mb-6 enter d1">Innovator</div>
 
           <div class="border-l-2 border-warm pl-4 py-2 mb-8 enter d2">
             <p class="text-[15px] leading-relaxed text-gray-200">
@@ -530,14 +571,15 @@
           </li>
         </ul>
 
-        <blockquote class="border-l-2 border-warm pl-4 text-[13px] text-gray-700 italic mb-6 enter d3">
-          "필요했다면 안 살 이유가 없는 지금.<br>
-          가격 대비 성능 최고인 휴대폰을 살 수 있는 시점."
-        </blockquote>
-
-        <p class="text-[13px] text-gray-600 leading-relaxed mb-5 enter d3">
-          20년 동안 한자리에서 <strong class="text-ink">신뢰를 지켜온 대박통신</strong>에서, 편하고 합리적으로 선택하여 구매하세요 :)
-        </p>
+        <div class="relative bg-gradient-to-br from-warm/20 via-warm/10 to-transparent border-2 border-warm rounded-2xl p-5 mb-6 enter d3">
+          <div class="absolute -top-3 left-4 bg-ink text-warm text-[10px] font-black px-2.5 py-1 rounded-full tracking-widest">PICK NOW</div>
+          <div class="display text-[20px] text-ink leading-snug mb-2">
+            "필요했다면 안 살 이유가 없는 <span class="text-brand-600">지금!</span>"
+          </div>
+          <div class="text-[13px] text-gray-700 leading-relaxed">
+            가격 대비 성능 최고인 휴대폰을 <strong class="text-ink">살 수 있는 시점.</strong>
+          </div>
+        </div>
 
         <div class="space-y-2 enter d4">
           <button onclick="pickAndGo('existing','최신 아이폰 17 시리즈','iphone')" class="cta-row bg-ink text-white">
@@ -553,7 +595,7 @@
             <span>→</span>
           </button>
           <button onclick="pickAndGo('existing','직전시리즈 가성비','prev')" class="cta-row bg-white border-2 border-gray-200 text-ink">
-            <span>💎 직전 시리즈로 가성비 최고!</span>
+            <span>💎 직전시리즈로 가성비 최고!</span>
             <span>→</span>
           </button>
           <button onclick="pickAndGo('existing','보급형 가성비','budget')" class="cta-row bg-white border-2 border-gray-200 text-ink">
@@ -569,35 +611,42 @@
       <div class="px-7 py-4">
         <div class="text-[11px] tracking-[0.2em] font-bold text-gray-500 mb-4 enter">PAGE · 03</div>
 
-        <div class="space-y-0 mb-8 enter d1">
+        <h2 class="display text-[34px] text-ink leading-[1.05] mb-6 enter d1">
+          내 통신비는<br><span class="text-brand-600">괜찮을까?</span>
+        </h2>
+
+        <div class="space-y-0 mb-7 enter d1">
           <div class="py-3 border-b border-gray-200 flex items-baseline justify-between">
-            <span class="display text-[42px] text-ink">전 화</span>
-            <span class="text-[11px] text-gray-400">voice</span>
+            <span class="display text-[36px] text-ink">휴대폰</span>
+            <span class="text-[11px] text-gray-400">mobile</span>
           </div>
           <div class="py-3 border-b border-gray-200 flex items-baseline justify-between">
-            <span class="display text-[42px] text-ink">문 자</span>
-            <span class="text-[11px] text-gray-400">text</span>
+            <span class="display text-[36px] text-ink">인터넷</span>
+            <span class="text-[11px] text-gray-400">internet</span>
           </div>
           <div class="py-3 flex items-baseline justify-between">
-            <span class="display text-[42px] text-ink">데이터</span>
-            <span class="text-[11px] text-gray-400">data</span>
+            <span class="display text-[36px] text-ink">티비</span>
+            <span class="text-[11px] text-gray-400">tv</span>
           </div>
         </div>
 
-        <p class="text-gray-700 text-[15px] leading-relaxed mb-2 enter d2">
-          나는 <strong class="text-ink">어떻게 쓰고</strong>,<br>
-          다른 사람들은 얼마나 쓰는 거지?
-        </p>
-        <p class="text-gray-500 text-sm mb-8 enter d2">
-          핸드폰 <strong class="text-ink">요금이 많이 나오는 것 같다면</strong> :)
-        </p>
+        <!-- 분기 안내 -->
+        <div class="grid grid-cols-2 gap-3 text-center mb-2 enter d2">
+          <div class="text-[12px] text-gray-600 leading-tight">사용량에 따라<br>합리적인 분석이 필요하다면</div>
+          <div class="text-[12px] text-gray-600 leading-tight">약정이 끝나<br>최대 할인을 원한다면</div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 text-center mb-3 enter d2">
+          <div class="text-warm text-xl leading-none">⬇</div>
+          <div class="text-warm text-xl leading-none">⬇</div>
+        </div>
 
         <div class="grid grid-cols-2 gap-3 mb-6 enter d3">
           <button onclick="goto('p3a')" class="branch-card bg-white border-2 border-gray-200 active:scale-95">
             <div>
               <div class="text-[9px] tracking-[0.25em] font-bold text-gray-500 mb-2">CHOICE A</div>
+              <div class="text-[12px] text-gray-600 mb-2 leading-tight">나 어떻게 쓰는지<br>궁금해여!</div>
               <div class="text-3xl mb-2">📊</div>
-              <div class="font-black text-lg leading-tight text-ink">요금 컨설팅<br>신청</div>
+              <div class="font-black text-base leading-tight text-ink">요금 컨설팅 신청</div>
             </div>
             <div class="flex items-center gap-1 text-ink text-xs font-bold mt-4">
               <span>Bill Audit</span><span>→</span>
@@ -607,8 +656,9 @@
             <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-brand-400/40 blur-2xl"></div>
             <div class="relative">
               <div class="text-[9px] tracking-[0.25em] font-bold text-brand-300 mb-2">CHOICE B</div>
+              <div class="text-[12px] text-gray-200 mb-2 leading-tight">저도 할인이<br>되나여?</div>
               <div class="text-3xl mb-2">💰</div>
-              <div class="font-black text-lg leading-tight">요금 할인<br>신청</div>
+              <div class="font-black text-base leading-tight">요금 할인 신청</div>
             </div>
             <div class="relative flex items-center gap-1 text-warm text-xs font-bold mt-4">
               <span>25% Off</span><span>→</span>
@@ -663,12 +713,16 @@
           </li>
         </ul>
 
-        <p class="text-[14px] text-gray-700 leading-relaxed mb-6 enter d3">
-          <strong class="text-ink">라이프 스타일</strong>에 맞게 설정,<br>대박통신이 도와드립니다 :)
-        </p>
+        <div class="bg-gradient-to-br from-brand-50 to-white border border-brand-100 rounded-2xl p-5 mb-6 enter d3">
+          <p class="text-[15px] text-ink leading-relaxed font-bold">
+            사용량을 분석하여<br>
+            <strong class="text-brand-600">라이프 스타일</strong>에 맞게<br>
+            합리적인 선택을 도와드립니다 :)
+          </p>
+        </div>
 
         <button onclick="pickAndGo('consult','요금 컨설팅')" class="w-full cta-row bg-ink text-white py-5 enter d4">
-          <span class="text-base">요금 컨설팅 신청</span>
+          <span class="text-base">내 사용량 / 할인 궁금해요!</span>
           <span class="w-9 h-9 rounded-full bg-warm text-ink grid place-items-center text-lg">→</span>
         </button>
       </div>
@@ -701,12 +755,8 @@
             <strong class="text-warm">알고 계신가요?</strong>
           </p>
 
-          <p class="text-brand-100 text-[13px] leading-relaxed mb-7 enter d3">
-            할인 조건이 맞는지 <strong class="text-white">대박통신에서 확인</strong>해 드리겠습니다. 할인 신청도 당연히 도와드려요 :)
-          </p>
-
           <button onclick="pickAndGo('discount','25% 요금 할인')" class="w-full cta-row bg-white text-brand-700 py-5 enter d4">
-            <span class="text-base">요금 할인 신청</span>
+            <span class="text-base">나도 조건이 되는지 확인하기!</span>
             <span class="w-9 h-9 rounded-full bg-warm text-ink grid place-items-center text-lg">→</span>
           </button>
         </div>
@@ -733,36 +783,46 @@
           </div>
         </div>
 
-        <p class="text-gray-700 text-[15px] leading-relaxed mb-2 enter d2">
-          핵심만 설명해주면 좋겠고,<br>빠르게도 받고 싶다면.
-        </p>
-        <p class="text-gray-500 text-sm mb-8 enter d2">
-          <strong class="text-ink">편한 개통</strong>을 원한다면 :)
-        </p>
+        <!-- 퀵 개통 강조 블록 -->
+        <div class="bg-ink text-white rounded-2xl p-5 mb-6 enter d2">
+          <div class="display text-[22px] leading-tight mb-2">
+            누워서도 개통이<br><span class="text-warm">가능하다구요?</span>
+          </div>
+          <p class="text-[13px] text-gray-300 leading-relaxed">
+            집, 회사, 카페 어디든!<br>
+            편한 장소에서 <strong class="text-white">당일 퀵 개통 ⚡</strong>
+          </p>
+        </div>
 
-        <div class="grid grid-cols-2 gap-3 mb-6 enter d3">
-          <button onclick="goto('p2a')" class="branch-card bg-ink text-white active:scale-95">
+        <div class="grid grid-cols-2 gap-3 mb-4 enter d3">
+          <button onclick="goto('p2a')" class="branch-card bg-ink text-white active:scale-95" style="min-height: 230px">
             <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-brand-600/40 blur-2xl"></div>
             <div class="relative">
-              <div class="text-[9px] tracking-[0.25em] font-bold text-brand-400 mb-2">CHOICE A</div>
-              <div class="text-3xl mb-2">🚀</div>
-              <div class="font-black text-lg leading-tight">새로 나올<br>폰</div>
-            </div>
-            <div class="relative flex items-center gap-1 text-warm text-xs font-bold mt-4">
-              <span>Pre-order</span><span>→</span>
+              <div class="text-[11px] leading-snug text-gray-200 mb-2">
+                신제품을 누구보다<br>편하고 빠르게<br><strong class="text-warm">내가 1등!</strong>
+              </div>
+              <div class="text-warm text-lg leading-none mb-1">⬇</div>
+              <div class="text-3xl mb-1">🚀</div>
+              <div class="font-black text-base leading-tight">출시 예정 폰</div>
             </div>
           </button>
-          <button onclick="goto('p2b')" class="branch-card bg-white border-2 border-gray-200 active:scale-95">
+          <button onclick="goto('p2b')" class="branch-card bg-white border-2 border-gray-200 active:scale-95" style="min-height: 230px">
             <div class="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-brand-600 to-brand-400"></div>
             <div>
-              <div class="text-[9px] tracking-[0.25em] font-bold text-brand-600 mb-2">CHOICE B</div>
-              <div class="text-3xl mb-2">💎</div>
-              <div class="font-black text-lg leading-tight text-ink">기존 출시된<br>폰</div>
-            </div>
-            <div class="flex items-center gap-1 text-brand-600 text-xs font-bold mt-4">
-              <span>In-stock</span><span>→</span>
+              <div class="text-[11px] leading-snug text-gray-600 mb-2">
+                요금 얼마 나오고 계셔요?<br>자급제보다<br><strong class="text-brand-600">분명히 싸게 드릴 수 있어요 😉</strong>
+              </div>
+              <div class="text-brand-600 text-lg leading-none mb-1">⬇</div>
+              <div class="text-3xl mb-1">💎</div>
+              <div class="font-black text-base leading-tight text-ink">출시된 폰</div>
             </div>
           </button>
+        </div>
+
+        <!-- 작은 회색 주의사항 -->
+        <div class="text-center text-[11px] text-gray-400 leading-relaxed mb-2 enter d4 space-y-0.5">
+          <div>월~토 당일 개통 <span class="text-gray-500">[일요일 개통 건 월요일 이관]</span></div>
+          <div>서울 전지역 당일 퀵배송 <span class="text-gray-500">[하남, 분당 문의 가능]</span></div>
         </div>
 
         <button onclick="goto('p5')" class="w-full text-center text-xs text-gray-400 py-3 enter d4">
@@ -842,7 +902,7 @@
         <div class="text-[11px] tracking-[0.2em] font-bold text-gray-500 mb-3 enter">신청서</div>
 
         <h2 class="display text-[32px] text-ink leading-[1.05] mb-3 enter d1">
-          복잡한 건<br><span class="text-brand-600">간단하게</span> :)<br>
+          복잡한건<br><span class="text-brand-600">간단하게</span> :)<br>
           도와줘요 대박통신~
         </h2>
         <p class="text-gray-600 text-sm mb-7 enter d1">
@@ -860,8 +920,8 @@
                 <span class="flex-1 h-px bg-gray-100"></span>
               </label>
               <div class="grid grid-cols-2 gap-2">
-                <label class="chip"><input type="radio" name="type" value="new"><span>새로 나올 폰</span></label>
-                <label class="chip"><input type="radio" name="type" value="existing"><span>라이프 스타일 폰</span></label>
+                <label class="chip"><input type="radio" name="type" value="new"><span>출시 예정 폰</span></label>
+                <label class="chip"><input type="radio" name="type" value="existing"><span>출시된 폰</span></label>
                 <label class="chip chip-blue"><input type="radio" name="type" value="consult"><span>요금 컨설팅</span></label>
                 <label class="chip chip-blue"><input type="radio" name="type" value="discount"><span>25% 할인</span></label>
               </div>
@@ -1310,8 +1370,8 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
   if (!agree)   return showDialog('입력 확인', '개인정보 처리방침에 동의해주세요.');
 
   const TYPE_LABEL = {
-    new: '새로 나올 폰',
-    existing: '라이프 스타일에 맞는 폰',
+    new: '출시 예정 폰',
+    existing: '출시된 폰',
     consult: '요금 컨설팅',
     discount: '25% 요금 할인',
   };
