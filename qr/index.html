@@ -63,6 +63,10 @@
 </script>
 
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
+      integrity="sha384-SN6A48CJQjx946+DRb8wsoifC4a8ur9ZS6R+HCTgnBHOKCa6GLXAR3Qn8d1jztxg"
+      crossorigin="anonymous">
 <script>
   tailwind.config = {
     theme: {
@@ -86,7 +90,6 @@
   }
 </script>
 <style>
-  @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
   html, body { font-family: "Pretendard", system-ui, sans-serif; }
   body { overscroll-behavior: none; }
   .serif { font-family: "Pretendard", sans-serif; font-weight: 900; letter-spacing: -0.03em; }
@@ -182,10 +185,17 @@
   }
   .topnav.dark .dots { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.18); }
   .dot {
+    position: relative;
     width: 6px; height: 6px; border-radius: 999px;
     background: rgba(0,0,0,.2);
     transition: width .3s ease, background .3s ease;
     cursor: pointer;
+  }
+  /* 터치 타겟 확장 (시각 크기 유지) */
+  .dot::before {
+    content: '';
+    position: absolute;
+    top: -10px; bottom: -10px; left: -6px; right: -6px;
   }
   .topnav.dark .dot { background: rgba(255,255,255,.35); }
   .dot.active { background: #f4a524; width: 18px; }
@@ -1009,14 +1019,18 @@
                 <span class="flex-1 h-px bg-gray-100"></span>
               </label>
               <div class="space-y-2.5">
+                <label for="f_name" class="sr-only">성함</label>
                 <input type="text" id="f_name" placeholder="성함" required autocomplete="name"
                   class="w-full bg-gray-50 border-0 p-4 rounded-xl outline-none text-base focus:ring-2 focus:ring-brand-500 transition placeholder-gray-400">
+                <label for="f_phone" class="sr-only">전화번호</label>
                 <input type="tel" id="f_phone" placeholder="전화번호 · 01012345678" required
                   inputmode="numeric" pattern="[0-9]{10,11}" maxlength="11" autocomplete="tel"
                   class="w-full bg-gray-50 border-0 p-4 rounded-xl outline-none text-base focus:ring-2 focus:ring-brand-500 transition placeholder-gray-400">
+                <label for="f_birth" class="sr-only">생년월일 6자리</label>
                 <input type="text" id="f_birth" placeholder="생년월일 6자리 · YYMMDD" required
                   inputmode="numeric" pattern="[0-9]{6}" maxlength="6"
                   class="w-full bg-gray-50 border-0 p-4 rounded-xl outline-none text-base focus:ring-2 focus:ring-brand-500 transition placeholder-gray-400">
+                <label for="f_referral" class="sr-only">추천받은 곳(선택)</label>
                 <input type="text" id="f_referral" placeholder="추천받은 곳 (선택)"
                   class="w-full bg-gray-50 border-0 p-4 rounded-xl outline-none text-base focus:ring-2 focus:ring-brand-500 transition placeholder-gray-400">
               </div>
@@ -1057,7 +1071,8 @@
               <span class="w-7 h-7 rounded-full bg-warm text-ink grid place-items-center text-sm">→</span>
             </button>
             <p class="text-[11px] text-gray-400 text-center leading-relaxed">
-              🔒 상담 목적 외 사용 금지 · 처리 후 즉시 파기
+              🔒 상담 목적 외 사용 금지 · 처리 후 즉시 파기<br>
+              <a href="/privacy.html" target="_blank" rel="noopener" class="underline text-gray-500 hover:text-gray-700">개인정보 처리방침 자세히</a>
             </p>
           </form>
         </div>
@@ -1067,6 +1082,7 @@
           <p class="font-bold text-gray-600 mb-1">대박통신 · (주)플래너스 대박통신</p>
           <p>대표자 : 한재민 · 사업자 : 175-86-02704</p>
           <p>고객센터 : 02-443-6011</p>
+          <p><a href="/privacy.html" target="_blank" rel="noopener" class="underline hover:text-gray-600">개인정보 처리방침</a></p>
           <p class="mt-2 opacity-70">© 2026 dbphone.</p>
         </div>
       </div>
@@ -1145,16 +1161,28 @@ async function submitLead(qrPayload){
     },
     website: honeypot,
   };
-  const res = await fetch(INTAKE_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok){
-    const err = await res.json().catch(() => ({ detail: '접수 실패' }));
-    throw new Error(err.detail || ('HTTP ' + res.status));
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
+  try {
+    const res = await fetch(INTAKE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+    if (!res.ok){
+      const err = await res.json().catch(() => ({ detail: '접수 실패' }));
+      throw new Error(err.detail || ('HTTP ' + res.status));
+    }
+    return { ok: true };
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      throw new Error('네트워크 응답이 지연되고 있습니다');
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
   }
-  return { ok: true };
 }
 
 /* ═════════════════════════════════════════════════ */
@@ -1311,6 +1339,8 @@ function closeSuccessModal(){
   s.classList.add('hidden'); s.classList.remove('flex');
   unlockBody();
   document.getElementById('leadForm').reset();
+  const submitBtn = document.querySelector('#leadForm button[type="submit"]');
+  if (submitBtn) submitBtn.disabled = false;
   window._prefilledLabel = null;
   updateSeriesVisibility();
   goto('p1');
@@ -1321,7 +1351,13 @@ function unlockBody(){ document.body.style.overflow = ''; }
 /* custom dialog (alert 대체용) */
 function showDialog(title, msg){
   const body = document.getElementById('successBody');
-  body.innerHTML = `<strong class="block text-ink mb-1">${title}</strong>${msg.replace(/\n/g,'<br>')}`;
+  // XSS 방어: textContent로 입력 분리. 줄바꿈(\n)만 <br> 치환
+  body.textContent = '';
+  const lines = String(msg).split('\n');
+  lines.forEach((line, i) => {
+    if (i > 0) body.appendChild(document.createElement('br'));
+    body.appendChild(document.createTextNode(line));
+  });
   document.querySelector('#successOverlay h3').textContent = title;
   const s = document.getElementById('successOverlay');
   s.classList.remove('hidden'); s.classList.add('flex');
@@ -1342,6 +1378,9 @@ function showDialog(title, msg){
 /* ═════════════════════════════════════════════════ */
 document.getElementById('leadForm').addEventListener('submit', async function(e){
   e.preventDefault();
+
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  if (submitBtn && submitBtn.disabled) return; // 중복 제출 방지
 
   const type     = document.querySelector('input[name="type"]:checked');
   const carrier  = document.querySelector('input[name="carrier"]:checked');
@@ -1365,6 +1404,12 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
   if (!plan)    return showDialog('입력 확인', '가입 예정 유형을 선택해주세요.');
   if (!/^\d{10,11}$/.test(phone)) return showDialog('입력 확인', '전화번호를 숫자 10~11자리로 입력해주세요.');
   if (!/^\d{6}$/.test(birth))     return showDialog('입력 확인', '생년월일을 6자리 숫자로 입력해주세요.\n(예: 900101)');
+  // 생년월일 월/일 유효 범위 검증
+  const bMonth = parseInt(birth.slice(2, 4), 10);
+  const bDay = parseInt(birth.slice(4, 6), 10);
+  if (bMonth < 1 || bMonth > 12 || bDay < 1 || bDay > 31) {
+    return showDialog('입력 확인', '생년월일을 다시 확인해주세요.\n(YYMMDD 형식, 예: 900101)');
+  }
   if (!agree)   return showDialog('입력 확인', '개인정보 처리방침에 동의해주세요.');
 
   // UI 문구(출시 예정 폰/출시된 폰 등)는 고객 친화 문구로 유지.
@@ -1391,6 +1436,7 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
     user_agent: navigator.userAgent,
   };
 
+  if (submitBtn) submitBtn.disabled = true;
   const loading = document.getElementById('loadingOverlay');
   loading.classList.remove('hidden'); loading.classList.add('flex');
   lockBody();
@@ -1401,13 +1447,22 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
     trackEvent('form_submit', 'qr_form', { type: payload.type });
     const successTitle = document.querySelector('#successOverlay h3');
     if (successTitle) successTitle.textContent = '접수 완료!';
+    // XSS 방어: name은 textContent로만 삽입, 정적 문구는 별도 node
     const body = document.getElementById('successBody');
-    body.innerHTML = `<span class="font-bold text-brand-600">${name}</span>님, 정상 접수되었습니다.<br>담당자가 곧 연락드리겠습니다.`;
+    body.textContent = '';
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'font-bold text-brand-600';
+    nameSpan.textContent = name;
+    body.appendChild(nameSpan);
+    body.appendChild(document.createTextNode('님, 정상 접수되었습니다.'));
+    body.appendChild(document.createElement('br'));
+    body.appendChild(document.createTextNode('담당자가 곧 연락드리겠습니다.'));
     const s = document.getElementById('successOverlay');
     s.classList.remove('hidden'); s.classList.add('flex');
   } catch (err) {
     loading.classList.add('hidden'); loading.classList.remove('flex');
     unlockBody();
+    if (submitBtn) submitBtn.disabled = false;
     showDialog('전송 실패', err.message + '\n잠시 후 다시 시도해주세요.');
   }
 });
