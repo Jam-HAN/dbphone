@@ -1049,6 +1049,9 @@
               </div>
             </div>
 
+            <!-- honeypot: 봇만 채우는 숨은 필드 -->
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
+
             <button type="submit" class="w-full bg-ink hover:bg-gray-800 text-white font-bold text-lg py-5 rounded-2xl shadow-lg transition transform active:scale-[0.99] mt-2 flex justify-center items-center gap-2">
               <span>신청하기</span>
               <span class="w-7 h-7 rounded-full bg-warm text-ink grid place-items-center text-sm">→</span>
@@ -1116,45 +1119,41 @@ document.querySelectorAll('[data-v]').forEach(el => {
 });
 
 /* ═════════════════════════════════════════════════ */
-/* Supabase configuration — REST API                 */
+/* admin-backend 상담 intake — dbphone.co.kr CORS 허용 */
 /* ═════════════════════════════════════════════════ */
-const SUPABASE = {
-  url:   '',                // ← Supabase Project URL
-  key:   '',                // ← anon public key
-  table: 'qr_leads',
-};
-/*
- * Supabase 테이블 스키마 제안 (SQL):
- *   create table qr_leads (
- *     id bigserial primary key,
- *     created_at timestamptz default now(),
- *     source text, type text, type_label text, sub_label text,
- *     series text[], series_label text,
- *     name text not null, phone text not null, birth text,
- *     carrier text, plan text, referral text, user_agent text
- *   );
- *   alter table qr_leads enable row level security;
- *   create policy "public insert" on qr_leads for insert to anon with check (true);
- */
-async function submitLead(payload){
-  if (!SUPABASE.url || !SUPABASE.key){
-    console.warn('[STUB MODE] Supabase 미설정 — payload:', payload);
-    await new Promise(r => setTimeout(r, 1200));
-    return { ok: true, stub: true };
-  }
-  const res = await fetch(`${SUPABASE.url}/rest/v1/${SUPABASE.table}`, {
-    method: 'POST',
-    headers: {
-      'apikey': SUPABASE.key,
-      'Authorization': `Bearer ${SUPABASE.key}`,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=minimal',
+const INTAKE_URL = 'https://admin-backend-production-8b06.up.railway.app/api/external-requests/intake';
+
+async function submitLead(qrPayload){
+  const honeypot = (document.getElementById('website')?.value) || '';
+  const body = {
+    channel: 'QR',
+    customer_name: qrPayload.name,
+    phone: qrPayload.phone,
+    request_type: qrPayload.type_label || qrPayload.type || '',
+    message: '',
+    branch_id: null,
+    data: {
+      type: qrPayload.type,
+      type_label: qrPayload.type_label,
+      sub_label: qrPayload.sub_label,
+      series: qrPayload.series,
+      series_label: qrPayload.series_label,
+      carrier: qrPayload.carrier,
+      plan: qrPayload.plan,
+      birth: qrPayload.birth,
+      referral: qrPayload.referral,
+      user_agent: qrPayload.user_agent,
     },
-    body: JSON.stringify(payload),
+    website: honeypot,
+  };
+  const res = await fetch(INTAKE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
   });
   if (!res.ok){
-    const txt = await res.text().catch(()=>'');
-    throw new Error(`Supabase ${res.status}: ${txt}`);
+    const err = await res.json().catch(() => ({ detail: '접수 실패' }));
+    throw new Error(err.detail || ('HTTP ' + res.status));
   }
   return { ok: true };
 }

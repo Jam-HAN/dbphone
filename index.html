@@ -539,6 +539,9 @@
 
                     <textarea placeholder="궁금하신 점이나 원하시는 조건을 자유롭게 적어주세요." rows="3" class="w-full bg-gray-50 border-0 p-5 rounded-xl outline-none text-base focus:ring-2 focus:ring-blue-500 transition placeholder-gray-400 resize-none" id="message"></textarea>
 
+                    <!-- honeypot: 사람은 못 보고 봇만 채우는 필드. 채워져 오면 서버가 조용히 무시. -->
+                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
+
                     <button type="submit" class="w-full bg-black text-white font-bold text-xl py-6 rounded-xl shadow-lg hover:bg-gray-800 transition transform active:scale-[0.99] mt-4 flex justify-center items-center gap-2">
                         견적 상담받기
                     </button>
@@ -615,82 +618,80 @@
     </main>
 
     <script>
-        // 🚨 사장님 전용 스크립트 주소
-        var googleScriptUrl = "https://script.google.com/macros/s/AKfycbwmEaoezUYk5q98iuCMgXJMSmmygH66yy8ssOoKyuOc__NPYZkm3EBI8MJbLpKdIIpF/exec"; 
+        // admin-backend 상담 접수 엔드포인트 (dbphone.co.kr CORS 허용됨)
+        var INTAKE_URL = "https://admin-backend-production-8b06.up.railway.app/api/external-requests/intake";
 
-        // 닫기 버튼 누르면 실행되는 함수
         function closeSuccessModal() {
             document.getElementById('successOverlay').classList.add('hidden');
-            document.getElementById('leadForm').reset(); // 폼 초기화
-            
-            // 버튼 원상복구
+            document.getElementById('leadForm').reset();
             var btn = document.querySelector('button[type="submit"]');
-            btn.innerHTML = `
-                견적 상담받기
-            `;
+            btn.innerHTML = '견적 상담받기';
             btn.disabled = false;
         }
 
-        document.getElementById('leadForm').addEventListener('submit', function(e) {
+        document.getElementById('leadForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             var modelInput = document.querySelector('input[name="model"]:checked');
-            var name = document.querySelector('input[placeholder="성함"]').value;
-            var phone = document.querySelector('input[placeholder="연락처"]').value; 
+            var name = document.querySelector('input[placeholder="성함"]').value.trim();
+            var phone = document.querySelector('input[placeholder="연락처"]').value.trim();
             var carrierSelect = document.getElementById('carrier');
             var regionSelect = document.getElementById('region');
-            var message = document.getElementById('message').value;
+            var message = document.getElementById('message').value.trim();
+            var honeypot = document.getElementById('website').value;
 
             // 필수값 검증
             if (!modelInput) { alert('희망 기종을 선택해주세요!'); return; }
+            if (!name) { alert('성함을 입력해주세요!'); return; }
+            if (!phone) { alert('연락처를 입력해주세요!'); return; }
             if (carrierSelect.value === "") { alert('통신사를 선택해주세요!'); return; }
             if (regionSelect.value === "") { alert('희망 방문 지역을 선택해주세요!'); return; }
 
             // [데이터 정제]
             var rawModel = modelInput.parentNode.innerText.trim();
             var cleanModel = rawModel.replace(/🍎|🌌|✨/g, '').replace(/\s+/g, '');
-
             var rawRegion = regionSelect.options[regionSelect.selectedIndex].text;
             var cleanRegion = "상담 후 결정";
-            if (rawRegion.includes("장지")) cleanRegion = "장지 본점";
-            else if (rawRegion.includes("명일")) cleanRegion = "명일 직영점";
-
+            var branchId = null;
+            if (rawRegion.includes("장지")) { cleanRegion = "장지 본점"; branchId = 1; }
+            else if (rawRegion.includes("명일")) { cleanRegion = "명일 직영점"; branchId = 2; }
             var carrier = carrierSelect.options[carrierSelect.selectedIndex].text;
+
             var btn = document.querySelector('button[type="submit"]');
-            
-            // 🔄 [중앙 로딩 시작]
             document.getElementById('loadingOverlay').classList.remove('hidden');
             btn.disabled = true;
 
-            var data = {
-                model: cleanModel,
-                name: name,
+            var payload = {
+                channel: "홈페이지",
+                customer_name: name,
                 phone: phone,
-                carrier: carrier,
-                region: cleanRegion,
-                message: message
+                request_type: "희망기종 상담 — " + cleanModel,
+                message: message,
+                branch_id: branchId,
+                data: { model: cleanModel, carrier: carrier, region_raw: cleanRegion },
+                website: honeypot,
             };
 
-            // 백그라운드 전송
-            fetch(googleScriptUrl, {
-                method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "text/plain" },
-                body: JSON.stringify(data)
-            });
-
-            // ⏳ [1.5초 후 성공 팝업(모달) 띄우기]
-            setTimeout(function() {
-                // 1. 로딩창 숨기기
+            try {
+                var res = await fetch(INTAKE_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+                if (!res.ok) {
+                    var errBody = await res.json().catch(function() { return { detail: '접수 실패' }; });
+                    throw new Error(errBody.detail || ('HTTP ' + res.status));
+                }
+                // 성공
                 document.getElementById('loadingOverlay').classList.add('hidden');
-                
-                // 2. 성공 메시지 내용 업데이트
-                var successBody = document.getElementById('successBody');
-                successBody.innerHTML = `<span class="font-bold text-blue-600">${name}</span>님, 정상적으로 접수되었습니다.<br>담당자가 10분 내로 연락드리겠습니다.`;
-                
-                // 3. 성공 팝업 띄우기
+                document.getElementById('successBody').innerHTML =
+                    '<span class="font-bold text-blue-600">' + name + '</span>님, 정상적으로 접수되었습니다.<br>담당자가 10분 내로 연락드리겠습니다.';
                 document.getElementById('successOverlay').classList.remove('hidden');
-            }, 1500);
+            } catch (err) {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                btn.disabled = false;
+                alert('접수에 실패했습니다. 잠시 후 다시 시도해주세요.\n(' + err.message + ')');
+            }
         });
         
         const stickyBar = document.getElementById('sticky-bar');
