@@ -62,7 +62,7 @@
     <!-- 네이버 지도 JS API (Client ID 설정 시 자동 활성화) -->
     <!-- Client ID 미설정 시 OpenStreetMap iframe으로 fallback -->
     <script>
-      window.NAVER_MAP_CLIENT_ID = ''; // ← NCP console에서 발급받은 ncpClientId 입력
+      window.NAVER_MAP_CLIENT_ID = 'oj73bkjj8u'; // NCP Web Dynamic Map (dbphone.co.kr 도메인 제한)
       if (window.NAVER_MAP_CLIENT_ID) {
         const s = document.createElement('script');
         s.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${window.NAVER_MAP_CLIENT_ID}`;
