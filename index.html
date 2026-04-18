@@ -61,11 +61,12 @@
 
     <!-- 네이버 지도 JS API (Client ID 설정 시 자동 활성화) -->
     <!-- Client ID 미설정 시 OpenStreetMap iframe으로 fallback -->
+    <!-- 공식: https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=... (2025년 개편 후) -->
     <script>
-      window.NAVER_MAP_CLIENT_ID = 'oj73bkjj8u'; // NCP Web Dynamic Map (dbphone.co.kr 도메인 제한)
+      window.NAVER_MAP_CLIENT_ID = 'oj73bkjj8u'; // NCP Maps 인증키 (도메인 화이트리스트로 보안)
       if (window.NAVER_MAP_CLIENT_ID) {
         const s = document.createElement('script');
-        s.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${window.NAVER_MAP_CLIENT_ID}`;
+        s.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${window.NAVER_MAP_CLIENT_ID}`;
         s.async = true;
         document.head.appendChild(s);
       }
