@@ -15,8 +15,61 @@
 
     <link rel="icon" type="image/png" href="favicon.png?v=1">
     <link rel="apple-touch-icon" href="favicon.png?v=1">
-    
+
+    <!-- JSON-LD 구조화 데이터: 검색엔진/Google Business 풍부한 결과 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MobilePhoneStore",
+      "name": "대박통신",
+      "alternateName": "dbphone",
+      "url": "https://dbphone.co.kr",
+      "telephone": "+82-2-443-6011",
+      "priceRange": "₩₩",
+      "openingHours": "Mo-Su 00:00-24:00",
+      "description": "수도권 판매 1위, 휴대폰 성지의 종착지 대박통신. 아이폰17, 갤럭시 S26 최저가 상담. 송파 장지 본점 · 강동 명일 직영점.",
+      "location": [
+        {
+          "@type": "Place",
+          "name": "대박통신 장지 본점",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "송파대로 98",
+            "addressLocality": "송파구",
+            "addressRegion": "서울특별시",
+            "addressCountry": "KR"
+          },
+          "telephone": "+82-2-443-6011"
+        },
+        {
+          "@type": "Place",
+          "name": "대박통신 명일 직영점",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "양재대로 138길 32",
+            "addressLocality": "강동구",
+            "addressRegion": "서울특별시",
+            "addressCountry": "KR"
+          },
+          "telephone": "+82-2-443-6011"
+        }
+      ]
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- 네이버 지도 JS API (Client ID 설정 시 자동 활성화) -->
+    <!-- Client ID 미설정 시 OpenStreetMap iframe으로 fallback -->
+    <script>
+      window.NAVER_MAP_CLIENT_ID = ''; // ← NCP console에서 발급받은 ncpClientId 입력
+      if (window.NAVER_MAP_CLIENT_ID) {
+        const s = document.createElement('script');
+        s.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${window.NAVER_MAP_CLIENT_ID}`;
+        s.async = true;
+        document.head.appendChild(s);
+      }
+    </script>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
           integrity="sha384-SN6A48CJQjx946+DRb8wsoifC4a8ur9ZS6R+HCTgnBHOKCa6GLXAR3Qn8d1jztxg"
@@ -49,9 +102,15 @@
     <main class="max-w-md mx-auto bg-white min-h-screen shadow-2xl relative pb-28">
 
         <header class="relative h-screen bg-black text-white flex flex-col justify-end p-8 overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1605236453806-6ff36851218e?q=80&w=1000&auto=format&fit=crop" alt="매장 배경" class="absolute inset-0 w-full h-full object-cover opacity-60">
+            <img src="https://images.unsplash.com/photo-1605236453806-6ff36851218e?q=80&w=1000&auto=format&fit=crop" alt="매장 배경" fetchpriority="high" class="absolute inset-0 w-full h-full object-cover opacity-60">
             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-            
+
+            <!-- 365 연중무휴 배지 (상단) -->
+            <div class="absolute top-6 right-6 z-20 flex flex-col items-end gap-1">
+                <span class="bg-white/10 backdrop-blur-sm border border-white/20 text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wider">365 연중무휴</span>
+                <span class="bg-white/10 backdrop-blur-sm border border-white/20 text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wider">20년 한자리</span>
+            </div>
+
             <div class="relative z-10 mb-20 animate-fade-up">
                 <div class="flex gap-2 mb-6">
                     <span class="bg-blue-600 text-xs font-bold px-3 py-1 rounded-full text-white ring-2 ring-blue-400/50">수도권 판매 1위 🏆</span>
@@ -70,6 +129,18 @@
                 </div>
             </div>
         </header>
+
+        <!-- 상단 Quick CTA: 전화/폼 즉시 액션 (원거리 고객용) -->
+        <section class="bg-white border-b border-gray-100 px-5 py-4 sticky top-0 z-40 shadow-sm">
+            <div class="flex gap-2">
+                <a href="tel:024436011" class="flex-1 bg-black text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 text-sm active:scale-[0.98] transition">
+                    <span class="text-base">📞</span><span>전화 상담</span>
+                </a>
+                <a href="#contact-form" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 text-sm active:scale-[0.98] transition">
+                    <span class="text-base">📝</span><span>견적 문의</span>
+                </a>
+            </div>
+        </section>
 
         <section class="py-24 px-8 bg-white text-center">
             <p class="text-blue-600 font-bold text-xs tracking-[0.2em] mb-4">OUR PHILOSOPHY</p>
@@ -120,7 +191,7 @@
         </section>
 
         <section class="relative h-[500px] bg-black group overflow-hidden">
-            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-70">
+            <video autoplay loop muted playsinline preload="metadata" class="absolute inset-0 w-full h-full object-cover opacity-70">
                 <source src="https://videos.pexels.com/video-files/3129957/3129957-sd_640_360_25fps.mp4" type="video/mp4">
             </video>
             <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center text-white p-6">
@@ -140,7 +211,7 @@
             </p>
             
             <div class="rounded-3xl overflow-hidden shadow-2xl mb-8 border border-gray-700 aspect-video relative bg-black">
-                <iframe class="w-full h-full" 
+                <iframe class="w-full h-full" loading="lazy"
                         src="https://www.youtube.com/embed/zDKnzwVJPyI?autoplay=1&mute=1&controls=0&loop=1&playlist=zDKnzwVJPyI&playsinline=1&rel=0" 
                         title="iPhone 17 Trailer" 
                         frameborder="0" 
@@ -180,7 +251,7 @@
             </p>
             
             <div class="rounded-3xl overflow-hidden shadow-2xl mb-8 border border-white aspect-video relative bg-white">
-                <iframe class="w-full h-full" 
+                <iframe class="w-full h-full" loading="lazy"
                         src="https://www.youtube.com/embed/2gYqEi8-am4?autoplay=1&mute=1&controls=0&loop=1&playlist=2gYqEi8-am4&playsinline=1&rel=0" 
                         title="Galaxy S26 Trailer" 
                         frameborder="0" 
@@ -220,7 +291,7 @@
             </p>
             
             <div class="rounded-3xl overflow-hidden shadow-2xl mb-8 border border-white aspect-video relative bg-white">
-                <iframe class="w-full h-full" 
+                <iframe class="w-full h-full" loading="lazy"
                         src="https://www.youtube.com/embed/2HhrudHXaDs?autoplay=1&mute=1&controls=0&loop=1&playlist=2HhrudHXaDs&playsinline=1&rel=0" 
                         title="Z Fold 7 Trailer" 
                         frameborder="0" 
@@ -445,6 +516,60 @@
             </div>
         </section>
 
+        <!-- 20년 연혁 타임라인 -->
+        <section class="py-20 px-6 bg-white">
+            <p class="text-blue-600 font-bold text-xs tracking-[0.2em] mb-3 text-center">OUR HISTORY</p>
+            <h2 class="text-3xl font-extrabold mb-2 text-center leading-tight">20년,<br><span class="text-blue-600">한자리에서</span></h2>
+            <p class="text-gray-500 text-sm text-center mb-10">판매만 하고 사라지지 않습니다.<br>2005년부터 송파 장지, 같은 자리.</p>
+
+            <div class="relative pl-10 space-y-8 before:absolute before:left-[19px] before:top-3 before:bottom-3 before:w-[2px] before:bg-gradient-to-b before:from-blue-200 before:via-blue-400 before:to-blue-600">
+                <div class="relative">
+                    <div class="absolute -left-10 top-0 w-10 h-10 rounded-full bg-white border-2 border-blue-200 text-blue-700 text-[11px] font-black flex items-center justify-center shadow-sm">'05</div>
+                    <h4 class="font-bold text-base mb-1">장지 본점 시작</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                        2005년, 송파 장지 터에서 대박통신이 문을 열었습니다.<br>
+                        작은 매장, 큰 약속으로 시작.
+                    </p>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute -left-10 top-0 w-10 h-10 rounded-full bg-white border-2 border-blue-300 text-blue-700 text-[11px] font-black flex items-center justify-center shadow-sm">'15</div>
+                    <h4 class="font-bold text-base mb-1">10년 한결같이</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                        한 번도 이전하지 않고, 명의도 사장도 바뀌지 않은 10년.<br>
+                        동네 단골이 생기기 시작한 시점.
+                    </p>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute -left-10 top-0 w-10 h-10 rounded-full bg-white border-2 border-blue-400 text-blue-700 text-[11px] font-black flex items-center justify-center shadow-sm">'22</div>
+                    <h4 class="font-bold text-base mb-1">명일 직영점 오픈</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                        강동·천호 상권 고객 요청으로 직영 2호점 운영.<br>
+                        같은 정책, 같은 원칙.
+                    </p>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute -left-10 top-0 w-10 h-10 rounded-full bg-white border-2 border-blue-500 text-blue-700 text-[11px] font-black flex items-center justify-center shadow-sm">'25</div>
+                    <h4 class="font-bold text-base mb-1">수도권 판매 상위권</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                        누적 개통 건수 수도권 최상위권.<br>
+                        여전히 장지에 있습니다.
+                    </p>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute -left-10 top-0 w-10 h-10 rounded-full bg-blue-600 text-white text-base font-black flex items-center justify-center shadow-lg shadow-blue-200 ring-4 ring-blue-50">●</div>
+                    <h4 class="font-bold text-base mb-1 text-blue-700">지금, 여기서</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                        판매만 하고 사라지는 곳이 아닙니다.<br>
+                        <strong class="text-black">평생 단골</strong>로 모시겠습니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
         <section class="py-20 px-6 bg-gray-50">
              <h2 class="text-2xl font-bold mb-2">🏢 믿을 수 있는 '진짜 성지'</h2>
              <p class="text-gray-500 mb-8 text-sm">활기 넘치는 매장에서 직접 확인하세요. 언제나 열려있습니다.</p>
@@ -467,11 +592,63 @@
                      <div class="absolute bottom-0 left-0 w-full p-3 bg-black/60 text-white text-xs font-bold">[명일 직영점] 쾌적하고 넓은 최신 매장</div>
                  </div>
              </div>
+
+             <!-- 매장 상세 정보 카드 (원거리 고객용) -->
+             <div class="mt-8 grid gap-4">
+                 <article class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+                     <!-- 지도: 네이버 지도 JS API (Client ID 있으면) 또는 OpenStreetMap fallback -->
+                     <div class="map-container w-full h-44 bg-gray-100"
+                          data-lat="37.4769" data-lng="127.1282"
+                          data-label="장지 본점"
+                          data-osm-bbox="127.1232,37.4719,127.1332,37.4819"></div>
+                     <div class="p-5">
+                         <div class="flex items-start justify-between gap-3 mb-3">
+                             <div>
+                                 <h3 class="text-lg font-extrabold">장지 본점</h3>
+                                 <p class="text-xs text-gray-500 mt-0.5">서울 송파구 송파대로 98</p>
+                             </div>
+                             <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-1 rounded-full whitespace-nowrap">본점</span>
+                         </div>
+                         <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-600 mb-4">
+                             <span>⏰ 365일 연중무휴</span>
+                             <span>📱 02-443-6011</span>
+                         </div>
+                         <div class="flex gap-2">
+                             <a href="https://map.naver.com/p/entry/place/1765923497" target="_blank" rel="noopener" class="flex-1 bg-gray-100 text-gray-800 font-bold text-xs py-2.5 rounded-lg text-center hover:bg-gray-200 transition">네이버 지도에서 열기</a>
+                             <a href="tel:024436011" class="flex-1 bg-black text-white font-bold text-xs py-2.5 rounded-lg text-center hover:bg-gray-800 transition">전화 걸기</a>
+                         </div>
+                     </div>
+                 </article>
+
+                 <article class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+                     <div class="map-container w-full h-44 bg-gray-100"
+                          data-lat="37.5395" data-lng="127.1510"
+                          data-label="명일 직영점"
+                          data-osm-bbox="127.1460,37.5345,127.1560,37.5445"></div>
+                     <div class="p-5">
+                         <div class="flex items-start justify-between gap-3 mb-3">
+                             <div>
+                                 <h3 class="text-lg font-extrabold">명일 직영점</h3>
+                                 <p class="text-xs text-gray-500 mt-0.5">서울 강동구 양재대로 138길 32</p>
+                             </div>
+                             <span class="bg-purple-100 text-purple-700 text-[10px] font-bold px-2 py-1 rounded-full whitespace-nowrap">직영</span>
+                         </div>
+                         <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-600 mb-4">
+                             <span>⏰ 365일 연중무휴</span>
+                             <span>📱 02-3427-0116</span>
+                         </div>
+                         <div class="flex gap-2">
+                             <a href="https://map.naver.com/p/entry/place/1204429331" target="_blank" rel="noopener" class="flex-1 bg-gray-100 text-gray-800 font-bold text-xs py-2.5 rounded-lg text-center hover:bg-gray-200 transition">네이버 지도에서 열기</a>
+                             <a href="tel:0234270116" class="flex-1 bg-black text-white font-bold text-xs py-2.5 rounded-lg text-center hover:bg-gray-800 transition">전화 걸기</a>
+                         </div>
+                     </div>
+                 </article>
+             </div>
         </section>
 
         <section class="py-24 px-6 bg-white text-center">
-            <div class="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-6 overflow-hidden border-4 border-gray-100 shadow-inner">
-                <img src="https://placehold.co/150x150/555/fff?text=CEO" class="w-full h-full object-cover">
+            <div class="w-24 h-24 bg-gradient-to-br from-gray-200 to-gray-400 rounded-full mx-auto mb-6 border-4 border-gray-100 shadow-inner flex items-center justify-center" aria-hidden="true">
+                <span class="text-3xl">👨‍💼</span>
             </div>
             <h3 class="text-2xl font-bold mb-6 leading-snug">"가족에게 못 팔 폰이라면<br>절대 팔지 않겠습니다."</h3>
             <p class="text-gray-500 leading-relaxed px-2 text-sm">
@@ -481,6 +658,85 @@
             </p>
             <div class="mt-8">
                 <img src="image_0.png" class="h-8 mx-auto opacity-30" alt="한재민 대표 서명">
+            </div>
+        </section>
+
+        <!-- FAQ 섹션 (원거리 포털 유입 고객용) -->
+        <section class="py-20 px-6 bg-gray-50">
+            <p class="text-blue-600 font-bold text-xs tracking-[0.2em] mb-3 text-center">FAQ</p>
+            <h2 class="text-2xl font-bold mb-2 text-center">자주 묻는 질문</h2>
+            <p class="text-gray-500 text-sm text-center mb-10">방문 전 궁금하신 점을 먼저 확인해보세요.</p>
+
+            <div class="space-y-3">
+                <details class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm group">
+                    <summary class="font-bold text-sm cursor-pointer flex justify-between items-center list-none">
+                        <span>📱 어떤 통신사든 변경 가능한가요?</span>
+                        <span class="text-blue-600 text-lg group-open:rotate-45 transition">+</span>
+                    </summary>
+                    <p class="text-gray-500 text-sm leading-relaxed mt-3 pt-3 border-t border-gray-100">
+                        네, SKT·KT·LG U+ 3사와 알뜰폰 모두 가입 가능합니다. 기기변경(기변)·번호이동(번이) 둘 다 지원하며, 현재 사용 중인 통신사 그대로 유지해도 괜찮습니다.
+                    </p>
+                </details>
+
+                <details class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm group">
+                    <summary class="font-bold text-sm cursor-pointer flex justify-between items-center list-none">
+                        <span>⏱ 개통은 얼마나 걸리나요?</span>
+                        <span class="text-blue-600 text-lg group-open:rotate-45 transition">+</span>
+                    </summary>
+                    <p class="text-gray-500 text-sm leading-relaxed mt-3 pt-3 border-t border-gray-100">
+                        방문 후 <strong>평균 30~60분</strong>이면 상담·계약·데이터 이동까지 끝납니다. 커피 한 잔 드시는 동안 마무리됩니다. (재고 미보유 모델의 경우 당일 입고 후 안내)
+                    </p>
+                </details>
+
+                <details class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm group">
+                    <summary class="font-bold text-sm cursor-pointer flex justify-between items-center list-none">
+                        <span>🚗 주차는 가능한가요?</span>
+                        <span class="text-blue-600 text-lg group-open:rotate-45 transition">+</span>
+                    </summary>
+                    <p class="text-gray-500 text-sm leading-relaxed mt-3 pt-3 border-t border-gray-100">
+                        <strong>장지 본점</strong>은 송파대로 인근 공영/사설 주차장, <strong>명일 직영점</strong>은 건물 주차장을 이용 가능합니다. 개통 완료 시 주차권 지원이 가능합니다.
+                    </p>
+                </details>
+
+                <details class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm group">
+                    <summary class="font-bold text-sm cursor-pointer flex justify-between items-center list-none">
+                        <span>💳 결제는 어떻게 진행되나요?</span>
+                        <span class="text-blue-600 text-lg group-open:rotate-45 transition">+</span>
+                    </summary>
+                    <p class="text-gray-500 text-sm leading-relaxed mt-3 pt-3 border-t border-gray-100">
+                        휴대폰 기기값은 통신사 할부(24/36/48개월), 요금제와 함께 매월 청구됩니다. 부가 서비스(필름·케이스 등)는 현장에서 카드/현금 결제 가능합니다.
+                    </p>
+                </details>
+
+                <details class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm group">
+                    <summary class="font-bold text-sm cursor-pointer flex justify-between items-center list-none">
+                        <span>🔄 기존 폰 데이터 이동은 어떻게 되나요?</span>
+                        <span class="text-blue-600 text-lg group-open:rotate-45 transition">+</span>
+                    </summary>
+                    <p class="text-gray-500 text-sm leading-relaxed mt-3 pt-3 border-t border-gray-100">
+                        연락처·사진은 기본, 카카오톡 대화/인증서/금융앱까지 담당자가 1:1로 옆에서 안내합니다. 깨진 화면·침수폰도 가능한 한 최대한 복구해 드립니다.
+                    </p>
+                </details>
+
+                <details class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm group">
+                    <summary class="font-bold text-sm cursor-pointer flex justify-between items-center list-none">
+                        <span>🏠 지방인데 방문 없이 가능한가요?</span>
+                        <span class="text-blue-600 text-lg group-open:rotate-45 transition">+</span>
+                    </summary>
+                    <p class="text-gray-500 text-sm leading-relaxed mt-3 pt-3 border-t border-gray-100">
+                        원칙상 방문 상담을 권장드리지만, 상담 신청 시 비대면/택배 개통이 가능한지 안내해 드립니다. 우선 하단 견적 폼으로 문의주세요.
+                    </p>
+                </details>
+
+                <details class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm group">
+                    <summary class="font-bold text-sm cursor-pointer flex justify-between items-center list-none">
+                        <span>🎁 사은품은 꼭 받을 수 있나요?</span>
+                        <span class="text-blue-600 text-lg group-open:rotate-45 transition">+</span>
+                    </summary>
+                    <p class="text-gray-500 text-sm leading-relaxed mt-3 pt-3 border-t border-gray-100">
+                        VIP 웰컴 키트(필름·케이스·충전기)는 당일 개통 고객 대상 기본 제공입니다. 재고 상황에 따라 모델·색상이 달라질 수 있습니다.
+                    </p>
+                </details>
             </div>
         </section>
 
@@ -546,8 +802,47 @@
                         <div class="absolute right-5 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400" aria-hidden="true">▼</div>
                     </div>
 
+                    <div class="relative">
+                        <label for="timing" class="sr-only">희망 개통 시기</label>
+                        <select class="w-full bg-gray-50 border-0 p-5 rounded-xl outline-none text-base focus:ring-2 focus:ring-blue-500 transition text-gray-800 appearance-none cursor-pointer" id="timing" required>
+                            <option value="" disabled selected class="text-gray-400">희망 개통 시기</option>
+                            <option value="asap">🔥 오늘/내일 안에</option>
+                            <option value="week">이번 주 내</option>
+                            <option value="month">이번 달 내</option>
+                            <option value="undecided">미정 · 상담 후 결정</option>
+                        </select>
+                        <div class="absolute right-5 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400" aria-hidden="true">▼</div>
+                    </div>
+
                     <label for="message" class="sr-only">메시지</label>
                     <textarea id="message" placeholder="궁금하신 점이나 원하시는 조건을 자유롭게 적어주세요." rows="3" class="w-full bg-gray-50 border-0 p-5 rounded-xl outline-none text-base focus:ring-2 focus:ring-blue-500 transition placeholder-gray-400 resize-none"></textarea>
+
+                    <!-- 개인정보 처리방침 동의 -->
+                    <label class="flex items-start gap-3 cursor-pointer p-4 bg-gray-50 rounded-2xl">
+                        <input type="checkbox" id="f_agree" required class="mt-1 w-5 h-5 accent-blue-600 shrink-0">
+                        <span class="text-xs text-gray-700 leading-relaxed">
+                            <strong class="text-black">개인정보 처리방침에 동의합니다.</strong>
+                            <button type="button" onclick="togglePrivacy()" class="block text-blue-600 underline text-[11px] mt-1">
+                                수집·이용 및 제3자 제공 상세 →
+                            </button>
+                        </span>
+                    </label>
+                    <div id="privacyBox" class="hidden bg-gray-50 rounded-xl p-4 text-[11px] text-gray-500 leading-relaxed space-y-3">
+                        <div>
+                            <b class="text-gray-800 block mb-1">[개인정보 수집 및 이용 동의]</b>
+                            목적 : 휴대폰 상담 신청, 이벤트 진행 및 경품 배송<br>
+                            항목 : 이름, 휴대폰번호, 희망 방문 지역<br>
+                            보유기간 : 목적 달성 시 즉시 파기. 관계 법령에 따라 보존이 필요한 경우 해당 기간까지 보관 후 파기 (또는 3년).
+                        </div>
+                        <div>
+                            <b class="text-gray-800 block mb-1">[개인정보 제3자 제공 동의]</b>
+                            제공받는 자 : (주)플래너스 대박통신 및 이용자가 선택한 이동통신사<br>
+                            이용 목적 : 휴대폰 서비스 가입 및 개통<br>
+                            항목 : 이름, 휴대폰번호<br>
+                            보유기간 : 목적 달성 시 즉시 파기 (또는 관계 법령에 따른 기간).
+                        </div>
+                        <a href="/privacy.html" target="_blank" rel="noopener" class="block text-blue-600 underline text-[11px]">전체 개인정보 처리방침 보기 →</a>
+                    </div>
 
                     <!-- honeypot: 사람은 못 보고 봇만 채우는 필드. 채워져 오면 서버가 조용히 무시. -->
                     <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
@@ -555,10 +850,6 @@
                     <button type="submit" class="w-full bg-black text-white font-bold text-lg py-5 rounded-2xl shadow-lg hover:bg-gray-800 transition transform active:scale-[0.99] mt-4 flex justify-center items-center gap-2">
                         견적 상담받기
                     </button>
-                    <p class="text-xs text-gray-400 text-center leading-relaxed">
-                        🔒 입력하신 정보는 상담 목적 외에는 절대 사용되지 않으며,<br>상담 종료 후 즉시 파기됩니다.<br>
-                        <a href="/privacy.html" class="underline text-gray-500 hover:text-gray-700">개인정보 처리방침 자세히</a>
-                    </p>
                 </form>
             </div>
         </section>
@@ -665,6 +956,9 @@
         function closeDialog() {
             document.getElementById('dialogOverlay').classList.add('hidden');
         }
+        function togglePrivacy() {
+            document.getElementById('privacyBox').classList.toggle('hidden');
+        }
 
         document.getElementById('leadForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -677,7 +971,9 @@
             const phoneRaw = document.getElementById('f_phone').value.trim();
             const carrierSelect = document.getElementById('carrier');
             const regionSelect = document.getElementById('region');
+            const timingSelect = document.getElementById('timing');
             const message = document.getElementById('message').value.trim();
+            const agree = document.getElementById('f_agree').checked;
             const honeypot = document.getElementById('website').value;
 
             // 필수값 검증
@@ -688,6 +984,8 @@
             if (!/^\d{10,11}$/.test(phone)) return showDialog('입력 확인', '전화번호를 숫자 10~11자리로 입력해주세요.\n(예: 01012345678)');
             if (carrierSelect.value === "") return showDialog('입력 확인', '통신사를 선택해주세요.');
             if (regionSelect.value === "")  return showDialog('입력 확인', '희망 방문 지역을 선택해주세요.');
+            if (timingSelect.value === "")  return showDialog('입력 확인', '희망 개통 시기를 선택해주세요.');
+            if (!agree)                    return showDialog('입력 확인', '개인정보 처리방침에 동의해주세요.');
 
             // [데이터 정제] — raw 코드만 전송, 서버가 normalize/라벨링 담당
             const modelCode = modelInput.value; // iphone / galaxyS / foldable
@@ -708,7 +1006,12 @@
                 request_type: modelCode, // 서버가 channel+data.model 기반으로 한국어 라벨 결정
                 message: message,
                 branch_id: branchId,
-                data: { model: modelCode, carrier: carrierCode, region_raw: cleanRegion },
+                data: {
+                    model: modelCode,
+                    carrier: carrierCode,
+                    region_raw: cleanRegion,
+                    timing: timingSelect.value,    // asap / week / month / undecided
+                },
                 website: honeypot,
             };
 
@@ -740,6 +1043,55 @@
                 showDialog('전송 실패', msg);
             }
         });
+
+        // 지도 렌더링: 네이버 지도 JS API 로드됐으면 네이버, 아니면 OpenStreetMap iframe
+        function renderMaps() {
+            const containers = document.querySelectorAll('.map-container');
+            const hasNaver = !!(window.naver && window.naver.maps);
+            containers.forEach(el => {
+                const lat = parseFloat(el.dataset.lat);
+                const lng = parseFloat(el.dataset.lng);
+                const label = el.dataset.label || '';
+                if (hasNaver) {
+                    const map = new naver.maps.Map(el, {
+                        center: new naver.maps.LatLng(lat, lng),
+                        zoom: 16,
+                        zoomControl: false,
+                        scaleControl: false,
+                        logoControl: false,
+                        mapDataControl: false,
+                    });
+                    new naver.maps.Marker({
+                        position: new naver.maps.LatLng(lat, lng),
+                        map: map,
+                        title: label,
+                    });
+                } else {
+                    const bbox = el.dataset.osmBbox;
+                    const iframe = document.createElement('iframe');
+                    iframe.className = 'w-full h-full border-0';
+                    iframe.loading = 'lazy';
+                    iframe.title = label + ' 지도';
+                    iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lng}`;
+                    el.appendChild(iframe);
+                }
+            });
+        }
+        // 네이버 지도 SDK는 비동기 로드이므로 onload 이후에도 polling
+        if (window.NAVER_MAP_CLIENT_ID) {
+            let tries = 0;
+            const wait = setInterval(() => {
+                if (window.naver && window.naver.maps) {
+                    clearInterval(wait);
+                    renderMaps();
+                } else if (++tries > 30) {  // 3초 타임아웃 → fallback
+                    clearInterval(wait);
+                    renderMaps();
+                }
+            }, 100);
+        } else {
+            renderMaps();
+        }
 
         // Sticky CTA — visualViewport 감지로 iOS 키보드 열릴 때 숨김
         const stickyBar = document.getElementById('sticky-bar');
