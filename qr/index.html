@@ -1129,12 +1129,11 @@ async function submitLead(qrPayload){
     channel: 'QR',
     customer_name: qrPayload.name,
     phone: qrPayload.phone,
-    request_type: qrPayload.type_label || qrPayload.type || '',
+    request_type: qrPayload.type || '',   // 서버가 QR_TYPE_LABELS로 한국어 라벨 덮어씀
     message: '',
     branch_id: null,
     data: {
       type: qrPayload.type,
-      type_label: qrPayload.type_label,
       sub_label: qrPayload.sub_label,
       series: qrPayload.series,
       series_label: qrPayload.series_label,
@@ -1368,12 +1367,9 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
   if (!/^\d{6}$/.test(birth))     return showDialog('입력 확인', '생년월일을 6자리 숫자로 입력해주세요.\n(예: 900101)');
   if (!agree)   return showDialog('입력 확인', '개인정보 처리방침에 동의해주세요.');
 
-  const TYPE_LABEL = {
-    new: '출시 예정 폰',
-    existing: '출시된 폰',
-    consult: '요금 컨설팅',
-    discount: '25% 요금 할인',
-  };
+  // UI 문구(출시 예정 폰/출시된 폰 등)는 고객 친화 문구로 유지.
+  // 관리자 라벨(사전예약/희망기종 상담/요금 컨설팅/25% 할인)은
+  // admin-backend intake 서버가 type 원시 코드 기반으로 결정.
   const SERIES_LABEL = {
     iphone: '아이폰',
     galaxy: '갤럭시 S',
@@ -1384,8 +1380,7 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
 
   const payload = {
     source:     'QR',
-    type:       type.value,
-    type_label: TYPE_LABEL[type.value] || type.value,
+    type:       type.value,                   // new/existing/consult/discount
     sub_label:  window._prefilledLabel || null,
     series:       seriesChecks.length ? seriesChecks : null,
     series_label: seriesChecks.length ? seriesChecks.map(s => SERIES_LABEL[s] || s).join(', ') : null,
@@ -1403,7 +1398,7 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
   try {
     await submitLead(payload);
     loading.classList.add('hidden'); loading.classList.remove('flex');
-    trackEvent('form_submit', 'qr_form', { type: payload.type_label });
+    trackEvent('form_submit', 'qr_form', { type: payload.type });
     const successTitle = document.querySelector('#successOverlay h3');
     if (successTitle) successTitle.textContent = '접수 완료!';
     const body = document.getElementById('successBody');
