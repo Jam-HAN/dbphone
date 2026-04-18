@@ -1,0 +1,13 @@
+{
+  "name": "dbphone-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "대박통신 (dbphone) static site — Tailwind build pipeline",
+  "scripts": {
+    "build": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --minify",
+    "dev": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.14"
+  }
+}
