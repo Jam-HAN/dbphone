@@ -201,6 +201,15 @@
   .chip input:checked + span{ border-color:#0a0a0a; background:#0a0a0a; color:#fff; }
   .chip.chip-blue input:checked + span{ border-color:#2563eb; background:#eff6ff; color:#1d4ed8; }
 
+  /* 가입예정유형(03) 비활성화 — 요금 컨설팅/25%할인 선택 시 */
+  #planBlock.plan-dimmed {
+    opacity: 0.35;
+    pointer-events: none;
+    filter: blur(0.5px);
+    transition: opacity .25s ease, filter .25s ease;
+  }
+  #planBlock { transition: opacity .25s ease, filter .25s ease; }
+
   /* hero CTA buttons (4개 선택지) */
   .cta-hero {
     width: 100%;
@@ -364,12 +373,16 @@
             <span class="bg-white/10 backdrop-blur text-[12px] font-bold px-3 py-1.5 rounded-full border border-white/15">365일 연중무휴</span>
           </div>
 
-          <h1 class="display text-[48px] leading-[0.95] mb-1.5 enter d1">휴대폰,</h1>
-          <h1 class="display text-[48px] leading-[0.95] mb-4 enter d1"><span class="text-brand-400">졸업</span>합시다.</h1>
+          <p class="text-[15px] font-bold text-gray-300 leading-tight mb-2 enter d1">
+            시간을 많이 뺏겼던<br>
+            <span class="text-white">휴대폰 구매</span>
+          </p>
+          <h1 class="display text-[38px] leading-[1.02] mb-4 enter d1"><span class="text-brand-400">대박통신</span>에서<br>졸업합시다.</h1>
 
           <p class="text-gray-300 text-[13px] leading-[1.7] mb-5 enter d2">
             판매만 하고 사라지지 않습니다.<br>
-            <strong class="text-white">20년동안 한곳</strong>에 있었습니다 :)
+            비교했던 시간을 <strong class="text-white">확실히 줄여드립니다.</strong><br>
+            <strong class="text-white">20년동안 한 곳</strong>에 있었습니다 :)
           </p>
 
           <a href="tel:024436011" onclick="trackEvent('cta_call','p1')" class="w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 backdrop-blur border border-white/20 rounded-xl py-2.5 text-[13px] font-bold mb-2.5 enter d3 transition">
@@ -774,7 +787,7 @@
         </div>
 
         <!-- 퀵 개통 강조 블록 -->
-        <div class="bg-ink text-white rounded-2xl p-5 mb-6 enter d2">
+        <div class="bg-ink text-white rounded-2xl p-5 mb-5 enter d2">
           <div class="display text-[22px] leading-tight mb-2">
             누워서도 개통이<br><span class="text-warm">가능하다구요?</span>
           </div>
@@ -784,37 +797,16 @@
           </p>
         </div>
 
-        <div class="grid grid-cols-2 gap-3 mb-4 enter d3">
-          <button onclick="goto('p2a')" class="branch-card bg-ink text-white active:scale-95" style="min-height: 230px">
-            <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-brand-600/40 blur-2xl"></div>
-            <div class="relative">
-              <div class="text-[11px] leading-snug text-gray-200 mb-2">
-                신제품을 누구보다<br>편하고 빠르게<br><strong class="text-warm">내가 1등!</strong>
-              </div>
-              <div class="text-warm text-lg leading-none mb-1">⬇</div>
-              <div class="text-3xl mb-1">🚀</div>
-              <div class="font-black text-base leading-tight">출시 예정 폰</div>
-            </div>
-          </button>
-          <button onclick="goto('p2b')" class="branch-card bg-white border-2 border-gray-200 active:scale-95" style="min-height: 230px">
-            <div class="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-brand-600 to-brand-400"></div>
-            <div>
-              <div class="text-[11px] leading-snug text-gray-600 mb-2">
-                요금 얼마 나오고 계셔요?<br>자급제보다<br><strong class="text-brand-600">분명히 싸게 드릴 수 있어요 😉</strong>
-              </div>
-              <div class="text-brand-600 text-lg leading-none mb-1">⬇</div>
-              <div class="text-3xl mb-1">💎</div>
-              <div class="font-black text-base leading-tight text-ink">출시된 폰</div>
-            </div>
-          </button>
-        </div>
-
         <!-- 작은 회색 주의사항 -->
-        <div class="text-center text-[11px] text-gray-400 leading-relaxed mb-2 enter d4 space-y-0.5">
+        <div class="text-center text-[11px] text-gray-400 leading-relaxed mb-4 enter d3 space-y-0.5">
           <div>월~토 당일 개통 <span class="text-gray-500">[일요일 개통 건 월요일 이관]</span></div>
           <div>서울 전지역 당일 퀵배송 <span class="text-gray-500">[하남, 분당 문의 가능]</span></div>
         </div>
 
+        <button onclick="goto('px')" class="w-full cta-row bg-warm text-ink py-4 enter d3">
+          <span class="text-base">상담 신청하기</span>
+          <span class="w-8 h-8 rounded-full bg-ink text-warm grid place-items-center text-base">→</span>
+        </button>
         <button onclick="goto('p5')" class="w-full text-center text-xs text-gray-400 py-3 enter d4">
           다음 페이지로 넘어가기  ↓
         </button>
@@ -978,10 +970,11 @@
             </div>
 
             <!-- 가입 예정 유형 -->
-            <div>
+            <div id="planBlock">
               <label class="text-[10px] tracking-[0.2em] font-bold text-gray-500 mb-2.5 flex items-center gap-2">
                 <span class="text-warm">03</span>
                 <span>가입 예정 유형</span>
+                <span id="planSkipNote" class="ml-2 text-[10px] font-normal text-gray-400 hidden">이 항목은 해당되지 않아 생략됩니다</span>
                 <span class="flex-1 h-px bg-gray-100"></span>
               </label>
               <div class="space-y-2">
@@ -1013,6 +1006,38 @@
                 <label for="f_referral" class="sr-only">추천받은 곳(선택)</label>
                 <input type="text" id="f_referral" placeholder="추천받은 곳 (선택)"
                   class="w-full bg-gray-50 border-0 p-4 rounded-xl outline-none text-base focus:ring-2 focus:ring-brand-500 transition placeholder-gray-400">
+              </div>
+            </div>
+
+            <!-- 상담 방법 -->
+            <div>
+              <label class="text-[10px] tracking-[0.2em] font-bold text-gray-500 mb-2.5 flex items-center gap-2">
+                <span class="text-warm">05</span>
+                <span>상담 방법</span>
+                <span class="flex-1 h-px bg-gray-100"></span>
+              </label>
+              <div class="grid grid-cols-3 gap-2">
+                <label class="chip chip-blue">
+                  <input type="radio" name="contact_method" value="전화">
+                  <span class="!py-3 !px-2">
+                    <span class="block text-xl mb-0.5">📞</span>
+                    <span class="block text-[11px]">전화 상담</span>
+                  </span>
+                </label>
+                <label class="chip chip-blue">
+                  <input type="radio" name="contact_method" value="문자">
+                  <span class="!py-3 !px-2">
+                    <span class="block text-xl mb-0.5">💬</span>
+                    <span class="block text-[11px]">문자 상담</span>
+                  </span>
+                </label>
+                <label class="chip chip-blue">
+                  <input type="radio" name="contact_method" value="방문">
+                  <span class="!py-3 !px-2">
+                    <span class="block text-xl mb-0.5">🏢</span>
+                    <span class="block text-[11px]">방문 상담</span>
+                  </span>
+                </label>
               </div>
             </div>
 
@@ -1135,6 +1160,7 @@ async function submitLead(qrPayload){
       series_label: qrPayload.series_label,
       carrier: qrPayload.carrier,
       plan: qrPayload.plan,
+      contact_method: qrPayload.contact_method,
       birth: qrPayload.birth,
       referral: qrPayload.referral,
       user_agent: qrPayload.user_agent,
@@ -1277,7 +1303,7 @@ function pickAndGo(type, label, series){
   goto('px');
 }
 
-/* 신청유형에 따라 시리즈 블록 노출/숨김 */
+/* 신청유형에 따라 시리즈 블록 노출/숨김 + 가입예정유형(03) 활성/비활성 */
 function updateSeriesVisibility(){
   const type = document.querySelector('input[name="type"]:checked');
   const block = document.getElementById('seriesBlock');
@@ -1300,6 +1326,18 @@ function updateSeriesVisibility(){
   }
   if (!isPhone) {
     document.querySelectorAll('input[name="series"]').forEach(cb => cb.checked = false);
+  }
+
+  /* 가입 예정 유형(03) — 요금 컨설팅/25%할인 시 dim + 해당 없음 */
+  const planBlock = document.getElementById('planBlock');
+  const planNote = document.getElementById('planSkipNote');
+  const skipPlan = type && (type.value === 'consult' || type.value === 'discount');
+  if (planBlock) planBlock.classList.toggle('plan-dimmed', !!skipPlan);
+  if (planNote)  planNote.classList.toggle('hidden', !skipPlan);
+  if (skipPlan) {
+    document.querySelectorAll('input[name="plan"]').forEach(r => { r.checked = false; r.disabled = true; });
+  } else {
+    document.querySelectorAll('input[name="plan"]').forEach(r => { r.disabled = false; });
   }
 }
 
@@ -1365,6 +1403,7 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
   const type     = document.querySelector('input[name="type"]:checked');
   const carrier  = document.querySelector('input[name="carrier"]:checked');
   const plan     = document.querySelector('input[name="plan"]:checked');
+  const contactMethod = document.querySelector('input[name="contact_method"]:checked');
   const name     = document.getElementById('f_name').value.trim();
   const phone    = document.getElementById('f_phone').value.trim();
   const birth    = document.getElementById('f_birth').value.trim();
@@ -1376,12 +1415,15 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
     document.querySelectorAll('input[name="series"]:checked')
   ).map(cb => cb.value);
 
+  const isPhone = type && (type.value === 'new' || type.value === 'existing');
+  const planRequired = type && !(type.value === 'consult' || type.value === 'discount');
+
   if (!type)    return showDialog('입력 확인', '신청 유형을 선택해주세요.');
-  if ((type.value === 'new' || type.value === 'existing') && seriesChecks.length === 0) {
+  if (isPhone && seriesChecks.length === 0) {
     return showDialog('입력 확인', '원하시는 시리즈를 하나 이상 선택해주세요.');
   }
   if (!carrier) return showDialog('입력 확인', '현재 통신사를 선택해주세요.');
-  if (!plan)    return showDialog('입력 확인', '가입 예정 유형을 선택해주세요.');
+  if (planRequired && !plan) return showDialog('입력 확인', '가입 예정 유형을 선택해주세요.');
   if (!/^\d{10,11}$/.test(phone)) return showDialog('입력 확인', '전화번호를 숫자 10~11자리로 입력해주세요.');
   if (!/^\d{6}$/.test(birth))     return showDialog('입력 확인', '생년월일을 6자리 숫자로 입력해주세요.\n(예: 900101)');
   // 생년월일 월/일 유효 범위 검증
@@ -1390,6 +1432,7 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
   if (bMonth < 1 || bMonth > 12 || bDay < 1 || bDay > 31) {
     return showDialog('입력 확인', '생년월일을 다시 확인해주세요.\n(YYMMDD 형식, 예: 900101)');
   }
+  if (!contactMethod) return showDialog('입력 확인', '상담 방법을 선택해주세요.');
   if (!agree)   return showDialog('입력 확인', '개인정보 처리방침에 동의해주세요.');
 
   // UI 문구(출시 예정 폰/출시된 폰 등)는 고객 친화 문구로 유지.
@@ -1411,7 +1454,8 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
     series_label: seriesChecks.length ? seriesChecks.map(s => SERIES_LABEL[s] || s).join(', ') : null,
     name, phone, birth,
     carrier:    carrier.value,
-    plan:       plan.value,
+    plan:       plan ? plan.value : null,       // 컨설팅/할인 시 null
+    contact_method: contactMethod.value,        // 전화 / 문자 / 방문
     referral:   referral || null,
     user_agent: navigator.userAgent,
   };
