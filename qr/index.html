@@ -787,7 +787,7 @@
         </div>
 
         <!-- 퀵 개통 강조 블록 -->
-        <div class="bg-ink text-white rounded-2xl p-5 mb-5 enter d2">
+        <div class="bg-ink text-white rounded-2xl p-5 mb-6 enter d2">
           <div class="display text-[22px] leading-tight mb-2">
             누워서도 개통이<br><span class="text-warm">가능하다구요?</span>
           </div>
@@ -797,16 +797,37 @@
           </p>
         </div>
 
+        <div class="grid grid-cols-2 gap-3 mb-4 enter d3">
+          <button onclick="goto('p2a')" class="branch-card bg-ink text-white active:scale-95" style="min-height: 230px">
+            <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-brand-600/40 blur-2xl"></div>
+            <div class="relative">
+              <div class="text-[11px] leading-snug text-gray-200 mb-2">
+                신제품을 누구보다<br>편하고 빠르게<br><strong class="text-warm">내가 1등!</strong>
+              </div>
+              <div class="text-warm text-lg leading-none mb-1">⬇</div>
+              <div class="text-3xl mb-1">🚀</div>
+              <div class="font-black text-base leading-tight">출시 예정 폰</div>
+            </div>
+          </button>
+          <button onclick="goto('p2b')" class="branch-card bg-white border-2 border-gray-200 active:scale-95" style="min-height: 230px">
+            <div class="absolute top-0 right-0 w-full h-1.5 bg-gradient-to-r from-brand-600 to-brand-400"></div>
+            <div>
+              <div class="text-[11px] leading-snug text-gray-600 mb-2">
+                요금 얼마 나오고 계셔요?<br>자급제보다<br><strong class="text-brand-600">분명히 싸게 드릴 수 있어요 😉</strong>
+              </div>
+              <div class="text-brand-600 text-lg leading-none mb-1">⬇</div>
+              <div class="text-3xl mb-1">💎</div>
+              <div class="font-black text-base leading-tight text-ink">출시된 폰</div>
+            </div>
+          </button>
+        </div>
+
         <!-- 작은 회색 주의사항 -->
-        <div class="text-center text-[11px] text-gray-400 leading-relaxed mb-4 enter d3 space-y-0.5">
+        <div class="text-center text-[11px] text-gray-400 leading-relaxed mb-2 enter d4 space-y-0.5">
           <div>월~토 당일 개통 <span class="text-gray-500">[일요일 개통 건 월요일 이관]</span></div>
           <div>서울 전지역 당일 퀵배송 <span class="text-gray-500">[하남, 분당 문의 가능]</span></div>
         </div>
 
-        <button onclick="goto('px')" class="w-full cta-row bg-warm text-ink py-4 enter d3">
-          <span class="text-base">상담 신청하기</span>
-          <span class="w-8 h-8 rounded-full bg-ink text-warm grid place-items-center text-base">→</span>
-        </button>
         <button onclick="goto('p5')" class="w-full text-center text-xs text-gray-400 py-3 enter d4">
           다음 페이지로 넘어가기  ↓
         </button>
