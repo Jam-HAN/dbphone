@@ -1,0 +1,51 @@
+User-agent: *
+Allow: /
+
+# 리다이렉트 전용 — 원본 /qr/만 인덱싱되도록
+Disallow: /qr.html
+
+# 크롤 트래픽 과부하 방지 (친절하게)
+Crawl-delay: 1
+
+# AI 검색·답변 엔진 명시 허용 (AEO/GEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Yeti
+Allow: /
+
+User-agent: NaverBot
+Allow: /
+
+User-agent: DaumBot
+Allow: /
+
+Sitemap: https://dbphone.co.kr/sitemap.xml
+Host: https://dbphone.co.kr

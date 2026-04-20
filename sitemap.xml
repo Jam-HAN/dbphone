@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://dbphone.co.kr/</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ko-KR" href="https://dbphone.co.kr/"/>
+    <image:image>
+      <image:loc>https://dbphone.co.kr/og-image.jpg</image:loc>
+      <image:title>대박통신 장지 본점</image:title>
+      <image:caption>수도권 판매 1위, 20년 한자리 · 송파 장지 본점</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dbphone.co.kr/image_2.png</image:loc>
+      <image:title>장지 본점 전경</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dbphone.co.kr/image_3.png</image:loc>
+      <image:title>명일 직영점 전경</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dbphone.co.kr/qr/</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ko-KR" href="https://dbphone.co.kr/qr/"/>
+  </url>
+  <url>
+    <loc>https://dbphone.co.kr/privacy.html</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+</urlset>
