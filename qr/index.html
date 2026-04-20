@@ -368,9 +368,13 @@
         <!-- 카피 -->
         <div class="absolute left-0 right-0 bottom-0 px-7 pb-7 pt-20 text-white"
              style="background: linear-gradient(to top, rgba(0,0,0,.96) 35%, rgba(0,0,0,.7) 75%, transparent);">
-          <div class="flex gap-2 mb-5 enter">
+          <!-- 재방문 환영 (localStorage 기반, XSS 안전) -->
+          <div id="returningBanner" class="hidden mb-3 px-3 py-2 bg-warm/20 border border-warm/30 rounded-xl text-[12px] text-warm enter">
+            <span id="returningName" class="font-bold"></span><span>님, 다시 오셨네요 :)</span>
+          </div>
+          <div class="flex gap-2 mb-5 enter flex-wrap">
             <span class="bg-brand-600 text-[12px] font-bold px-3 py-1.5 rounded-full ring-2 ring-brand-400/30">🏆 수도권 판매 1위</span>
-            <span class="bg-white/10 backdrop-blur text-[12px] font-bold px-3 py-1.5 rounded-full border border-white/15">365일 연중무휴</span>
+            <span id="openStatusBadge" class="bg-white/10 backdrop-blur text-[12px] font-bold px-3 py-1.5 rounded-full border border-white/15">365일 연중무휴</span>
           </div>
 
           <p class="text-[15px] font-bold text-gray-300 leading-tight mb-2 enter d1">
@@ -1183,6 +1187,27 @@ document.querySelectorAll('[data-v]').forEach(el => {
 /* ═════════════════════════════════════════════════ */
 const INTAKE_URL = 'https://admin-backend-production-8b06.up.railway.app/api/external-requests/intake';
 
+/* UTM 파라미터 캡쳐 — 스티커별 QR 구분 (utm_source=qr-janji | qr-myeongil) */
+(function captureUtm(){
+  const params = new URLSearchParams(location.search);
+  const utm = {
+    source: params.get('utm_source'),
+    medium: params.get('utm_medium'),
+    campaign: params.get('utm_campaign'),
+  };
+  if (utm.source) {
+    try { localStorage.setItem('dbphone_utm', JSON.stringify({ ...utm, at: Date.now() })); } catch(_) {}
+  }
+  window._utm = utm.source ? utm : (function(){
+    try {
+      const stored = JSON.parse(localStorage.getItem('dbphone_utm') || 'null');
+      // 30일 이내면 재사용
+      if (stored && Date.now() - stored.at < 30*24*60*60*1000) return stored;
+    } catch(_) {}
+    return {};
+  })();
+})();
+
 async function submitLead(qrPayload){
   const honeypot = (document.getElementById('website')?.value) || '';
   const body = {
@@ -1203,6 +1228,10 @@ async function submitLead(qrPayload){
       birth: qrPayload.birth,
       referral: qrPayload.referral,
       user_agent: qrPayload.user_agent,
+      utm_source: (window._utm && window._utm.source) || null,
+      utm_medium: (window._utm && window._utm.medium) || null,
+      utm_campaign: (window._utm && window._utm.campaign) || null,
+      is_returning: !!(localStorage.getItem('dbphone_prev_lead')),
     },
     website: honeypot,
   };
@@ -1233,6 +1262,11 @@ async function submitLead(qrPayload){
 /* ═════════════════════════════════════════════════ */
 /* Analytics · GA4                                    */
 /* ═════════════════════════════════════════════════ */
+/* TODO: GA4 ID 발급 후 아래 CONFIG.ga4Id 값만 채우면 자동 활성화.
+   발급: https://analytics.google.com → 관리 → 속성 만들기 → 웹 스트림
+   형식: G-XXXXXXXXXX (10자리)
+   utm_source 자동 수집됨 (별도 설정 불필요).
+*/
 if (CONFIG.ga4Id) {
   const s = document.createElement('script');
   s.async = true;
@@ -1241,6 +1275,66 @@ if (CONFIG.ga4Id) {
   gtag('js', new Date());
   gtag('config', CONFIG.ga4Id);
 }
+
+/* ═════════════════════════════════════════════════ */
+/* 상담 가능 시간 동적 배지                            */
+/* ═════════════════════════════════════════════════ */
+(function updateOpenStatus(){
+  const badge = document.getElementById('openStatusBadge');
+  if (!badge) return;
+  const now = new Date();
+  const day = now.getDay();                       // 0=일, 6=토
+  const cur = now.getHours()*60 + now.getMinutes();
+  const openHour = (day === 0) ? 11 : 10;          // 일요일/공휴일만 11시 (공휴일은 별도 관리 필요)
+  const close = 20 * 60;                          // 20:00
+  const open = openHour * 60;
+  if (cur >= open && cur < close) {
+    badge.textContent = `🟢 지금 상담 가능 · ${close/60}시까지`;
+  } else if (cur < open) {
+    badge.textContent = `⏰ ${openHour}시 상담 시작`;
+  } else {
+    // 마감 이후 — 다음 영업일 안내
+    const tomorrowHour = (day === 6) ? 11 : 10;   // 토요일 밤이면 일요일 11시
+    badge.textContent = `🌙 오늘 마감 · 내일 ${tomorrowHour}시 오픈`;
+  }
+})();
+
+/* ═════════════════════════════════════════════════ */
+/* 재방문 고객 환영 (localStorage)                     */
+/* ═════════════════════════════════════════════════ */
+(function welcomeReturning(){
+  try {
+    const prev = JSON.parse(localStorage.getItem('dbphone_prev_lead') || 'null');
+    if (prev && prev.name && (Date.now() - prev.at) < 180*24*60*60*1000) {  // 180일 이내
+      const banner = document.getElementById('returningBanner');
+      const nameEl = document.getElementById('returningName');
+      if (banner && nameEl) {
+        nameEl.textContent = prev.name;     // XSS 안전
+        banner.classList.remove('hidden');
+      }
+    }
+  } catch(_){}
+})();
+
+/* ═════════════════════════════════════════════════ */
+/* 폼 입력 중 페이지 이탈 경고                          */
+/* ═════════════════════════════════════════════════ */
+(function exitWarning(){
+  const form = document.getElementById('leadForm');
+  if (!form) return;
+  let touched = false;
+  let submitted = false;
+  form.addEventListener('input', () => { touched = true; }, { passive: true });
+  form.addEventListener('change', () => { touched = true; }, { passive: true });
+  window.addEventListener('beforeunload', (e) => {
+    if (touched && !submitted) {
+      e.preventDefault();
+      e.returnValue = '';    // 최신 브라우저는 기본 메시지 사용
+    }
+  });
+  // submit 시작되면 경고 해제 (submit handler에서 window._formSubmitted=true 설정 가정)
+  form.addEventListener('submit', () => { submitted = true; });
+})();
 function trackEvent(name, location, extra){
   try {
     if (CONFIG.ga4Id && typeof gtag === 'function') {
@@ -1508,6 +1602,12 @@ document.getElementById('leadForm').addEventListener('submit', async function(e)
     await submitLead(payload);
     loading.classList.add('hidden'); loading.classList.remove('flex');
     trackEvent('form_submit', 'qr_form', { type: payload.type });
+    // 재방문 인식용 localStorage 기록
+    try {
+      localStorage.setItem('dbphone_prev_lead', JSON.stringify({
+        name, at: Date.now(), type: payload.type
+      }));
+    } catch(_){}
     const successTitle = document.querySelector('#successOverlay h3');
     if (successTitle) successTitle.textContent = '접수 완료!';
     // XSS 방어: name은 textContent로만 삽입, 정적 문구는 별도 node

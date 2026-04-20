@@ -106,10 +106,15 @@
             <img src="https://images.unsplash.com/photo-1605236453806-6ff36851218e?q=80&w=1000&auto=format&fit=crop" alt="매장 배경" fetchpriority="high" class="absolute inset-0 w-full h-full object-cover opacity-60">
             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
 
-            <!-- 365 연중무휴 배지 (상단) -->
+            <!-- 365 연중무휴 + 상담시간 동적 배지 -->
             <div class="absolute top-6 right-6 z-20 flex flex-col items-end gap-1">
-                <span class="bg-white/10 backdrop-blur-sm border border-white/20 text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wider">365 연중무휴</span>
+                <span id="mainOpenStatus" class="bg-white/10 backdrop-blur-sm border border-white/20 text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wider">365 연중무휴</span>
                 <span class="bg-white/10 backdrop-blur-sm border border-white/20 text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wider">20년 한자리</span>
+            </div>
+
+            <!-- 재방문 환영 배너 (localStorage, XSS 안전) -->
+            <div id="mainReturningBanner" class="hidden absolute top-24 left-6 right-6 z-20 px-3 py-2 bg-blue-600/25 backdrop-blur border border-blue-400/40 rounded-xl text-xs text-white">
+                <span id="mainReturningName" class="font-bold"></span><span>님, 다시 오셨네요 :)</span>
             </div>
 
             <div class="relative z-10 mb-20 animate-fade-up">
@@ -887,6 +892,88 @@
         // admin-backend 상담 접수 엔드포인트 (dbphone.co.kr CORS 허용됨)
         const INTAKE_URL = "https://admin-backend-production-8b06.up.railway.app/api/external-requests/intake";
 
+        // TODO: GA4 ID 발급 후 아래 값만 채우면 자동 활성화 (형식: G-XXXXXXXXXX).
+        // analytics.google.com → 관리 → 속성 만들기 → 웹 스트림.
+        // utm_source 자동 수집됨.
+        const GA4_ID = '';
+        if (GA4_ID) {
+            const s = document.createElement('script');
+            s.async = true;
+            s.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`;
+            document.head.appendChild(s);
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function(){ dataLayer.push(arguments); };
+            gtag('js', new Date());
+            gtag('config', GA4_ID);
+        }
+
+        // UTM 캡쳐 + 30일 저장 (QR 스티커별 분기 측정용)
+        (function captureUtm(){
+            const params = new URLSearchParams(location.search);
+            const utm = {
+                source: params.get('utm_source'),
+                medium: params.get('utm_medium'),
+                campaign: params.get('utm_campaign'),
+            };
+            if (utm.source) {
+                try { localStorage.setItem('dbphone_utm', JSON.stringify({ ...utm, at: Date.now() })); } catch(_) {}
+            }
+            window._utm = utm.source ? utm : (function(){
+                try {
+                    const stored = JSON.parse(localStorage.getItem('dbphone_utm') || 'null');
+                    if (stored && Date.now() - stored.at < 30*24*60*60*1000) return stored;
+                } catch(_) {}
+                return {};
+            })();
+        })();
+
+        // 상담 가능 시간 동적 배지
+        (function updateOpenStatus(){
+            const badge = document.getElementById('mainOpenStatus');
+            if (!badge) return;
+            const now = new Date();
+            const day = now.getDay();
+            const cur = now.getHours()*60 + now.getMinutes();
+            const openHour = (day === 0) ? 11 : 10;
+            const close = 20*60;
+            const open = openHour*60;
+            if (cur >= open && cur < close) {
+                badge.textContent = `🟢 상담 가능`;
+            } else if (cur < open) {
+                badge.textContent = `⏰ ${openHour}시 오픈`;
+            } else {
+                badge.textContent = `🌙 내일 오픈`;
+            }
+        })();
+
+        // 재방문 환영 배너 (localStorage, XSS 안전)
+        (function welcomeReturning(){
+            try {
+                const prev = JSON.parse(localStorage.getItem('dbphone_prev_lead') || 'null');
+                if (prev && prev.name && (Date.now() - prev.at) < 180*24*60*60*1000) {
+                    const banner = document.getElementById('mainReturningBanner');
+                    const nameEl = document.getElementById('mainReturningName');
+                    if (banner && nameEl) {
+                        nameEl.textContent = prev.name;
+                        banner.classList.remove('hidden');
+                    }
+                }
+            } catch(_){}
+        })();
+
+        // 폼 입력 중 이탈 경고
+        (function exitWarning(){
+            const form = document.getElementById('leadForm');
+            if (!form) return;
+            let touched = false, submitted = false;
+            form.addEventListener('input', () => { touched = true; }, { passive: true });
+            form.addEventListener('change', () => { touched = true; }, { passive: true });
+            window.addEventListener('beforeunload', (e) => {
+                if (touched && !submitted) { e.preventDefault(); e.returnValue = ''; }
+            });
+            form.addEventListener('submit', () => { submitted = true; });
+        })();
+
         function closeSuccessModal() {
             document.getElementById('successOverlay').classList.add('hidden');
             document.getElementById('leadForm').reset();
@@ -958,6 +1045,10 @@
                     carrier: carrierCode,
                     region_raw: cleanRegion,
                     timing: timingSelect.value,    // asap / week / month / undecided
+                    utm_source: (window._utm && window._utm.source) || null,
+                    utm_medium: (window._utm && window._utm.medium) || null,
+                    utm_campaign: (window._utm && window._utm.campaign) || null,
+                    is_returning: !!localStorage.getItem('dbphone_prev_lead'),
                 },
                 website: honeypot,
             };
@@ -977,6 +1068,11 @@
                     throw new Error(errBody.detail || ('HTTP ' + res.status));
                 }
                 // 성공
+                try {
+                    localStorage.setItem('dbphone_prev_lead', JSON.stringify({
+                        name, at: Date.now(), model: modelCode
+                    }));
+                } catch(_){}
                 document.getElementById('loadingOverlay').classList.add('hidden');
                 document.getElementById('successName').textContent = name;
                 document.getElementById('successOverlay').classList.remove('hidden');
