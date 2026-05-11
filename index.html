@@ -1073,9 +1073,9 @@
         // admin-backend 상담 접수 엔드포인트 (dbphone.co.kr CORS 허용됨)
         const INTAKE_URL = "https://admin-backend-production-8b06.up.railway.app/api/external-requests/intake";
 
-        // GA4 측정 ID — 대박통신 웹 스트림
-        // 발급일 2026-04-20, utm_source 자동 수집
-        const GA4_ID = 'G-L7RG660X4S';
+        // GA4 측정 ID — quote.dbphone.co.kr 와 통합 (cross-domain tracking)
+        // 변경 2026-05-11: G-L7RG660X4S → G-MJR2VDGPM4 (속성 536785067)
+        const GA4_ID = 'G-MJR2VDGPM4';
         if (GA4_ID) {
             const s = document.createElement('script');
             s.async = true;
