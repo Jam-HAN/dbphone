@@ -127,19 +127,19 @@
 
     <!-- ===================== HERO ===================== -->
     <header class="navy-bg grain relative text-white px-7 pt-10 pb-14 overflow-hidden">
-        <!-- 우표 소인 (우상단 코너, 우편물처럼) -->
-        <img src="stamp-white.svg" alt="대박통신 우표 소인 — 20년 통신 전문가" width="124" height="90"
-             class="animate-seal absolute top-3 right-4 w-[104px] h-auto z-0 drop-shadow-[0_3px_9px_rgba(0,0,0,.28)]">
-
         <!-- 재방문 환영 -->
         <div id="mainReturningBanner" class="hidden mb-5 px-3 py-2 bg-[var(--gold)]/15 backdrop-blur border border-[var(--gold)]/40 rounded-xl text-xs">
             <span id="mainReturningName" class="font-bold gold"></span><span class="text-amber-100">님, 다시 오셨네요 :)</span>
         </div>
 
-        <!-- 브랜드 슬로건 (전체 폭, 크게) -->
+        <!-- 브랜드 슬로건(크게, 좌측) + 우표 소인(우측) -->
         <div class="relative z-10 animate-fade-up">
             <p class="text-[12px] tracking-[.18em] text-amber-200/90 font-semibold">삼성전자와 함께하는 6월 감사제</p>
-            <p class="ca24 text-[2.6rem] leading-[1.13] mt-[52px]">통신을 <span class="gold">편안하게</span><br>일상을 <span class="gold">슬기롭게</span></p>
+            <div class="flex items-center gap-2 mt-3">
+                <p class="ca24 text-[2.6rem] leading-[1.08] shrink-0">통신을<br><span class="gold">편안하게</span><br>일상을<br><span class="gold">슬기롭게</span></p>
+                <img src="stamp-white.svg" alt="대박통신 우표 소인 — 20년 통신 전문가" width="124" height="90"
+                     class="animate-seal w-[164px] h-auto ml-auto -mr-1 drop-shadow-[0_3px_9px_rgba(0,0,0,.28)]">
+            </div>
         </div>
 
         <!-- 기간 티켓 -->
