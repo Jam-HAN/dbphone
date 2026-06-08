@@ -127,23 +127,19 @@
 
     <!-- ===================== HERO ===================== -->
     <header class="navy-bg grain relative text-white px-7 pt-10 pb-14 overflow-hidden">
-        <div class="absolute top-5 right-5 z-20 flex flex-col items-end gap-1">
-            <span id="mainOpenStatus" class="bg-white/10 backdrop-blur-sm border border-white/20 text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wider">365 연중무휴</span>
-        </div>
+        <!-- 우표 소인 (우상단 코너, 우편물처럼) -->
+        <img src="stamp-white.svg" alt="대박통신 우표 소인 — 20년 통신 전문가" width="124" height="90"
+             class="animate-seal absolute top-3 right-4 w-[104px] h-auto z-0 drop-shadow-[0_3px_9px_rgba(0,0,0,.28)]">
 
         <!-- 재방문 환영 -->
         <div id="mainReturningBanner" class="hidden mb-5 px-3 py-2 bg-[var(--gold)]/15 backdrop-blur border border-[var(--gold)]/40 rounded-xl text-xs">
             <span id="mainReturningName" class="font-bold gold"></span><span class="text-amber-100">님, 다시 오셨네요 :)</span>
         </div>
 
-        <!-- 브랜드 슬로건 + 우표 소인(흰색, 우측 꽉 차게) -->
+        <!-- 브랜드 슬로건 (전체 폭, 크게) -->
         <div class="relative z-10 animate-fade-up">
             <p class="text-[12px] tracking-[.18em] text-amber-200/90 font-semibold">삼성전자와 함께하는 6월 감사제</p>
-            <div class="relative mt-2.5">
-                <img src="stamp-white.svg" alt="대박통신 우표 소인 — 20년 통신 전문가" width="124" height="90"
-                     class="animate-seal absolute -right-2 top-0 bottom-0 my-auto w-[140px] h-auto z-0 drop-shadow-[0_3px_9px_rgba(0,0,0,.28)]">
-                <p class="ca24 text-[2.1rem] leading-[1.18] relative z-10">통신을 <span class="gold">편안하게</span><br>일상을 <span class="gold">슬기롭게</span></p>
-            </div>
+            <p class="ca24 text-[2.6rem] leading-[1.13] mt-[52px]">통신을 <span class="gold">편안하게</span><br>일상을 <span class="gold">슬기롭게</span></p>
         </div>
 
         <!-- 기간 티켓 -->
@@ -163,6 +159,11 @@
             20년 한자리, 대박통신이 고객님께 드리는<br>
             진심 어린 감사의 보답입니다.
         </p>
+
+        <!-- 상담 가능 배지 -->
+        <div class="relative z-10 mt-6 flex justify-center animate-fade-up" style="animation-delay:.3s">
+            <span id="mainOpenStatus" class="bg-white/10 backdrop-blur-sm border border-white/20 text-[11px] font-bold px-3 py-1 rounded-full tracking-wider">365 연중무휴</span>
+        </div>
 
         <!-- CTA -->
         <button onclick="document.getElementById('contact-form').scrollIntoView({behavior:'smooth'})"
