@@ -67,6 +67,14 @@
         /* 감사장 격조 — 시스템 바탕 serif fallback(무가중 로드) */
         .serif{ font-family:"Gowun Batang","Batang","AppleMyungjo",serif; }
 
+        /* 타이틀 — 카페24 아네모네(Ohsquare), 타이틀 글자만 서브셋(<1KB) */
+        @font-face{
+            font-family:'Cafe24Title';
+            src:url('cafe24-title.woff2') format('woff2');
+            font-weight:700; font-display:swap;
+        }
+        .ca24{ font-family:'Cafe24Title','Pretendard',sans-serif; font-weight:700; letter-spacing:-.01em; }
+
         /* 골드 호일 텍스트 */
         .gold{
             background:linear-gradient(135deg,#fff1c4 0%,#f4a524 45%,#c98a16 100%);
@@ -128,17 +136,12 @@
             <span id="mainReturningName" class="font-bold gold"></span><span class="text-amber-100">님, 다시 오셨네요 :)</span>
         </div>
 
-        <!-- 도장 + 브랜드 -->
-        <div class="relative z-10 flex items-center gap-3 animate-fade-up">
-            <div class="stamp animate-seal shrink-0 w-16 h-16 rounded-full flex flex-col items-center justify-center text-center leading-none">
-                <span class="text-[8px] tracking-[.2em] opacity-80">20년 통신</span>
-                <span class="serif text-base font-bold mt-0.5">大박</span>
-                <span class="text-[8px] tracking-[.2em] opacity-80 mt-0.5">전문가</span>
-            </div>
-            <div>
-                <p class="text-[11px] tracking-[.35em] text-amber-200/90 font-semibold">DAEBAK · 6월 감사제</p>
-                <p class="serif text-2xl font-bold leading-tight">대박통신 <span class="gold">감사제</span></p>
-            </div>
+        <!-- 도장(우표 소인) + 브랜드 타이틀 -->
+        <div class="relative z-10 animate-fade-up">
+            <img src="stamp.svg" alt="대박통신 우표 소인 — 20년 통신 전문가" width="124" height="90"
+                 class="animate-seal w-[124px] h-auto mb-4 drop-shadow-[0_4px_10px_rgba(0,0,0,.3)]">
+            <p class="text-[12px] tracking-[.18em] text-amber-200/90 font-semibold">삼성전자와 함께하는 6월 감사제</p>
+            <p class="ca24 text-[2.3rem] leading-[1.1] mt-1.5">대박통신 <span class="gold">감사제</span></p>
         </div>
 
         <!-- 기간 티켓 -->
