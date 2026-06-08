@@ -5,6 +5,7 @@ module.exports = {
     './qr/index.html',
     './qr.html',
     './privacy.html',
+    './event/index.html',
   ],
   theme: {
     extend: {
