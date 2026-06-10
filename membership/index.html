@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="robots" content="noindex, nofollow">
+  <title>대박통신 멤버십 가입</title>
+  <meta name="description" content="대박통신 멤버십 — 카카오로 1초 가입. 2년 케이스·필름, 중고폰 매입, 알림톡, 데이터 이동 등 혜택을 받으세요.">
+  <link rel="canonical" href="https://dbphone.co.kr/membership">
+  <meta name="author" content="대박통신 (dbphone)">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="대박통신 멤버십 가입">
+  <meta property="og:description" content="카카오로 1초 가입하고 멤버십 혜택 받기">
+  <meta property="og:url" content="https://dbphone.co.kr/membership">
+  <link rel="icon" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/tailwind.css">
+  <style>
+    @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+    body { font-family: "Pretendard", system-ui, -apple-system, sans-serif; }
+    .kakao-btn { background:#FEE500; color:rgba(0,0,0,0.85); }
+    .kakao-btn:active { background:#f2d900; }
+  </style>
+</head>
+<body class="bg-paper text-ink min-h-screen flex flex-col">
+  <main class="flex-1 w-full max-w-md mx-auto px-6 pt-12 pb-8 flex flex-col">
+
+    <!-- 브랜드 -->
+    <div class="text-center mb-8">
+      <p class="text-sm font-bold text-brand-600 tracking-wide mb-2">대박통신</p>
+      <h1 class="text-[30px] font-black leading-tight tracking-tight">멤버십 가입</h1>
+      <p id="branch-label" class="text-sm text-gray-500 mt-2"></p>
+    </div>
+
+    <!-- 혜택 -->
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mb-6">
+      <p class="text-[13px] font-bold text-gray-400 uppercase tracking-wider mb-4">멤버십 혜택</p>
+      <ul class="space-y-4">
+        <li class="flex items-start gap-3">
+          <span class="text-xl leading-none">📱</span>
+          <div><p class="font-bold text-[15px]">2년 케이스·필름 제공</p><p class="text-[13px] text-gray-500">가입일로부터 2년간 케이스·보호필름 지원</p></div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="text-xl leading-none">💰</span>
+          <div><p class="font-bold text-[15px]">중고폰 매입</p><p class="text-[13px] text-gray-500">쓰던 단말기 합리적인 시세로 매입</p></div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="text-xl leading-none">🔔</span>
+          <div><p class="font-bold text-[15px]">알림톡 서비스</p><p class="text-[13px] text-gray-500">약정 만료·혜택 안내를 카카오톡으로</p></div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="text-xl leading-none">🔄</span>
+          <div><p class="font-bold text-[15px]">데이터 이동 서비스</p><p class="text-[13px] text-gray-500">기기 교체 시 연락처·사진 이전 지원</p></div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 가입 버튼 -->
+    <a id="kakao-join" href="#" class="kakao-btn w-full h-14 rounded-xl flex items-center justify-center gap-2 font-bold text-[16px] shadow-sm transition-colors">
+      <svg width="20" height="20" viewBox="0 0 256 256" aria-hidden="true"><path fill="#000" fill-opacity="0.85" d="M128 36C70.56 36 24 72.71 24 118c0 29.28 19.47 54.97 48.78 69.4-1.61 5.6-10.34 35.7-10.69 38.07 0 0-.21 1.79.95 2.47 1.16.68 2.52.15 2.52.15 3.32-.46 38.45-25.13 44.54-29.42 5.2.73 10.52 1.11 15.9 1.11 57.44 0 104-36.71 104-82 0-45.29-46.56-82-104-82Z"/></svg>
+      카카오로 1초 가입하기
+    </a>
+
+    <!-- 동의 안내 -->
+    <p class="text-[12px] text-gray-400 text-center leading-relaxed mt-4">
+      가입 시 <a href="/membership-terms.html" class="underline hover:text-gray-600">멤버십 이용약관</a> 및
+      <a href="/privacy.html" class="underline hover:text-gray-600">개인정보 수집·이용</a>에 동의하게 됩니다.<br>
+      카카오 동의창에서 채널 추가와 함께 진행됩니다.
+    </p>
+  </main>
+
+  <footer class="border-t border-gray-200">
+    <div class="max-w-md mx-auto px-6 py-5 text-[11px] text-gray-400 leading-relaxed">
+      <p class="font-bold text-gray-500 mb-1">대박통신 (dbphone)</p>
+      <p>대표자 : 한재민 · 사업자등록번호 : 175-86-02704</p>
+      <p>장지 본점 : 송파대로 98 · 명일 직영점 : 양재대로 138길 32</p>
+    </div>
+  </footer>
+
+  <script>
+    // 카카오싱크 간편가입 진입 — client_id(REST API 키) + redirect_uri(백엔드 콜백)
+    var KAKAO_CLIENT_ID = '8511fccdd98a3ff93b3b9aa0ff1456c3';
+    var REDIRECT_URI = 'https://admin-backend-production-8b06.up.railway.app/api/kakao-sync/callback';
+
+    // 매장 구분 — QR 링크에 ?b=1(장지) / ?b=2(명일)
+    var BRANCH_LABEL = { '1': '장지 본점', '2': '명일 직영점' };
+    var params = new URLSearchParams(location.search);
+    var branch = params.get('b') || '0';
+    if (BRANCH_LABEL[branch]) {
+      document.getElementById('branch-label').textContent = BRANCH_LABEL[branch] + ' 가입';
+    }
+
+    // CSRF용 난수 + 매장 정보를 state로 전달 (백엔드가 branch:N 파싱)
+    var nonce = Math.random().toString(36).slice(2, 10);
+    var state = 'branch:' + branch + ':' + nonce;
+
+    var authUrl = 'https://kauth.kakao.com/oauth/authorize'
+      + '?client_id=' + encodeURIComponent(KAKAO_CLIENT_ID)
+      + '&redirect_uri=' + encodeURIComponent(REDIRECT_URI)
+      + '&response_type=code'
+      + '&state=' + encodeURIComponent(state);
+
+    document.getElementById('kakao-join').setAttribute('href', authUrl);
+  </script>
+</body>
+</html>
