@@ -7,6 +7,7 @@ module.exports = {
     './privacy.html',
     './event/index.html',
     './membership/index.html',
+    './membership/done/index.html',
   ],
   theme: {
     extend: {

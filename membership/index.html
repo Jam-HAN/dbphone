@@ -31,6 +31,12 @@
       <p id="branch-label" class="text-sm text-gray-500 mt-2"></p>
     </div>
 
+    <!-- 가입 실패 안내 (?error=1) -->
+    <div id="join-error" class="hidden bg-red-50 border border-red-200 text-red-600 rounded-xl px-4 py-3 text-[13px] leading-relaxed mb-6">
+      가입 처리 중 문제가 발생했어요. 잠시 후 다시 시도해 주세요.<br>
+      계속 안 되면 매장으로 문의해 주세요.
+    </div>
+
     <!-- 혜택 -->
     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mb-6">
       <p class="text-[13px] font-bold text-gray-400 uppercase tracking-wider mb-4">멤버십 혜택</p>
@@ -85,6 +91,9 @@
     var BRANCH_LABEL = { '1': '장지 본점', '2': '명일 직영점' };
     var params = new URLSearchParams(location.search);
     var branch = params.get('b') || '0';
+    if (params.get('error')) {
+      document.getElementById('join-error').classList.remove('hidden');
+    }
     if (BRANCH_LABEL[branch]) {
       document.getElementById('branch-label').textContent = BRANCH_LABEL[branch] + ' 가입';
     }
